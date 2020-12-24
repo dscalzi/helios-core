@@ -10,6 +10,10 @@
       "baseUrl": "."
     },
     "include": [
-      "lib"
-    ]
+      "lib",
+      "typings"
+    ],
+    "ts-node": {
+        "files": true
+      }
   }
