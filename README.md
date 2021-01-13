@@ -1,6 +1,14 @@
-## Helios-Auth
+# Helios-Core
 
-An authentication library for Helios Launcher.
+A library containing core mechanisms for Helios Launcher
+
+### Requirements
+
+* Node.js 12 (minimum)
+
+helios-core will always use the same minimum node version as Helios Launcher.
+
+## Auth
 
 ### Supported Auth Providers
 
@@ -8,12 +16,6 @@ An authentication library for Helios Launcher.
 * Microsoft *\**
 
 > \* Provider support is in progress.
-
-### Requirements
-
-* Node.js 12 (minimum)
-
-helios-auth will always use the same minimum node version as Helios Launcher.
 
 ### Provider Information
 
