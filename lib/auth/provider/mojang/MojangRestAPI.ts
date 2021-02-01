@@ -35,7 +35,7 @@ export class MojangRestAPI {
     public static getDefaultStatuses(): MojangStatus[] {
         return [
             {
-                service: 'sessionserver.mojang.com',
+                service: 'session.minecraft.net',
                 status: MojangStatusColor.GREY,
                 name: 'Multiplayer Session Service',
                 essential: true
