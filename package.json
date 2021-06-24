@@ -1,6 +1,6 @@
 {
   "name": "helios-core",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.1",
   "description": "A library containing core mechanisms for Helios Launcher",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
