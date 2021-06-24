@@ -106,7 +106,7 @@ export class MojangRestAPI {
         return response
     }
 
-    private static expectSpecificSuccess(operation: string, expected: number, actual: number) {
+    private static expectSpecificSuccess(operation: string, expected: number, actual: number): void {
         if(actual !== expected) {
             MojangRestAPI.logger.warn(`${operation} expected ${expected} response, recieved ${actual}.`)
         }

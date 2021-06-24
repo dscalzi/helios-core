@@ -6,22 +6,22 @@ import { MojangErrorCode, MojangResponse } from '../../../lib/auth/provider/moja
 import { RestResponse, RestResponseStatus } from '../../../lib/auth/common/RestResponse'
 import { Session } from '../../../lib/auth/provider/mojang/Auth'
 
-function assertResponse(res: RestResponse<unknown>) {
+function assertResponse(res: RestResponse<unknown>): void {
     expect(res).to.not.be.an('error')
     expect(res).to.be.an('object')
 }
 
-function expectSuccess(res: RestResponse<unknown>) {
+function expectSuccess(res: RestResponse<unknown>): void {
     assertResponse(res)
     expect(res).to.have.property('responseStatus')
     expect(res.responseStatus).to.equal(RestResponseStatus.SUCCESS)
 }
 
-function expectFailure(res: RestResponse<unknown>) {
+function expectFailure(res: RestResponse<unknown>): void {
     expect(res.responseStatus).to.not.equal(RestResponseStatus.SUCCESS)
 }
 
-function expectMojangResponse(res: MojangResponse<unknown>, responseCode: MojangErrorCode, negate = false) {
+function expectMojangResponse(res: MojangResponse<unknown>, responseCode: MojangErrorCode, negate = false): void {
     assertResponse(res)
     expect(res).to.have.property('mojangErrorCode')
     if(!negate) {
