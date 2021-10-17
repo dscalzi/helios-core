@@ -1,4 +1,4 @@
-import { LoggerUtil } from '../../common/LoggerUtil'
+import { LoggerUtil } from '../../../util/LoggerUtil'
 import { MojangStatus, MojangStatusColor } from './internal/MojangStatus'
 import got, { RequestError, HTTPError } from 'got'
 import { MojangResponse, MojangErrorCode, decipherErrorCode, isInternalError, MojangErrorBody } from './internal/MojangResponse'
@@ -144,7 +144,7 @@ export class MojangRestAPI {
 
         } catch(error) {
 
-            return MojangRestAPI.handleGotError('Mojang Status', error, () => {
+            return MojangRestAPI.handleGotError('Mojang Status', error as RequestError, () => {
                 for(let i=0; i<MojangRestAPI.statuses.length; i++){
                     MojangRestAPI.statuses[i].status = MojangStatusColor.GREY
                 }
@@ -193,7 +193,7 @@ export class MojangRestAPI {
             }
 
         } catch(err) {
-            return MojangRestAPI.handleGotError('Mojang Authenticate', err, () => null)
+            return MojangRestAPI.handleGotError('Mojang Authenticate', err as RequestError, () => null)
         }
 
     }
@@ -231,7 +231,7 @@ export class MojangRestAPI {
                     responseStatus: RestResponseStatus.SUCCESS
                 }
             }
-            return MojangRestAPI.handleGotError('Mojang Validate', err, () => false)
+            return MojangRestAPI.handleGotError('Mojang Validate', err as RequestError, () => false)
         }
 
     }
@@ -263,7 +263,7 @@ export class MojangRestAPI {
             }
 
         } catch(err) {
-            return MojangRestAPI.handleGotError('Mojang Invalidate', err, () => undefined)
+            return MojangRestAPI.handleGotError('Mojang Invalidate', err as RequestError, () => undefined)
         }
 
     }
@@ -298,7 +298,7 @@ export class MojangRestAPI {
             }
 
         } catch(err) {
-            return MojangRestAPI.handleGotError('Mojang Refresh', err, () => null)
+            return MojangRestAPI.handleGotError('Mojang Refresh', err as RequestError, () => null)
         }
 
     }

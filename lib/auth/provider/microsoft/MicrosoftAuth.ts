@@ -1,6 +1,6 @@
 import { handleGotError, RestResponse, RestResponseStatus } from 'lib/auth/common/RestResponse'
-import { LoggerUtil } from '../../common/LoggerUtil'
-import got from 'got'
+import { LoggerUtil } from '../../../util/LoggerUtil'
+import got, { RequestError } from 'got'
 
 export class MicrosoftAuth {
 
@@ -42,7 +42,7 @@ export class MicrosoftAuth {
             }
 
         } catch(error) {
-            return handleGotError('Get XBL Token', error, MicrosoftAuth.logger, () => undefined)
+            return handleGotError('Get XBL Token', error as RequestError, MicrosoftAuth.logger, () => undefined)
         }
 
     }
