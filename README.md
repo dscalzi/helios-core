@@ -4,7 +4,7 @@ A library containing core mechanisms for Helios Launcher
 
 ### Requirements
 
-* Node.js 12 (minimum)
+* Node.js 16 (minimum)
 
 helios-core will always use the same minimum node version as Helios Launcher.
 
