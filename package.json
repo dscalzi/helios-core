@@ -6,7 +6,7 @@
   "types": "dist/lib/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",
-    "tsc": "tsc -b --verbose",
+    "tsc": "tsc",
     "build": "npm run clean && npm run tsc",
     "lint": "eslint . --ext .js,.ts",
     "test": "cross-env NODE_ENV=test mocha -r ts-node/register test/**/*.ts",

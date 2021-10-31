@@ -82,7 +82,7 @@ function unifyStatusResponse(resp: ServerStatus): ServerStatus {
     return resp
 }
 
-export function getServerStatus(protocol: number, hostname: string, port = 25565): Promise<ServerStatus | undefined> {
+export function getServerStatus(protocol: number, hostname: string, port = 25565): Promise<ServerStatus> {
 
     return new Promise((resolve, reject) => {
 
@@ -97,7 +97,7 @@ export function getServerStatus(protocol: number, hostname: string, port = 25565
             reject(new Error(`Server Status Socket timed out (${hostname}:${port})`))
         })
 
-        const maxTries = 2
+        const maxTries = 5
         let iterations = 0
         let bytesLeft = -1
 
@@ -166,17 +166,15 @@ export function getServerStatus(protocol: number, hostname: string, port = 25565
 
             if(err.code === 'ENOTFOUND') {
                 // ENOTFOUND = Unable to resolve.
-                logger.error(`Server ${hostname}:${port} not found!`)
-                resolve(undefined)
+                reject(new Error(`Server ${hostname}:${port} not found!`))
                 return
             } else if(err.code === 'ECONNREFUSED') {
                 // ECONNREFUSED = Unable to connect to port.
-                logger.error(`Server ${hostname}:${port} refused to connect, is the port correct?`)
-                resolve(undefined)
+                reject(new Error(`Server ${hostname}:${port} refused to connect, is the port correct?`))
                 return
             } else {
-                logger.error(`Error trying to pull server status (${hostname}:${port})`, err)
-                resolve(undefined)
+                logger.error(`Error trying to pull server status (${hostname}:${port})`)
+                reject(err)
                 return
             }
         })

@@ -8,15 +8,15 @@ describe('[Server Status API] Errors', () => {
 
     it('Server Status (Not Found)', async () => {
 
-        await expect(getServerStatus(47, 'a', 25565)).to.eventually.be.undefined
+        await expect(getServerStatus(47, 'a', 25565)).to.eventually.be.rejectedWith(Error)
 
-    }).timeout(5000)
+    }).timeout(7000)
 
     it('Server Status (Wrong Port)', async () => {
 
-        await expect(getServerStatus(47, 'play.hypixel.net', 34454)).to.eventually.be.undefined
+        await expect(getServerStatus(47, 'mc.westeroscraft.com', 34454)).to.be.rejectedWith(Error)
 
-    }).timeout(5000)
+    }).timeout(7000)
 
 })
 
