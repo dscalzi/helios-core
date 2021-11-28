@@ -1,6 +1,78 @@
-import { handleGotError, RestResponse, RestResponseStatus } from 'lib/auth/common/RestResponse'
+import { handleGotError, RestResponseStatus } from 'lib/auth/common/RestResponse'
 import { LoggerUtil } from '../../../util/LoggerUtil'
-import got, { RequestError } from 'got'
+import got, { HTTPError, RequestError } from 'got'
+import { decipherErrorCode, MicrosoftErrorCode, MicrosoftResponse } from './MicrosoftResponse'
+
+interface AbstractTokenRequest {
+    client_id: string
+    scope: string
+    redirect_uri: string
+}
+
+interface AuthTokenRequest extends AbstractTokenRequest {
+    grant_type: 'authorization_code'
+    code: string
+}
+
+interface RefreshTokenRequest extends AbstractTokenRequest {
+    grant_type: 'refresh_token'
+    refresh_token: string
+}
+
+interface AuthorizationTokenResponse {
+    token_type: string
+    expires_in: number
+    scope: string
+    access_token: string
+    refresh_token: string
+    user_id: string
+    foci: string
+}
+
+interface XboxServiceTokenResponse {
+    IssueInstant: string
+    NotAfter: string
+    Token: string
+    DisplayClaims: DisplayClaim
+}
+
+interface DisplayClaim {
+    xui: {
+        uhs: string
+    }[]
+}
+
+interface MCTokenResponse {
+    username: string
+    roles: unknown[]
+    access_token: string
+    token_type: string
+    expires_in: number
+}
+
+interface MCUserInfo {
+    id: string
+    name: string
+    skins: MCSkinInfo[]
+    capes: MCCapeInfo[]
+}
+
+enum MCInfoState {
+    ACTIVE = 'ACTIVE',
+    INACTIVE = 'INACTIVE'
+}
+
+interface MCInfo {
+    id: string
+    state: MCInfoState
+    url: string
+}
+interface MCSkinInfo extends MCInfo {
+    variant: string
+}
+interface MCCapeInfo extends MCInfo {
+    alias: string
+}
 
 export class MicrosoftAuth {
 
@@ -8,19 +80,87 @@ export class MicrosoftAuth {
 
     private static readonly TIMEOUT = 2500
 
+    // TODO Accept this from somewhere.
+    private static readonly CLIENT_ID = 'TODO'
+
     public static readonly TOKEN_ENDPOINT = 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token'
     public static readonly XBL_AUTH_ENDPOINT = 'https://user.auth.xboxlive.com/user/authenticate'
     public static readonly XSTS_AUTH_ENDPOINT = 'https://xsts.auth.xboxlive.com/xsts/authorize'
     public static readonly MC_AUTH_ENDPOINT = 'https://api.minecraftservices.com/authentication/login_with_xbox'
+    public static readonly MC_ENTITLEMENT_ENDPOINT = 'https://api.minecraftservices.com/entitlements/mcstore'
     public static readonly MC_PROFILE_ENDPOINT = 'https://api.minecraftservices.com/minecraft/profile'
 
-    // TODO TYPE RETURN
-    public static async getXBLToken(accessToken: string): Promise<RestResponse<any>> {
+    private static readonly STANDARD_HEADERS = {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+    }
+
+    /**
+     * MicrosoftAuthAPI implementation of handleGotError. This function will additionally
+     * analyze the response from Microsoft and populate the microsoft-specific error information.
+     * 
+     * @param operation The operation name, for logging purposes.
+     * @param error The error that occurred.
+     * @param dataProvider A function to provide a response body.
+     * @returns A MicrosoftResponse configured with error information.
+     */
+    private static handleGotError<T>(operation: string, error: RequestError, dataProvider: () => T): MicrosoftResponse<T> {
+
+        const response: MicrosoftResponse<T> = handleGotError(operation, error, MicrosoftAuth.logger, dataProvider)
+
+        if(error instanceof HTTPError) {
+            response.microsoftErrorCode = decipherErrorCode(error.response.body)
+        } else {
+            response.microsoftErrorCode = MicrosoftErrorCode.UNKNOWN
+        }
+
+        return response
+    }
+
+    public static async getAccessToken(code: string, refresh: boolean): Promise<MicrosoftResponse<AuthorizationTokenResponse | null>> {
         try {
 
-            // TODO TYPE RESPONSE
+            const BASE_FORM: AbstractTokenRequest = {
+                client_id: MicrosoftAuth.CLIENT_ID,
+                scope: 'XboxLive.signin',
+                redirect_uri: 'https://login.microsoftonline.com/common/oauth2/nativeclient',
+            }
+
+            let form
+            if(refresh) {
+                form = {
+                    ...BASE_FORM,
+                    refresh_token: code,
+                    grant_type: 'refresh_token'
+                } as RefreshTokenRequest
+            } else {
+                form = {
+                    ...BASE_FORM,
+                    code: code,
+                    grant_type: 'authorization_code'
+                } as AuthTokenRequest
+            }
+
+            const res = await got.post<AuthorizationTokenResponse>(this.TOKEN_ENDPOINT, {
+                form,
+                responseType: 'json'
+            })
+
+            return {
+                data: res.body,
+                responseStatus: RestResponseStatus.SUCCESS
+            }
+
+        } catch(error) {
+            return MicrosoftAuth.handleGotError(`Get ${refresh ? 'Refresh' : 'Auth'} Token`, error as RequestError, () => null)
+        }
+    }
+
+    public static async getXBLToken(accessToken: string): Promise<MicrosoftResponse<XboxServiceTokenResponse | null>> {
+        try {
+
             // TODO TYPE REQUEST
-            const res = await got.post<any>(this.XBL_AUTH_ENDPOINT, {
+            const res = await got.post<XboxServiceTokenResponse>(this.XBL_AUTH_ENDPOINT, {
                 json: {
                     Properties: {
                         AuthMethod: 'RPS',
@@ -29,22 +169,111 @@ export class MicrosoftAuth {
                     },
                     RelyingParty: 'http://auth.xboxlive.com',
                     TokenType: 'JWT'
-                }
+                },
+                headers: MicrosoftAuth.STANDARD_HEADERS,
+                responseType: 'json'
             })
 
-            // TODO TYPE RESPONSE
             return {
-                data: {
-                    token: res.body.Token,
-                    uhs: res.body.DisplayClaims.xui[0].uhs
-                },
+                data: res.body,
                 responseStatus: RestResponseStatus.SUCCESS
             }
 
         } catch(error) {
-            return handleGotError('Get XBL Token', error as RequestError, MicrosoftAuth.logger, () => undefined)
+            return MicrosoftAuth.handleGotError('Get XBL Token', error as RequestError, () => null)
         }
+    }
 
+    
+    public static async getXSTSToken(xblResponse: XboxServiceTokenResponse): Promise<MicrosoftResponse<XboxServiceTokenResponse | null>> {
+        try {
+
+            // TODO TYPE REQUEST
+            const res = await got.post<XboxServiceTokenResponse>(this.XSTS_AUTH_ENDPOINT, {
+                json: {
+                    Properties: {
+                        SandboxId: 'RETAIL',
+                        UserTokens: [xblResponse.Token]
+                    },
+                    RelyingParty: 'rp://api.minecraftservices.com/',
+                    TokenType: 'JWT'
+                },
+                headers: MicrosoftAuth.STANDARD_HEADERS,
+                responseType: 'json'
+            })
+
+            return {
+                data: res.body,
+                responseStatus: RestResponseStatus.SUCCESS
+            }
+
+        } catch(error) {
+            return MicrosoftAuth.handleGotError('Get XSTS Token', error as RequestError, () => null)
+        }
+    }
+
+    public static async getMCAccessToken(xstsResponse: XboxServiceTokenResponse): Promise<MicrosoftResponse<MCTokenResponse | null>> {
+        try {
+
+            // TODO TYPE REQUEST
+            const res = await got.post<MCTokenResponse>(this.MC_AUTH_ENDPOINT, {
+                json: {
+                    identityToken: `XBL3.0 x=${xstsResponse.DisplayClaims.xui[0].uhs};${xstsResponse.Token}`
+                },
+                headers: MicrosoftAuth.STANDARD_HEADERS,
+                responseType: 'json'
+            })
+
+            return {
+                data: res.body,
+                responseStatus: RestResponseStatus.SUCCESS
+            }
+
+        } catch(error) {
+            return MicrosoftAuth.handleGotError('Get MC Access Token', error as RequestError, () => null)
+        }
+    }
+
+    // TODO Review https://wiki.vg/Microsoft_Authentication_Scheme#Checking_Game_Ownership
+    public static async checkEntitlement(accessToken: string): Promise<MicrosoftResponse<unknown | null>> {
+        try {
+
+            const res = await got.get<unknown>(this.MC_ENTITLEMENT_ENDPOINT, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                },
+                responseType: 'json'
+            })
+
+            return {
+                data: res.body,
+                responseStatus: RestResponseStatus.SUCCESS
+            }
+
+        } catch(error) {
+            return MicrosoftAuth.handleGotError('Check Entitlement', error as RequestError, () => null)
+        }
+    }
+
+    public static async getMCProfile(accessToken: string): Promise<MicrosoftResponse<MCUserInfo | null>> {
+        try {
+
+            const res = await got.get<MCUserInfo>(this.MC_PROFILE_ENDPOINT, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                },
+                responseType: 'json'
+            })
+
+            return {
+                data: res.body,
+                responseStatus: RestResponseStatus.SUCCESS
+            }
+
+        } catch(error) {
+            return MicrosoftAuth.handleGotError('Get MC Profile', error as RequestError, () => null)
+        }
     }
 
 }
+

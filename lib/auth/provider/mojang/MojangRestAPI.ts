@@ -92,6 +92,15 @@ export class MojangRestAPI {
         }
     }
 
+    /**
+     * MojangRestAPI implementation of handleGotError. This function will additionally
+     * analyze the response from Mojang and populate the mojang-specific error information.
+     * 
+     * @param operation The operation name, for logging purposes.
+     * @param error The error that occurred.
+     * @param dataProvider A function to provide a response body.
+     * @returns A MojangResponse configured with error information.
+     */
     private static handleGotError<T>(operation: string, error: RequestError, dataProvider: () => T): MojangResponse<T> {
 
         const response: MojangResponse<T> = handleGotError(operation, error, MojangRestAPI.logger, dataProvider)
@@ -106,6 +115,14 @@ export class MojangRestAPI {
         return response
     }
 
+    /**
+     * Utility function to report an unexpected success code. An unexpected
+     * code may indicate an API change.
+     * 
+     * @param operation The operation name.
+     * @param expected The expected response code.
+     * @param actual The actual response code.
+     */
     private static expectSpecificSuccess(operation: string, expected: number, actual: number): void {
         if(actual !== expected) {
             MojangRestAPI.logger.warn(`${operation} expected ${expected} response, recieved ${actual}.`)
