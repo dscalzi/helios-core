@@ -3,22 +3,38 @@ import { LoggerUtil } from '../../../util/LoggerUtil'
 import got, { HTTPError, RequestError } from 'got'
 import { decipherErrorCode, MicrosoftErrorCode, MicrosoftResponse } from './MicrosoftResponse'
 
+/* ***********************************/
+/*      Microsoft OAuth Models       */
+/* ***********************************/
+
+/**
+ * Common properties for a request to Microsoft's OAuth endpoint.
+ */
 export interface AbstractTokenRequest {
     client_id: string
     scope: string
     redirect_uri: string
 }
-
+/**
+ * Request body for getting a Microsoft OAuth Access Token from
+ * an authorization code.
+ */
 export interface AuthTokenRequest extends AbstractTokenRequest {
     grant_type: 'authorization_code'
     code: string
 }
-
+/**
+ * Request body for getting a Microsoft OAuth Access Token by refreshing
+ * an existing token.
+ */
 export interface RefreshTokenRequest extends AbstractTokenRequest {
     grant_type: 'refresh_token'
     refresh_token: string
 }
 
+/**
+ * Microsoft OAuth Response.
+ */
 export interface AuthorizationTokenResponse {
     token_type: string
     expires_in: number
@@ -29,19 +45,32 @@ export interface AuthorizationTokenResponse {
     foci: string
 }
 
+/* ***********************************/
+/*         Xbox Live Models          */
+/* ***********************************/
+
+/**
+ * Xbox Live Response.
+ */
 export interface XboxServiceTokenResponse {
     IssueInstant: string
     NotAfter: string
     Token: string
     DisplayClaims: DisplayClaim
 }
-
 export interface DisplayClaim {
     xui: {
         uhs: string
     }[]
 }
 
+/* ***********************************/
+/*       Minecraft Auth Models       */
+/* ***********************************/
+
+/**
+ * Minecraft Authorization Response.
+ */
 export interface MCTokenResponse {
     username: string
     roles: unknown[]
@@ -50,18 +79,23 @@ export interface MCTokenResponse {
     expires_in: number
 }
 
+/* ***********************************/
+/*       Minecraft Data Models       */
+/* ***********************************/
+
+/**
+ * Minecraft Profile Response.
+ */
 export interface MCUserInfo {
     id: string
     name: string
     skins: MCSkinInfo[]
     capes: MCCapeInfo[]
 }
-
 export enum MCInfoState {
     ACTIVE = 'ACTIVE',
     INACTIVE = 'INACTIVE'
 }
-
 export interface MCInfo {
     id: string
     state: MCInfoState
@@ -74,6 +108,10 @@ export interface MCSkinInfo extends MCInfo {
 export interface MCCapeInfo extends MCInfo {
     alias: string
 }
+
+/* ***********************************/
+/*         Microsoft Auth API        */
+/* ***********************************/
 
 export class MicrosoftAuth {
 
@@ -118,6 +156,16 @@ export class MicrosoftAuth {
         return response
     }
 
+    /**
+     * Acquire a Microsoft Access Token, either for the first time or through refreshing an existing token.
+     * 
+     * @param code Authorization Code or Refresh Token
+     * @param refresh True if this is a refresh, false otherwise.
+     * @returns A MicrosoftResponse for this operation.
+     * 
+     * @see https://wiki.vg/Microsoft_Authentication_Scheme#Authorization_Code_-.3E_Authorization_Token
+     * @see https://wiki.vg/Microsoft_Authentication_Scheme#Refreshing_Tokens
+     */
     public static async getAccessToken(code: string, refresh: boolean): Promise<MicrosoftResponse<AuthorizationTokenResponse | null>> {
         try {
 
@@ -157,6 +205,14 @@ export class MicrosoftAuth {
         }
     }
 
+    /**
+     * Authenticate with Xbox Live with a Microsoft Access Token.
+     * 
+     * @param accessToken A Microsoft Access Token, from getAccessToken.
+     * @returns A MicrosoftResponse for this operation.
+     * 
+     * @see https://wiki.vg/Microsoft_Authentication_Scheme#Authenticate_with_XBL
+     */
     public static async getXBLToken(accessToken: string): Promise<MicrosoftResponse<XboxServiceTokenResponse | null>> {
         try {
 
@@ -185,7 +241,14 @@ export class MicrosoftAuth {
         }
     }
 
-    
+    /**
+     * Acquire an Xbox Secure Token Service (XSTS) Token.
+     * 
+     * @param xblResponse An Xbox Live token response, from getXBLToken.
+     * @returns A MicrosoftResponse for this operation.
+     * 
+     * @see https://wiki.vg/Microsoft_Authentication_Scheme#Authenticate_with_XSTS
+     */
     public static async getXSTSToken(xblResponse: XboxServiceTokenResponse): Promise<MicrosoftResponse<XboxServiceTokenResponse | null>> {
         try {
 
@@ -213,6 +276,14 @@ export class MicrosoftAuth {
         }
     }
 
+    /**
+     * Authenticate with Minecraft.
+     * 
+     * @param xstsResponse An Xbox Secure Token Service (XSTS) Token response, from getXSTSToken.
+     * @returns A MicrosoftResponse for this operation.
+     * 
+     * @see https://wiki.vg/Microsoft_Authentication_Scheme#Authenticate_with_Minecraft
+     */
     public static async getMCAccessToken(xstsResponse: XboxServiceTokenResponse): Promise<MicrosoftResponse<MCTokenResponse | null>> {
         try {
 
@@ -236,32 +307,41 @@ export class MicrosoftAuth {
     }
 
     // TODO Review https://wiki.vg/Microsoft_Authentication_Scheme#Checking_Game_Ownership
-    public static async checkEntitlement(accessToken: string): Promise<MicrosoftResponse<unknown | null>> {
-        try {
+    // Cannot detect Xbox Game Pass users, so what good is this? Should we implement it just cause..?
+    // public static async checkEntitlement(accessToken: string): Promise<MicrosoftResponse<unknown | null>> {
+    //     try {
 
-            const res = await got.get<unknown>(this.MC_ENTITLEMENT_ENDPOINT, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                },
-                responseType: 'json'
-            })
+    //         const res = await got.get<unknown>(this.MC_ENTITLEMENT_ENDPOINT, {
+    //             headers: {
+    //                 Authorization: `Bearer ${accessToken}`
+    //             },
+    //             responseType: 'json'
+    //         })
 
-            return {
-                data: res.body,
-                responseStatus: RestResponseStatus.SUCCESS
-            }
+    //         return {
+    //             data: res.body,
+    //             responseStatus: RestResponseStatus.SUCCESS
+    //         }
 
-        } catch(error) {
-            return MicrosoftAuth.handleGotError('Check Entitlement', error as RequestError, () => null)
-        }
-    }
+    //     } catch(error) {
+    //         return MicrosoftAuth.handleGotError('Check Entitlement', error as RequestError, () => null)
+    //     }
+    // }
 
-    public static async getMCProfile(accessToken: string): Promise<MicrosoftResponse<MCUserInfo | null>> {
+    /**
+     * Get MC Profile Data, specifically account name and uuid.
+     * 
+     * @param mcAccessToken A Minecraft Access Token, from getMCAccessToken.
+     * @returns A MicrosoftResponse for this operation.
+     * 
+     * @see https://wiki.vg/Microsoft_Authentication_Scheme#Get_the_profile
+     */
+    public static async getMCProfile(mcAccessToken: string): Promise<MicrosoftResponse<MCUserInfo | null>> {
         try {
 
             const res = await got.get<MCUserInfo>(this.MC_PROFILE_ENDPOINT, {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`
+                    Authorization: `Bearer ${mcAccessToken}`
                 },
                 responseType: 'json'
             })
