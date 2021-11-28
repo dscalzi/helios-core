@@ -1,9 +1,52 @@
-import { LoggerUtil } from '../../../util/LoggerUtil'
-import { MojangStatus, MojangStatusColor } from './internal/MojangStatus'
+import { LoggerUtil } from '../../util/LoggerUtil'
 import got, { RequestError, HTTPError } from 'got'
-import { MojangResponse, MojangErrorCode, decipherErrorCode, isInternalError, MojangErrorBody } from './internal/MojangResponse'
-import { RestResponseStatus, handleGotError } from '../../common/RestResponse'
-import { Agent, AuthPayload, Session } from './Auth'
+import { MojangResponse, MojangErrorCode, decipherErrorCode, isInternalError, MojangErrorBody } from './MojangResponse'
+import { RestResponseStatus, handleGotError } from '../../common/rest/RestResponse'
+
+export interface Agent {
+    name: 'Minecraft'
+    version: number
+}
+
+export interface AuthPayload {
+    agent: Agent
+    username: string
+    password: string
+    clientToken?: string
+    requestUser?: boolean
+}
+
+export interface Session {
+    accessToken: string
+    clientToken: string
+    selectedProfile: {
+        id: string
+        name: string
+    }
+    user?: {
+        id: string
+        properties: Array<{
+            name: string
+            value: string
+        }>
+    }
+}
+
+export enum MojangStatusColor {
+    RED = 'red',
+    YELLOW = 'yellow',
+    GREEN = 'green',
+    GREY = 'grey'
+}
+
+export interface MojangStatus {
+
+    service: string
+    status: MojangStatusColor
+    name: string
+    essential: boolean
+
+}
 
 export class MojangRestAPI {
 

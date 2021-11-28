@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { RestResponse, RestResponseStatus } from '../../lib/auth/common/RestResponse'
+import { RestResponse, RestResponseStatus } from '../../lib/common/rest/RestResponse'
 
 export function assertResponse(res: RestResponse<unknown>): void {
     expect(res).to.not.be.an('error')

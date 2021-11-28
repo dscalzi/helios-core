@@ -1,5 +1,4 @@
-import { RestResponse } from '../../../common/RestResponse'
-
+import { RestResponse } from '../../common/rest/RestResponse'
 
 /**
  * @see https://wiki.vg/Authentication#Errors

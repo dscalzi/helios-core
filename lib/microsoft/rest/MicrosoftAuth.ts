@@ -1,5 +1,5 @@
-import { handleGotError, RestResponseStatus } from '../../../../lib/auth/common/RestResponse'
-import { LoggerUtil } from '../../../util/LoggerUtil'
+import { handleGotError, RestResponseStatus } from '../../common/rest/RestResponse'
+import { LoggerUtil } from '../../util/LoggerUtil'
 import got, { HTTPError, RequestError } from 'got'
 import { decipherErrorCode, MicrosoftErrorCode, MicrosoftResponse } from './MicrosoftResponse'
 

@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MojangRestAPI } from '../../../../lib/auth/provider/mojang/MojangRestAPI'
+import { MojangRestAPI, Session } from '../../../../lib/mojang/rest/MojangRestAPI'
 import { expect } from 'chai'
 import nock from 'nock'
-import { MojangErrorCode, MojangResponse } from '../../../../lib/auth/provider/mojang/internal/MojangResponse'
-import { Session } from '../../../../lib/auth/provider/mojang/Auth'
+import { MojangErrorCode, MojangResponse } from '../../../../lib/mojang/rest/MojangResponse'
 import { assertResponse, expectFailure, expectSuccess } from '../../../common/RestResponseUtil'
 
 function expectMojangResponse(res: MojangResponse<unknown>, responseCode: MojangErrorCode, negate = false): void {

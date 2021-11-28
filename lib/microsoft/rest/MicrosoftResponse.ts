@@ -1,4 +1,4 @@
-import { RestResponse } from '../../common/RestResponse'
+import { RestResponse } from '../../common/rest/RestResponse'
 
 /**
  * Various error codes from any point of the Microsoft authentication process.
