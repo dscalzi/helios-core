@@ -69,6 +69,7 @@ export interface MCInfo {
 }
 export interface MCSkinInfo extends MCInfo {
     variant: string
+    alias: string
 }
 export interface MCCapeInfo extends MCInfo {
     alias: string
