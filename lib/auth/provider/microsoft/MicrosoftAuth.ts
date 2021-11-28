@@ -1,25 +1,25 @@
-import { handleGotError, RestResponseStatus } from 'lib/auth/common/RestResponse'
+import { handleGotError, RestResponseStatus } from '../../../../lib/auth/common/RestResponse'
 import { LoggerUtil } from '../../../util/LoggerUtil'
 import got, { HTTPError, RequestError } from 'got'
 import { decipherErrorCode, MicrosoftErrorCode, MicrosoftResponse } from './MicrosoftResponse'
 
-interface AbstractTokenRequest {
+export interface AbstractTokenRequest {
     client_id: string
     scope: string
     redirect_uri: string
 }
 
-interface AuthTokenRequest extends AbstractTokenRequest {
+export interface AuthTokenRequest extends AbstractTokenRequest {
     grant_type: 'authorization_code'
     code: string
 }
 
-interface RefreshTokenRequest extends AbstractTokenRequest {
+export interface RefreshTokenRequest extends AbstractTokenRequest {
     grant_type: 'refresh_token'
     refresh_token: string
 }
 
-interface AuthorizationTokenResponse {
+export interface AuthorizationTokenResponse {
     token_type: string
     expires_in: number
     scope: string
@@ -29,20 +29,20 @@ interface AuthorizationTokenResponse {
     foci: string
 }
 
-interface XboxServiceTokenResponse {
+export interface XboxServiceTokenResponse {
     IssueInstant: string
     NotAfter: string
     Token: string
     DisplayClaims: DisplayClaim
 }
 
-interface DisplayClaim {
+export interface DisplayClaim {
     xui: {
         uhs: string
     }[]
 }
 
-interface MCTokenResponse {
+export interface MCTokenResponse {
     username: string
     roles: unknown[]
     access_token: string
@@ -50,27 +50,27 @@ interface MCTokenResponse {
     expires_in: number
 }
 
-interface MCUserInfo {
+export interface MCUserInfo {
     id: string
     name: string
     skins: MCSkinInfo[]
     capes: MCCapeInfo[]
 }
 
-enum MCInfoState {
+export enum MCInfoState {
     ACTIVE = 'ACTIVE',
     INACTIVE = 'INACTIVE'
 }
 
-interface MCInfo {
+export interface MCInfo {
     id: string
     state: MCInfoState
     url: string
 }
-interface MCSkinInfo extends MCInfo {
+export interface MCSkinInfo extends MCInfo {
     variant: string
 }
-interface MCCapeInfo extends MCInfo {
+export interface MCCapeInfo extends MCInfo {
     alias: string
 }
 

@@ -3,23 +3,8 @@ import { MojangRestAPI } from '../../../../lib/auth/provider/mojang/MojangRestAP
 import { expect } from 'chai'
 import nock from 'nock'
 import { MojangErrorCode, MojangResponse } from '../../../../lib/auth/provider/mojang/internal/MojangResponse'
-import { RestResponse, RestResponseStatus } from '../../../../lib/auth/common/RestResponse'
 import { Session } from '../../../../lib/auth/provider/mojang/Auth'
-
-function assertResponse(res: RestResponse<unknown>): void {
-    expect(res).to.not.be.an('error')
-    expect(res).to.be.an('object')
-}
-
-function expectSuccess(res: RestResponse<unknown>): void {
-    assertResponse(res)
-    expect(res).to.have.property('responseStatus')
-    expect(res.responseStatus).to.equal(RestResponseStatus.SUCCESS)
-}
-
-function expectFailure(res: RestResponse<unknown>): void {
-    expect(res.responseStatus).to.not.equal(RestResponseStatus.SUCCESS)
-}
+import { assertResponse, expectFailure, expectSuccess } from '../../../common/RestResponseUtil'
 
 function expectMojangResponse(res: MojangResponse<unknown>, responseCode: MojangErrorCode, negate = false): void {
     assertResponse(res)
