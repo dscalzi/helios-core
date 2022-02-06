@@ -3,7 +3,6 @@
   "version": "0.1.0-alpha.4",
   "description": "A library containing core mechanisms for Helios Launcher",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",
     "tsc": "tsc",
@@ -11,6 +10,20 @@
     "lint": "eslint . --ext .js,.ts",
     "test": "cross-env NODE_ENV=test mocha -r ts-node/register test/**/*.ts",
     "prepack": "npm run build"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./common": "./dist/common.js",
+    "./microsoft": "./dist/microsoft.js",
+    "./mojang": "./dist/mojang.js"
+  },
+  "typesVersions": {
+    "*": {
+      ".": ["./dist/index.d.ts"],
+      "common": ["./dist/common.d.ts"],
+      "microsoft": ["./dist/microsoft.d.ts"],
+      "mojang": ["./dist/mojang.d.ts"]
+    }
   },
   "repository": {
     "type": "git",
