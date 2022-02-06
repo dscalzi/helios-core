@@ -150,6 +150,8 @@ export class MojangRestAPI {
 
         if(error instanceof HTTPError) {
             response.mojangErrorCode = decipherErrorCode(error.response.body as MojangErrorBody)
+        } else if(error.name === 'RequestError' && error.code === 'ENOTFOUND') {
+            response.mojangErrorCode = MojangErrorCode.ERROR_UNREACHABLE
         } else {
             response.mojangErrorCode = MojangErrorCode.UNKNOWN
         }

@@ -37,6 +37,20 @@ export interface RestResponse<T> {
 }
 
 /**
+ * An object to translate an error code to a displayable message.
+ */
+export interface DisplayableError {
+    /**
+     * Error title.
+     */
+    title: string
+    /**
+     * Error description.
+     */
+    desc: string
+}
+
+/**
  * Handle a got error for a generic RestResponse.
  * 
  * @param operation The operation name, for logging purposes.
@@ -57,7 +71,7 @@ export function handleGotError<T>(operation: string, error: RequestError, logger
         logger.debug('Response Details:')
         logger.debug('Body:', error.response.body)
         logger.debug('Headers:', error.response.headers)
-    } else if(Object.getPrototypeOf(error) instanceof RequestError) {
+    } else if(error.name === 'RequestError') {
         logger.error(`${operation} request recieved no response (${error.code}).`, error)
     } else if(error instanceof TimeoutError) {
         logger.error(`${operation} request timed out (${error.timings.phases.total}ms).`)
