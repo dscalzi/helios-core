@@ -119,9 +119,6 @@ export class MicrosoftAuth {
 
     private static readonly TIMEOUT = 2500
 
-    // TODO Accept this from somewhere.
-    private static readonly CLIENT_ID = 'TODO'
-
     public static readonly TOKEN_ENDPOINT = 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token'
     public static readonly XBL_AUTH_ENDPOINT = 'https://user.auth.xboxlive.com/user/authenticate'
     public static readonly XSTS_AUTH_ENDPOINT = 'https://xsts.auth.xboxlive.com/xsts/authorize'
@@ -161,16 +158,17 @@ export class MicrosoftAuth {
      * 
      * @param code Authorization Code or Refresh Token
      * @param refresh True if this is a refresh, false otherwise.
+     * @param clientId The Azure Application (client) ID.
      * @returns A MicrosoftResponse for this operation.
      * 
      * @see https://wiki.vg/Microsoft_Authentication_Scheme#Authorization_Code_-.3E_Authorization_Token
      * @see https://wiki.vg/Microsoft_Authentication_Scheme#Refreshing_Tokens
      */
-    public static async getAccessToken(code: string, refresh: boolean): Promise<MicrosoftResponse<AuthorizationTokenResponse | null>> {
+    public static async getAccessToken(code: string, refresh: boolean, clientId: string): Promise<MicrosoftResponse<AuthorizationTokenResponse | null>> {
         try {
 
             const BASE_FORM: AbstractTokenRequest = {
-                client_id: MicrosoftAuth.CLIENT_ID,
+                client_id: clientId,
                 scope: 'XboxLive.signin',
                 redirect_uri: 'https://login.microsoftonline.com/common/oauth2/nativeclient',
             }

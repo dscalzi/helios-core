@@ -95,11 +95,11 @@ describe('[Microsoft Auth] Auth', () => {
                 return mockResponse
             })
 
-        const res = await MicrosoftAuth.getAccessToken('abc', false)
+        const res = await MicrosoftAuth.getAccessToken('abc', false, 'dummyClient')
         expectSuccess(res)
         expect(res.data!.access_token).to.equal('A_TOKEN')
 
-        const res2 = await MicrosoftAuth.getAccessToken('abc', true)
+        const res2 = await MicrosoftAuth.getAccessToken('abc', true, 'dummyClient')
         expectSuccess(res2)
         expect(res2.data!.refresh_token).to.equal('R_TOKEN')
 
