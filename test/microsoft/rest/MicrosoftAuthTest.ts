@@ -1,8 +1,8 @@
 import { expect } from 'chai'
 import nock from 'nock'
-import { MicrosoftResponse, MicrosoftErrorCode } from '../../lib/microsoft/rest/MicrosoftResponse'
-import { assertResponse, expectSuccess } from '../common/RestResponseUtil'
-import { AuthorizationTokenResponse, AuthTokenRequest, MCInfoState, MCTokenResponse, MCUserInfo, MicrosoftAuth, RefreshTokenRequest, XboxServiceTokenResponse } from '../../lib/microsoft/rest/MicrosoftAuth'
+import { MicrosoftResponse, MicrosoftErrorCode } from '../../../lib/microsoft/rest/MicrosoftResponse'
+import { assertResponse, expectSuccess } from '../../common/RestResponseUtil'
+import { AuthorizationTokenResponse, AuthTokenRequest, MCInfoState, MCTokenResponse, MCUserInfo, MicrosoftAuth, RefreshTokenRequest, XboxServiceTokenResponse } from '../../../lib/microsoft/rest/MicrosoftAuth'
 import { URL } from 'url'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

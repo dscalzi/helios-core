@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "build": "npm run clean && npm run tsc",
     "lint": "eslint . --ext .js,.ts",
-    "test": "cross-env NODE_ENV=test mocha -r ts-node/register test/**/*.ts",
+    "test": "cross-env NODE_ENV=test mocha -r ts-node/register --recursive test/**/*.ts",
     "prepack": "npm run build"
   },
   "exports": {
