@@ -46,7 +46,7 @@ describe('[Server Status API] Server Status', () => {
 
             verifyResult((await getServerStatus(47, server, 25565))!)
     
-        })
+        }).timeout(5000)
     }
 
 })
