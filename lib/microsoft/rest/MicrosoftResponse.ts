@@ -1,4 +1,4 @@
-import { RestResponse } from '../../common/rest/RestResponse'
+import { DisplayableError, RestResponse } from '../../common/rest/RestResponse'
 
 /**
  * Various error codes from any point of the Microsoft authentication process.
@@ -51,6 +51,36 @@ export enum MicrosoftErrorCode {
      * @see https://wiki.vg/Microsoft_Authentication_Scheme#Authenticate_with_XSTS
      */
     UNDER_18 = 2148916238
+}
+
+export function microsoftErrorDisplayable(errorCode: MicrosoftErrorCode): DisplayableError {
+    switch(errorCode) {
+        case MicrosoftErrorCode.NOT_OWNED:
+            return {
+                title: 'Error During Login:<br>Game Not Owned',
+                desc: 'The account you are trying to login with has not purchased a copy of Minecraft.<br>You may purchase a copy on <a href="https://minecraft.net/">Minecraft.net</a><br><br><strong>NOTE: Xbox Game Pass users must log in with the vanilla launcher at least once to set up their username.</strong>'
+            }
+        case MicrosoftErrorCode.NO_XBOX_ACCOUNT:
+            return {
+                title: 'Error During Login:<br>No Xbox Account',
+                desc: 'Your Microsoft account has no Xbox account associated with it.'
+            }
+        case MicrosoftErrorCode.XBL_BANNED:
+            return {
+                title: 'Error During Login:<br>Xbox Live Unavailable',
+                desc: 'Your Microsoft account is from a country where Xbox Live is not available or banned.'
+            }
+        case MicrosoftErrorCode.UNDER_18:
+            return {
+                title: 'Error During Login:<br>Parental Approval Required',
+                desc: 'Accounts for users under the age of 18 must be added to a Family by an adult.'
+            }
+        case MicrosoftErrorCode.UNKNOWN:
+            return {
+                title: 'Unknown Error During Login',
+                desc: 'An unknown error has occurred. Please see the console for details.'
+            }
+    }
 }
 
 export interface MicrosoftResponse<T> extends RestResponse<T> {

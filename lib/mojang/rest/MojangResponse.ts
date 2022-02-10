@@ -89,7 +89,7 @@ export function mojangErrorDisplayable(errorCode: MojangErrorCode): DisplayableE
             }
         case MojangErrorCode.UNKNOWN:
             return {
-                title: 'Unknown Error',
+                title: 'Unknown Error During Login',
                 desc: 'An unknown error has occurred. Please see the console for details.'
             }
         default:

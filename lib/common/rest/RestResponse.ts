@@ -50,6 +50,13 @@ export interface DisplayableError {
     desc: string
 }
 
+export function isDisplayableError(it: unknown): boolean {
+    return typeof it == 'object'
+        && it != null
+        && Object.prototype.hasOwnProperty.call(it, 'title')
+        && Object.prototype.hasOwnProperty.call(it, 'desc')
+}
+
 /**
  * Handle a got error for a generic RestResponse.
  * 
