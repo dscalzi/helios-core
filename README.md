@@ -13,9 +13,7 @@ helios-core will always use the same minimum node version as Helios Launcher.
 ### Supported Auth Providers
 
 * Mojang
-* Microsoft *\**
-
-> \* Provider support is in progress.
+* Microsoft
 
 ### Provider Information
 
