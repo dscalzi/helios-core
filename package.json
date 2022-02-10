@@ -1,6 +1,6 @@
 {
   "name": "helios-core",
-  "version": "0.1.0-alpha.5",
+  "version": "0.1.0-alpha.6",
   "description": "A library containing core mechanisms for Helios Launcher",
   "main": "dist/index.js",
   "scripts": {
@@ -49,8 +49,8 @@
     "@types/mocha": "^9.1.0",
     "@types/node": "^16.11.22",
     "@types/triple-beam": "^1.3.2",
-    "@typescript-eslint/eslint-plugin": "^5.10.2",
-    "@typescript-eslint/parser": "^5.10.2",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.3",
@@ -59,7 +59,7 @@
     "mocha": "^9.2.0",
     "nock": "^13.2.4",
     "rimraf": "^3.0.2",
-    "ts-node": "^10.4.0",
+    "ts-node": "^10.5.0",
     "typescript": "^4.5.5"
   },
   "dependencies": {
