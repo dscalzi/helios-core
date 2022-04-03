@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "build": "npm run clean && npm run tsc",
     "lint": "eslint . --ext .js,.ts",
-    "test": "cross-env NODE_ENV=test mocha -r ts-node/register --recursive test/**/**/*.ts",
+    "test": "cross-env NODE_ENV=test TS_NODE_PROJECT='./tsconfig.mocha.json' mocha --recursive --extension spec.ts -r ts-node/register test",
     "bl": "npm run build && npm link",
     "prepack": "npm run build"
   },
@@ -55,7 +55,7 @@
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.23.0",
-    "helios-distribution-types": "^1.0.0",
+    "helios-distribution-types": "^1.1.0-alpha.1",
     "mocha": "^10.0.0",
     "nock": "^13.2.9",
     "rimraf": "^3.0.2",

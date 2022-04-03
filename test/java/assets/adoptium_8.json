@@ -1,0 +1,1174 @@
+
+[
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 48,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "403e8dc2c17103c5186c21b2cd5268bd057fb1229041ce7555684d9c5e7d088f",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 48,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-debugimage_x64_linux_hotspot_8u322b06.tar.gz",
+                "size": 156721320
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-25T15:26:22Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 233755,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "3d62362a78c9412766471b05253507a4cfc212daea5cdf122860173ce902400e",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 233755,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jdk_x64_linux_hotspot_8u322b06.tar.gz",
+                "size": 103063877
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-25T15:26:29Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 25,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "107b5fd33c62c8b8a234d356c39d265c826a7958b58966a4b8683e53639a10ad",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_mac_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 25,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_mac_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_mac_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-debugimage_x64_mac_hotspot_8u322b06.tar.gz",
+                "size": 30789823
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-25T15:24:49Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 52259,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "installer": {
+                "checksum": "df9bf8ca38a8e7dd3d6c9a96f9d30de8f46442430b30f43bd4b74a760f1d3987",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_mac_hotspot_8u322b06.pkg.sha256.txt",
+                "download_count": 36205,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_mac_hotspot_8u322b06.pkg",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_mac_hotspot_8u322b06.pkg.json",
+                "name": "OpenJDK8U-jdk_x64_mac_hotspot_8u322b06.pkg",
+                "size": 108277139
+            },
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "96a3124bf0f5ca777954239893cc89ea34c4bc9a9b7c1559aa2c69baa0ee84e3",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_mac_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 16054,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_mac_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_mac_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jdk_x64_mac_hotspot_8u322b06.tar.gz",
+                "size": 108075347
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-25T15:25:07Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 94,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "9dfd9d7fdf4a885b6ac4b5d0407ef87c73830d3fb4f9236df1f44357aeb9e505",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_windows_hotspot_8u322b06.zip.sha256.txt",
+                "download_count": 94,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_windows_hotspot_8u322b06.zip",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_windows_hotspot_8u322b06.zip.json",
+                "name": "OpenJDK8U-debugimage_x64_windows_hotspot_8u322b06.zip",
+                "size": 18617166
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-25T15:24:53Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 308972,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "installer": {
+                "checksum": "e9337d5bba9b60a9d00a939fecb05718b2303023a587da6ae4862080714f9f0b",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_windows_hotspot_8u322b06.msi.sha256.txt",
+                "download_count": 214423,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_windows_hotspot_8u322b06.msi",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_windows_hotspot_8u322b06.msi.json",
+                "name": "OpenJDK8U-jdk_x64_windows_hotspot_8u322b06.msi",
+                "size": 90146304
+            },
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "c9e06afb5df850e90a4da9da31c2edf10bd6da9962c4b253e91b41237f8fb2fb",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_windows_hotspot_8u322b06.zip.sha256.txt",
+                "download_count": 94549,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_windows_hotspot_8u322b06.zip",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_windows_hotspot_8u322b06.zip.json",
+                "name": "OpenJDK8U-jdk_x64_windows_hotspot_8u322b06.zip",
+                "size": 104347578
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-25T15:25:21Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 59,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "81e2262d088a5ef8b0e77ce451db498cc7825ac9f5d69902297e531a0848be2c",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_aarch64_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 59,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_aarch64_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_aarch64_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-debugimage_aarch64_linux_hotspot_8u322b06.tar.gz",
+                "size": 147225676
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-27T19:31:18Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "ppc64le",
+            "download_count": 23,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "b5a95b2f73fca7bf4cc7ce52d7bc70b8d0daaab2d12d16fe20a3a3b480c14ff3",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_ppc64le_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 23,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_ppc64le_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_ppc64le_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-debugimage_ppc64le_linux_hotspot_8u322b06.tar.gz",
+                "size": 136824748
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-27T19:31:40Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 3272,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "42ed3ff5a859f9015a1362fb7e650026b913d688eab471714f795651120be173",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_aarch64_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 3272,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_aarch64_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_aarch64_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jdk_aarch64_linux_hotspot_8u322b06.tar.gz",
+                "size": 102170434
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-27T19:31:49Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "ppc64le",
+            "download_count": 1227,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "c7cc9c5b237e9e1f1e3296593aba427375823592e4604fadf89a8c234c2574e1",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_ppc64le_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 1227,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_ppc64le_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_ppc64le_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jdk_ppc64le_linux_hotspot_8u322b06.tar.gz",
+                "size": 100615206
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-27T19:32:19Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "ppc64",
+            "download_count": 19,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "aix",
+            "package": {
+                "checksum": "7d6f006f195b554e751de8cb5e06140330315feb1b447fbe34e2dabf7002db0b",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_ppc64_aix_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 19,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_ppc64_aix_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_ppc64_aix_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-debugimage_ppc64_aix_hotspot_8u322b06.tar.gz",
+                "size": 70237552
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-27T19:31:26Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "ppc64",
+            "download_count": 386,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "aix",
+            "package": {
+                "checksum": "43c64339f66bfa4deb15b20e38c720ddde07e0bf7dbf745b13ee7da68021aa0e",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_ppc64_aix_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 386,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_ppc64_aix_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_ppc64_aix_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jdk_ppc64_aix_hotspot_8u322b06.tar.gz",
+                "size": 104892761
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-27T19:31:58Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 18808,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "9c4607cee01919a21c57a36e8c009a7aca7aefd63010c64d7a3023fe8590ebe1",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 18808,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jre_x64_linux_hotspot_8u322b06.tar.gz",
+                "size": 41317897
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-25T15:26:35Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 209421,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "installer": {
+                "checksum": "74eb66d2d6aefdc42f95681616c94f6a41b1e133d899131719cf8c2f0cbf0a25",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_windows_hotspot_8u322b06.msi.sha256.txt",
+                "download_count": 196755,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_windows_hotspot_8u322b06.msi",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_windows_hotspot_8u322b06.msi.json",
+                "name": "OpenJDK8U-jre_x64_windows_hotspot_8u322b06.msi",
+                "size": 32349696
+            },
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "d270fc127296784307d76052d7acbd65c7e5dbf48c1cbdddabe3923c56ec60a0",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_windows_hotspot_8u322b06.zip.sha256.txt",
+                "download_count": 12666,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_windows_hotspot_8u322b06.zip",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_windows_hotspot_8u322b06.zip.json",
+                "name": "OpenJDK8U-jre_x64_windows_hotspot_8u322b06.zip",
+                "size": 39074317
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-25T15:25:38Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 13576,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "installer": {
+                "checksum": "6d1c149f8cdd089acfd5b0748915e42abb5c94ae397ea84a48177c6190eb7e42",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_mac_hotspot_8u322b06.pkg.sha256.txt",
+                "download_count": 11223,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_mac_hotspot_8u322b06.pkg",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_mac_hotspot_8u322b06.pkg.json",
+                "name": "OpenJDK8U-jre_x64_mac_hotspot_8u322b06.pkg",
+                "size": 45161317
+            },
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "42d4ada88e39b0f222ffdcf3c833f442af22852687992997eca82c573e65b86f",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_mac_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 2353,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_mac_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_mac_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jre_x64_mac_hotspot_8u322b06.tar.gz",
+                "size": 45079763
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-25T15:25:30Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x32",
+            "download_count": 34,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "59dda3d44d23793011fe0acdeea679b531bae41233afc3c493b8a3da5971f2b8",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x86-32_windows_hotspot_8u322b06.zip.sha256.txt",
+                "download_count": 34,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x86-32_windows_hotspot_8u322b06.zip",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x86-32_windows_hotspot_8u322b06.zip.json",
+                "name": "OpenJDK8U-debugimage_x86-32_windows_hotspot_8u322b06.zip",
+                "size": 25243104
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-02-07T15:38:38Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x32",
+            "download_count": 30936,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "installer": {
+                "checksum": "8059dec3d5c3a45510042e4fbd7a2615a0de41df3831595ce082d100151c8313",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x86-32_windows_hotspot_8u322b06.msi.sha256.txt",
+                "download_count": 23467,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x86-32_windows_hotspot_8u322b06.msi",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x86-32_windows_hotspot_8u322b06.msi.json",
+                "name": "OpenJDK8U-jdk_x86-32_windows_hotspot_8u322b06.msi",
+                "size": 91018240
+            },
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "ec96bf3ff707e91924ffe09227dcab85d78bfd565dd85b9c4eace41a7d5f4e6e",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x86-32_windows_hotspot_8u322b06.zip.sha256.txt",
+                "download_count": 7469,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x86-32_windows_hotspot_8u322b06.zip",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x86-32_windows_hotspot_8u322b06.zip.json",
+                "name": "OpenJDK8U-jdk_x86-32_windows_hotspot_8u322b06.zip",
+                "size": 105290779
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-02-07T15:38:50Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 877,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "22496d5e677aaccc5a85e90584d0a012c51a08898f0e09e259eabe67ed81da2b",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_aarch64_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 877,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_aarch64_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_aarch64_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jre_aarch64_linux_hotspot_8u322b06.tar.gz",
+                "size": 40310110
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-27T19:32:24Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "ppc64le",
+            "download_count": 593,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "f15b536a97c27d114c0b59c86de07ca80a271d3979ed0aa056318ea329e31e5d",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_ppc64le_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 593,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_ppc64le_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_ppc64le_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jre_ppc64le_linux_hotspot_8u322b06.tar.gz",
+                "size": 40760240
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-27T19:32:35Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "ppc64",
+            "download_count": 307,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "aix",
+            "package": {
+                "checksum": "fead55d019b100cd833ce4b6cb450988387afe6b1ba6a206127c70668bf55216",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_ppc64_aix_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 307,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_ppc64_aix_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_ppc64_aix_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jre_ppc64_aix_hotspot_8u322b06.tar.gz",
+                "size": 42868832
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-27T19:32:30Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x32",
+            "download_count": 24130,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "installer": {
+                "checksum": "31dfd837364956c74d06d0947fc25e631f29ebc34cbbda77ce788d997415f252",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x86-32_windows_hotspot_8u322b06.msi.sha256.txt",
+                "download_count": 22482,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x86-32_windows_hotspot_8u322b06.msi",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x86-32_windows_hotspot_8u322b06.msi.json",
+                "name": "OpenJDK8U-jre_x86-32_windows_hotspot_8u322b06.msi",
+                "size": 31124992
+            },
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "82b0680111b418de038d46f27f26265e185add30ab98522d187b7f1c8014d652",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x86-32_windows_hotspot_8u322b06.zip.sha256.txt",
+                "download_count": 1648,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x86-32_windows_hotspot_8u322b06.zip",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x86-32_windows_hotspot_8u322b06.zip.json",
+                "name": "OpenJDK8U-jre_x86-32_windows_hotspot_8u322b06.zip",
+                "size": 37519877
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-02-07T15:38:59Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "arm",
+            "download_count": 796,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "0666c466b8aefcc66ab25aea9c0605f5c6eda3b174b1b817a4e4e74da0de0365",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_arm_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 796,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_arm_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_arm_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jdk_arm_linux_hotspot_8u322b06.tar.gz",
+                "size": 98420081
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06-aarch32-20220124_adopt",
+            "updated_at": "2022-02-10T14:41:13Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "arm",
+            "download_count": 9,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "ac3e1492a5c7965ee14dfb93e3aee409822d166de2fd7507399d8da7c3d256ba",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_arm_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 9,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_arm_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_arm_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-debugimage_arm_linux_hotspot_8u322b06.tar.gz",
+                "size": 92267919
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06-aarch32-20220124_adopt",
+            "updated_at": "2022-02-10T14:41:06Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "s390x",
+            "download_count": 10,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "37c309a1ee4343a4ebd0e3462276554abc657b3821a9ee4a6895388e17473456",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u302-b08/OpenJDK8U-debugimage_s390x_linux_hotspot_8u302b08.tar.gz.sha256.txt",
+                "download_count": 10,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u302-b08/OpenJDK8U-debugimage_s390x_linux_hotspot_8u302b08.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u302-b08/OpenJDK8U-debugimage_s390x_linux_hotspot_8u302b08.tar.gz.json",
+                "name": "OpenJDK8U-debugimage_s390x_linux_hotspot_8u302b08.tar.gz",
+                "size": 77312443
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u302-b08",
+            "updated_at": "2021-09-15T12:20:43Z"
+        },
+        "release_name": "jdk8u302-b08",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_302-b08",
+            "security": 302,
+            "semver": "8.0.302+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "sparcv9",
+            "download_count": 21,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "solaris",
+            "package": {
+                "checksum": "08cd1953c9a04fe2b65620d380c6c786b9b32728a93f8f20a299650ebe989542",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_sparcv9_solaris_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 21,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_sparcv9_solaris_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_sparcv9_solaris_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-debugimage_sparcv9_solaris_hotspot_8u322b06.tar.gz",
+                "size": 210642063
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-02-03T14:56:12Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "sparcv9",
+            "download_count": 281,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "solaris",
+            "package": {
+                "checksum": "6c4073174a12935911ecd438f1466487c29d0def7cbbc2db5be409d0bf6db6e4",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_sparcv9_solaris_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 281,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_sparcv9_solaris_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_sparcv9_solaris_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jdk_sparcv9_solaris_hotspot_8u322b06.tar.gz",
+                "size": 115436798
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-02-03T14:56:33Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "sparcv9",
+            "download_count": 243,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "solaris",
+            "package": {
+                "checksum": "2d58a6332f9ac5c393cfe6623d6079f4d55a42a6788cd5fc06541b39d5df54a0",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_sparcv9_solaris_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 243,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_sparcv9_solaris_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_sparcv9_solaris_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jre_sparcv9_solaris_hotspot_8u322b06.tar.gz",
+                "size": 53405929
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-02-03T14:56:46Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 21,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "solaris",
+            "package": {
+                "checksum": "de93d3aa5dfb6c9fe0301e2782427f2629e48b934cb6791cf92eca8f6d02035e",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_solaris_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 21,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_solaris_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_solaris_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-debugimage_x64_solaris_hotspot_8u322b06.tar.gz",
+                "size": 213318516
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-02-03T14:56:25Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 281,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "solaris",
+            "package": {
+                "checksum": "f2d39788cd72be61fcfacba7e4de480151c1f55b5fd2dd18bc1ac3d3b1ccdaa4",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_solaris_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 281,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_solaris_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_solaris_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jdk_x64_solaris_hotspot_8u322b06.tar.gz",
+                "size": 112241497
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-02-03T14:56:40Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 2123,
+            "heap_size": "normal",
+            "image_type": "sources",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "ab950fc885ad84c80bffc919a77e58c5222df8a11324c5fa3c7e3a41f96ce93c",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-sources_8u322b06.tar.gz.sha256.txt",
+                "download_count": 2123,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-sources_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-sources_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-sources_8u322b06.tar.gz",
+                "size": 88502765
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-01-25T15:26:42Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "arm",
+            "download_count": 520,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "48181f17b85a13c0e2f260c8f4b39483e61664cf07ea00e6210a666fb5210492",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_arm_linux_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 520,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_arm_linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_arm_linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jre_arm_linux_hotspot_8u322b06.tar.gz",
+                "size": 38742108
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06-aarch32-20220124_adopt",
+            "updated_at": "2022-02-10T14:41:17Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 242,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "solaris",
+            "package": {
+                "checksum": "213f5409810b78804dd832ed8985f5f0f812d59970cf5554aa97e3d163fe794e",
+                "checksum_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_solaris_hotspot_8u322b06.tar.gz.sha256.txt",
+                "download_count": 242,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_solaris_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_solaris_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jre_x64_solaris_hotspot_8u322b06.tar.gz",
+                "size": 50248400
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-02-03T14:56:50Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 5,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "alpine-linux",
+            "package": {
+                "checksum": "d09f73997c1a9e8f8654d6e0aeb397336114cf47f5463a1c2c5e154d29ed7eb4",
+                "download_count": 5,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_alpine-linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-debugimage_x64_alpine-linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-debugimage_x64_alpine-linux_hotspot_8u322b06.tar.gz",
+                "size": 168702654
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-03-08T15:11:14Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 372,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "alpine-linux",
+            "package": {
+                "checksum": "c7e781064c4a63ad6cd2399b2fa34de854a7d9bfd3ad2543d34bd7ba8f818822",
+                "download_count": 372,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_alpine-linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_alpine-linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jdk_x64_alpine-linux_hotspot_8u322b06.tar.gz",
+                "size": 101284843
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-03-08T15:11:19Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 154,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "alpine-linux",
+            "package": {
+                "checksum": "984f1a1f96774e6fbb644031b89de349afb354c9d12232ffb500c6a5d4013b1b",
+                "download_count": 154,
+                "link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_alpine-linux_hotspot_8u322b06.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_alpine-linux_hotspot_8u322b06.tar.gz.json",
+                "name": "OpenJDK8U-jre_x64_alpine-linux_hotspot_8u322b06.tar.gz",
+                "size": 41532156
+            },
+            "project": "jdk",
+            "scm_ref": "jdk8u322-b06_adopt",
+            "updated_at": "2022-03-08T15:11:23Z"
+        },
+        "release_name": "jdk8u322-b06",
+        "vendor": "eclipse",
+        "version": {
+            "build": 6,
+            "major": 8,
+            "minor": 0,
+            "openjdk_version": "1.8.0_322-b06",
+            "security": 322,
+            "semver": "8.0.322+6"
+        }
+    }
+]

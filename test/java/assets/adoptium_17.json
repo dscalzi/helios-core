@@ -1,0 +1,1713 @@
+
+[
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 64,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "290e5106d04714a4312ecafac5cdc2b73647c618b1e739515a09a7c6493faf3e",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 64,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-debugimage_x64_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 149475055
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T10:52:25Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 25,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "dcd3eba9215a4d9ba97857f5dba8eb0a751c9a7f2e4db7de7671417eac8585e4",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_mac_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 25,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_mac_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_mac_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-debugimage_x64_mac_hotspot_17.0.2_8.tar.gz",
+                "size": 52379774
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:30:45Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 62,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "be29ee81e1f8f06ea0df5cff871f1372340d5fa106ad3621859e1a6d83afe87c",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_windows_hotspot_17.0.2_8.zip.sha256.txt",
+                "download_count": 62,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_windows_hotspot_17.0.2_8.zip",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_windows_hotspot_17.0.2_8.zip.json",
+                "name": "OpenJDK17U-debugimage_x64_windows_hotspot_17.0.2_8.zip",
+                "size": 38257298
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:30:49Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 314200,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "288f34e3ba8a4838605636485d0365ce23e57d5f2f68997ac4c2e4c01967cd48",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 314200,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jdk_x64_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 192041953
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T10:52:49Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 89060,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "installer": {
+                "checksum": "b82d3ba3ff4c453bd954979a20e67754478294da8650e3b9e50f6d1a7cf5c628",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_mac_hotspot_17.0.2_8.pkg.sha256.txt",
+                "download_count": 57990,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_mac_hotspot_17.0.2_8.pkg",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_mac_hotspot_17.0.2_8.pkg.json",
+                "name": "OpenJDK17U-jdk_x64_mac_hotspot_17.0.2_8.pkg",
+                "size": 193007122
+            },
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "3630e21a571b7180876bf08f85d0aac0bdbb3267b2ae9bd242f4933b21f9be32",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_mac_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 31070,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_mac_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_mac_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jdk_x64_mac_hotspot_17.0.2_8.tar.gz",
+                "size": 192611208
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:31:42Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 414911,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "installer": {
+                "checksum": "f66f21f0b25e4fe0449c41555dbeb7ba890d54e5a6e48e35b1a6309409eaf2d1",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.2_8.msi.sha256.txt",
+                "download_count": 309163,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.2_8.msi",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.2_8.msi.json",
+                "name": "OpenJDK17U-jdk_x64_windows_hotspot_17.0.2_8.msi",
+                "size": 168619520
+            },
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "d083479ca927dce2f586f779373d895e8bf668c632505740279390384edf03fa",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.2_8.zip.sha256.txt",
+                "download_count": 105748,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.2_8.zip",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.2_8.zip.json",
+                "name": "OpenJDK17U-jdk_x64_windows_hotspot_17.0.2_8.zip",
+                "size": 188757501
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:32:07Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 37,
+            "heap_size": "normal",
+            "image_type": "testimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "44cb65e610379849bcc180c85d26e9c31e17bb24423c8e5213b2d896b44d0631",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_linux_hotspot_17_35.tar.gz.sha256.txt",
+                "download_count": 37,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_linux_hotspot_17_35.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_linux_hotspot_17_35.tar.gz.json",
+                "name": "OpenJDK17-testimage_x64_linux_hotspot_17_35.tar.gz",
+                "size": 92602030
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17+35_adopt",
+            "updated_at": "2021-09-22T07:48:56Z"
+        },
+        "release_name": "jdk-17+35",
+        "vendor": "eclipse",
+        "version": {
+            "build": 35,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17+35",
+            "security": 0,
+            "semver": "17.0.0+35"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 18,
+            "heap_size": "normal",
+            "image_type": "testimage",
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "f1c4c439af0874350b82117d03d2332387929728afab9c46d996598271bf373e",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_mac_hotspot_17_35.tar.gz.sha256.txt",
+                "download_count": 18,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_mac_hotspot_17_35.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_mac_hotspot_17_35.tar.gz.json",
+                "name": "OpenJDK17-testimage_x64_mac_hotspot_17_35.tar.gz",
+                "size": 29066883
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17+35_adopt",
+            "updated_at": "2021-09-22T07:48:59Z"
+        },
+        "release_name": "jdk-17+35",
+        "vendor": "eclipse",
+        "version": {
+            "build": 35,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17+35",
+            "security": 0,
+            "semver": "17.0.0+35"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 42,
+            "heap_size": "normal",
+            "image_type": "testimage",
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "39c5fdb48fb265d652648324b2be9a6e993fdf3ee11a5ccc162afd3064e53425",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_windows_hotspot_17_35.zip.sha256.txt",
+                "download_count": 42,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_windows_hotspot_17_35.zip",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_windows_hotspot_17_35.zip.json",
+                "name": "OpenJDK17-testimage_x64_windows_hotspot_17_35.zip",
+                "size": 16129707
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17+35_adopt",
+            "updated_at": "2021-09-22T07:49:01Z"
+        },
+        "release_name": "jdk-17+35",
+        "vendor": "eclipse",
+        "version": {
+            "build": 35,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17+35",
+            "security": 0,
+            "semver": "17.0.0+35"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 23,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "ff20e8ff62df8ff40ffa053f36d61a823fe506733e3a56f7e1be1d610e5ad793",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_aarch64_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 23,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_aarch64_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_aarch64_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-debugimage_aarch64_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 145140659
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T12:54:31Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 13043,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "302caf29f73481b2b914ba2b89705036010c65eb9bc8d7712b27d6e9bedf6200",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 13043,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 188965124
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T12:54:41Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 25,
+            "heap_size": "normal",
+            "image_type": "testimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "edaa090755789ef849963e6fa8b420a877df64f2d33af45d2da650e95f6766a7",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_aarch64_linux_hotspot_17_35.tar.gz.sha256.txt",
+                "download_count": 25,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_aarch64_linux_hotspot_17_35.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_aarch64_linux_hotspot_17_35.tar.gz.json",
+                "name": "OpenJDK17-testimage_aarch64_linux_hotspot_17_35.tar.gz",
+                "size": 92602798
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17+35_adopt",
+            "updated_at": "2021-09-22T13:24:08Z"
+        },
+        "release_name": "jdk-17+35",
+        "vendor": "eclipse",
+        "version": {
+            "build": 35,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17+35",
+            "security": 0,
+            "semver": "17.0.0+35"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "s390x",
+            "download_count": 15,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "67403141fa21bfe37ba6f721934f2c90d0a10bfbec1d4f686b6dd644e860e84a",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_s390x_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 15,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_s390x_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_s390x_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-debugimage_s390x_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 119357310
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-01T15:44:57Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "s390x",
+            "download_count": 775,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "383ac8ad392036bedab9a08eb55395b95593a6cc268c422a2bab53f0977a4c54",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 775,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jdk_s390x_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 179581214
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-01T15:45:22Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "s390x",
+            "download_count": 17,
+            "heap_size": "normal",
+            "image_type": "testimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "84c4a8c99d46ee45438c6f553a579e1dd623dc03bebadf4962e4bae0cd187c91",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_s390x_linux_hotspot_17_35.tar.gz.sha256.txt",
+                "download_count": 17,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_s390x_linux_hotspot_17_35.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_s390x_linux_hotspot_17_35.tar.gz.json",
+                "name": "OpenJDK17-testimage_s390x_linux_hotspot_17_35.tar.gz",
+                "size": 96229966
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17+35_adopt",
+            "updated_at": "2021-09-23T09:29:47Z"
+        },
+        "release_name": "jdk-17+35",
+        "vendor": "eclipse",
+        "version": {
+            "build": 35,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17+35",
+            "security": 0,
+            "semver": "17.0.0+35"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 51,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "2d7edb75520f825c661e4f12922ad201492640e7af3bde8f57093e2ea678e3d4",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_aarch64_mac_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 51,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_aarch64_mac_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_aarch64_mac_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-debugimage_aarch64_mac_hotspot_17.0.2_8.tar.gz",
+                "size": 52920122
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:30:40Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 40921,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "installer": {
+                "checksum": "0904c11eb5f7b53aac53e6279992ee2a900c9517b26659dee3704b2d11c149cd",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.2_8.pkg.sha256.txt",
+                "download_count": 29277,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.2_8.pkg",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.2_8.pkg.json",
+                "name": "OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.2_8.pkg",
+                "size": 182856402
+            },
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "157518e999d712b541b883c6c167f8faabbef1d590da9fe7233541b4adb21ea4",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 11644,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.2_8.tar.gz",
+                "size": 182550014
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:31:16Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 14,
+            "heap_size": "normal",
+            "image_type": "testimage",
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "bc2363d44df846302c7dafb077a118d5650578464875ea93246b647184ed7d9c",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-testimage_aarch64_mac_hotspot_17.0.1_12.tar.gz.sha256.txt",
+                "download_count": 14,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-testimage_aarch64_mac_hotspot_17.0.1_12.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-testimage_aarch64_mac_hotspot_17.0.1_12.tar.gz.json",
+                "name": "OpenJDK17U-testimage_aarch64_mac_hotspot_17.0.1_12.tar.gz",
+                "size": 28589095
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.1+12_adopt",
+            "updated_at": "2021-11-01T09:54:29Z"
+        },
+        "release_name": "jdk-17.0.1+12",
+        "vendor": "eclipse",
+        "version": {
+            "build": 12,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.1+12",
+            "security": 1,
+            "semver": "17.0.1+12"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "ppc64le",
+            "download_count": 16,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "e81eecb1c5954c33439aff67529bfb35ccfb23966a8236ff503bd7c621c44965",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_ppc64le_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 16,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_ppc64le_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_ppc64le_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-debugimage_ppc64le_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 142963923
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-31T16:43:32Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "ppc64le",
+            "download_count": 782,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "532d831d6a977e821b7331ecf9ed995e5bbfe76f18a1b00ffa8dbb3a4e2887de",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 782,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 189073596
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-31T16:43:43Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "ppc64le",
+            "download_count": 16,
+            "heap_size": "normal",
+            "image_type": "testimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "efa885702b0b1921c35856d7c1175ca6205cd60249c8bcd60e7d73ca3741f2fa",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_ppc64le_linux_hotspot_17_35.tar.gz.sha256.txt",
+                "download_count": 16,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_ppc64le_linux_hotspot_17_35.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_ppc64le_linux_hotspot_17_35.tar.gz.json",
+                "name": "OpenJDK17-testimage_ppc64le_linux_hotspot_17_35.tar.gz",
+                "size": 96695742
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17+35_adopt",
+            "updated_at": "2021-09-23T15:07:06Z"
+        },
+        "release_name": "jdk-17+35",
+        "vendor": "eclipse",
+        "version": {
+            "build": 35,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17+35",
+            "security": 0,
+            "semver": "17.0.0+35"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "arm",
+            "download_count": 27,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "7df95d4e27db9661eb212b04e6473532cc084a059e69a57e1e9ffd2b046c198c",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_arm_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 27,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_arm_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_arm_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-debugimage_arm_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 186917348
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-01T15:44:43Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "arm",
+            "download_count": 2120,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "544936145a4a9b1a316ed3708cd91b3960d5e8e87578bea73ef674ca3047158e",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_arm_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 2120,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_arm_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_arm_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jdk_arm_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 188894874
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-01T15:45:08Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "arm",
+            "download_count": 16,
+            "heap_size": "normal",
+            "image_type": "testimage",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "a93c1d01d8d0919236f801215e1e62a666c14cb73eaf7112e43bf8baaec28cbe",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_arm_linux_hotspot_17_35.tar.gz.sha256.txt",
+                "download_count": 16,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_arm_linux_hotspot_17_35.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_arm_linux_hotspot_17_35.tar.gz.json",
+                "name": "OpenJDK17-testimage_arm_linux_hotspot_17_35.tar.gz",
+                "size": 89348391
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17+35_adopt",
+            "updated_at": "2021-09-24T12:50:13Z"
+        },
+        "release_name": "jdk-17+35",
+        "vendor": "eclipse",
+        "version": {
+            "build": 35,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17+35",
+            "security": 0,
+            "semver": "17.0.0+35"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x32",
+            "download_count": 13,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "ad976fc1ae93d62132154283cb3473bbccd3d9988bc900859635151d3aebd21a",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x86-32_windows_hotspot_17.0.2_8.zip.sha256.txt",
+                "download_count": 13,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x86-32_windows_hotspot_17.0.2_8.zip",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x86-32_windows_hotspot_17.0.2_8.zip.json",
+                "name": "OpenJDK17U-debugimage_x86-32_windows_hotspot_17.0.2_8.zip",
+                "size": 36796108
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-26T11:10:50Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x32",
+            "download_count": 19277,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "installer": {
+                "checksum": "61515b1ddb794ba8567a598f7f86523462eb750f0b30adb11109d47a2a63af2b",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x86-32_windows_hotspot_17.0.2_8.msi.sha256.txt",
+                "download_count": 8130,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x86-32_windows_hotspot_17.0.2_8.msi",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x86-32_windows_hotspot_17.0.2_8.msi.json",
+                "name": "OpenJDK17U-jdk_x86-32_windows_hotspot_17.0.2_8.msi",
+                "size": 161280512
+            },
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "a4f59ac4992cee92300e0c261da54caa4dc92b84046c00409dd2c273e7e94971",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x86-32_windows_hotspot_17.0.2_8.zip.sha256.txt",
+                "download_count": 11147,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x86-32_windows_hotspot_17.0.2_8.zip",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x86-32_windows_hotspot_17.0.2_8.zip.json",
+                "name": "OpenJDK17U-jdk_x86-32_windows_hotspot_17.0.2_8.zip",
+                "size": 180143382
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-26T11:11:13Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x32",
+            "download_count": 25,
+            "heap_size": "normal",
+            "image_type": "testimage",
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "d31a973cc9b54595e946c41a1a268969adfad4289624185a188b1e3f66653f94",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x86-32_windows_hotspot_17_35.zip.sha256.txt",
+                "download_count": 25,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x86-32_windows_hotspot_17_35.zip",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x86-32_windows_hotspot_17_35.zip.json",
+                "name": "OpenJDK17-testimage_x86-32_windows_hotspot_17_35.zip",
+                "size": 15247617
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17+35_adopt",
+            "updated_at": "2021-09-24T13:30:54Z"
+        },
+        "release_name": "jdk-17+35",
+        "vendor": "eclipse",
+        "version": {
+            "build": 35,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17+35",
+            "security": 0,
+            "semver": "17.0.0+35"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 16,
+            "heap_size": "normal",
+            "image_type": "debugimage",
+            "jvm_impl": "hotspot",
+            "os": "alpine-linux",
+            "package": {
+                "checksum": "2ce275c037f9b6ccfc5f821084bf62be202badc70024ff4e68704e7ac8c49232",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_alpine-linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 16,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_alpine-linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-debugimage_x64_alpine-linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-debugimage_x64_alpine-linux_hotspot_17.0.2_8.tar.gz",
+                "size": 183788689
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T10:52:16Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 1593,
+            "heap_size": "normal",
+            "image_type": "jdk",
+            "jvm_impl": "hotspot",
+            "os": "alpine-linux",
+            "package": {
+                "checksum": "a07cc09db0e71d06ea388902f8fcea8151b2b9ba51a16f75f9c0a3ac9acbfb61",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 1593,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.2_8.tar.gz",
+                "size": 191420670
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T10:52:39Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 17,
+            "heap_size": "normal",
+            "image_type": "testimage",
+            "jvm_impl": "hotspot",
+            "os": "alpine-linux",
+            "package": {
+                "checksum": "10426aaf2b3971c25b54696a8e530a7d064ed6a0be8410c48e7bf78dfa3b2fc3",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_alpine-linux_hotspot_17_35.tar.gz.sha256.txt",
+                "download_count": 17,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_alpine-linux_hotspot_17_35.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-testimage_x64_alpine-linux_hotspot_17_35.tar.gz.json",
+                "name": "OpenJDK17-testimage_x64_alpine-linux_hotspot_17_35.tar.gz",
+                "size": 105289014
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17+35_adopt",
+            "updated_at": "2021-09-24T13:34:37Z"
+        },
+        "release_name": "jdk-17+35",
+        "vendor": "eclipse",
+        "version": {
+            "build": 35,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17+35",
+            "security": 0,
+            "semver": "17.0.0+35"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 2282,
+            "heap_size": "normal",
+            "image_type": "sources",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "c3171bdc51a2b378b3cbedfc45ed9ad32b9dacbc92cd2eca6ad682a2dc1e889f",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-sources_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 2282,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-sources_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-sources_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-sources_17.0.2_8.tar.gz",
+                "size": 105557903
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T10:53:05Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 172,
+            "heap_size": "normal",
+            "image_type": "staticlibs",
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "39061a3c73076deb2571228db9600e415d0ff593af3efd46e98abcc31fe16646",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_aarch64_mac_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 172,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_aarch64_mac_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_aarch64_mac_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-static-libs_aarch64_mac_hotspot_17.0.2_8.tar.gz",
+                "size": 3900902
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:32:35Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "c_lib": "glibc",
+            "download_count": 339,
+            "heap_size": "normal",
+            "image_type": "staticlibs",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "b1b1c86fdbf63322a625500f0b70f37acb1770443cc59cb6683cb43ac979400f",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_aarch64_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 339,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_aarch64_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_aarch64_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-static-libs-glibc_aarch64_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 3461241
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T12:54:45Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "arm",
+            "c_lib": "glibc",
+            "download_count": 160,
+            "heap_size": "normal",
+            "image_type": "staticlibs",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "e4b777e648453069a62dc26f4bd51d720208e5ada9aba56e3f6428b37a0c04cb",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_arm_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 160,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_arm_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_arm_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-static-libs-glibc_arm_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 3230047
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-01T15:45:32Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "ppc64le",
+            "c_lib": "glibc",
+            "download_count": 153,
+            "heap_size": "normal",
+            "image_type": "staticlibs",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "56a4b7ae31898a57a91bce2ae67bcb3ac78f7075e192683ed7b76437858240bc",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_ppc64le_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 153,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_ppc64le_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_ppc64le_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-static-libs-glibc_ppc64le_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 3931282
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-31T16:43:49Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "s390x",
+            "c_lib": "glibc",
+            "download_count": 148,
+            "heap_size": "normal",
+            "image_type": "staticlibs",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "62c26ea74513a39ac3b6f091c858a0a1076f29b675ffe99fad13dce9cf89bb22",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_s390x_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 148,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_s390x_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_s390x_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-static-libs-glibc_s390x_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 3555068
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-01T15:45:34Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "c_lib": "glibc",
+            "download_count": 328,
+            "heap_size": "normal",
+            "image_type": "staticlibs",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "4fce223637be6bd26e1acc8b0b642a2c7364895414777ea92b42566da096e96a",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_x64_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 328,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_x64_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-glibc_x64_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-static-libs-glibc_x64_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 3947308
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T10:53:08Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "c_lib": "musl",
+            "download_count": 176,
+            "heap_size": "normal",
+            "image_type": "staticlibs",
+            "jvm_impl": "hotspot",
+            "os": "alpine-linux",
+            "package": {
+                "checksum": "69f7cf796fbe90d99f233e49a33491e9cd04417a22a88280af7d10278257a9b3",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-musl_x64_alpine-linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 176,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-musl_x64_alpine-linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs-musl_x64_alpine-linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-static-libs-musl_x64_alpine-linux_hotspot_17.0.2_8.tar.gz",
+                "size": 3524590
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T10:53:10Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 180,
+            "heap_size": "normal",
+            "image_type": "staticlibs",
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "d8f5aa430a59fed099b854ec92ceca008f19e287ceb79cbef91d4abf980221d5",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_x64_mac_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 180,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_x64_mac_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_x64_mac_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-static-libs_x64_mac_hotspot_17.0.2_8.tar.gz",
+                "size": 3969630
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:32:37Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 358,
+            "heap_size": "normal",
+            "image_type": "staticlibs",
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "47eefbd80765e29a551e31f92a4ad553ec17b8a57df83008662fae4f34a595b5",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_x64_windows_hotspot_17.0.2_8.zip.sha256.txt",
+                "download_count": 358,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_x64_windows_hotspot_17.0.2_8.zip",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_x64_windows_hotspot_17.0.2_8.zip.json",
+                "name": "OpenJDK17U-static-libs_x64_windows_hotspot_17.0.2_8.zip",
+                "size": 15948558
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:32:40Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x32",
+            "download_count": 91,
+            "heap_size": "normal",
+            "image_type": "staticlibs",
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "e3c022784b73957bfb8eb603a59fc0afc24c0b6528a2079ac54299dbc948580d",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_x86-32_windows_hotspot_17.0.2_8.zip.sha256.txt",
+                "download_count": 91,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_x86-32_windows_hotspot_17.0.2_8.zip",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-static-libs_x86-32_windows_hotspot_17.0.2_8.zip.json",
+                "name": "OpenJDK17U-static-libs_x86-32_windows_hotspot_17.0.2_8.zip",
+                "size": 12362181
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-26T11:11:23Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 857,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "6ef7a28d0d844fe347ab18f65a91db744547321fe8a101d883bd80722183ab64",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_aarch64_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 857,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_aarch64_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_aarch64_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jre_aarch64_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 44626750
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T12:54:44Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "arm",
+            "download_count": 774,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "4fd1d11f3008aba1c6c17e1d1c1cf15e2a54e68275ad0874b47a781eaf73450e",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_arm_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 774,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_arm_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_arm_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jre_arm_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 43576911
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-01T15:45:26Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "ppc64le",
+            "download_count": 268,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "089a940d0feb34e8095dede569492a5c4b1f082898ab02c39465fa76fe85a555",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_ppc64le_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 268,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_ppc64le_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_ppc64le_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jre_ppc64le_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 44860596
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-31T16:43:47Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "s390x",
+            "download_count": 248,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "26a9b87d7abba7ea2d85f279b7b0109c1653fb3334871d5f3790e23b8d2b34e3",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_s390x_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 248,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_s390x_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_s390x_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jre_s390x_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 42973899
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-01T15:45:31Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 816,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "alpine-linux",
+            "package": {
+                "checksum": "043b3169b3d1f6fbf0d807e61b9f94d167d08e13dd2f4fb76786e60ee65e5ae5",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_alpine-linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 816,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_alpine-linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_alpine-linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jre_x64_alpine-linux_hotspot_17.0.2_8.tar.gz",
+                "size": 46112945
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T10:52:55Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 11349,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "jvm_impl": "hotspot",
+            "os": "linux",
+            "package": {
+                "checksum": "292ed702d95f5690e52e171afe9f3050b9d2fb803456b155c831735fad0f17c0",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_linux_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 11349,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_linux_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_linux_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jre_x64_linux_hotspot_17.0.2_8.tar.gz",
+                "size": 46176181
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-28T10:52:59Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 34364,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "installer": {
+                "checksum": "57c39a19ba3fb5c17cee620a9f5437f73e12034efb70a9e3d9bd621a1b5e852b",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_windows_hotspot_17.0.2_8.msi.sha256.txt",
+                "download_count": 27642,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_windows_hotspot_17.0.2_8.msi",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_windows_hotspot_17.0.2_8.msi.json",
+                "name": "OpenJDK17U-jre_x64_windows_hotspot_17.0.2_8.msi",
+                "size": 32003072
+            },
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "c3204a19aede95ed02ad0f427210855a951d845ab7f806fb56b774daf2572454",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_windows_hotspot_17.0.2_8.zip.sha256.txt",
+                "download_count": 6722,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_windows_hotspot_17.0.2_8.zip",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_windows_hotspot_17.0.2_8.zip.json",
+                "name": "OpenJDK17U-jre_x64_windows_hotspot_17.0.2_8.zip",
+                "size": 43121598
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:32:34Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x32",
+            "download_count": 6362,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "installer": {
+                "checksum": "7b8adb5154225b12856c0560e5419a523c19229f630112e7031500d69a66a91f",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x86-32_windows_hotspot_17.0.2_8.msi.sha256.txt",
+                "download_count": 5496,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x86-32_windows_hotspot_17.0.2_8.msi",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x86-32_windows_hotspot_17.0.2_8.msi.json",
+                "name": "OpenJDK17U-jre_x86-32_windows_hotspot_17.0.2_8.msi",
+                "size": 27985408
+            },
+            "jvm_impl": "hotspot",
+            "os": "windows",
+            "package": {
+                "checksum": "45822f196bb217afbfe18c603fb5c36f4475be28d04cbb9e42f67fde0f406a95",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x86-32_windows_hotspot_17.0.2_8.zip.sha256.txt",
+                "download_count": 866,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x86-32_windows_hotspot_17.0.2_8.zip",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x86-32_windows_hotspot_17.0.2_8.zip.json",
+                "name": "OpenJDK17U-jre_x86-32_windows_hotspot_17.0.2_8.zip",
+                "size": 38061602
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-02-26T11:11:20Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "aarch64",
+            "download_count": 7479,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "installer": {
+                "checksum": "ddcb1a2c2d2287d32891a0e5f0057c7ca1b4cccf6ee41e37eaa6fc2d48b3611f",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_aarch64_mac_hotspot_17.0.2_8.pkg.sha256.txt",
+                "download_count": 6864,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_aarch64_mac_hotspot_17.0.2_8.pkg",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_aarch64_mac_hotspot_17.0.2_8.pkg.json",
+                "name": "OpenJDK17U-jre_aarch64_mac_hotspot_17.0.2_8.pkg",
+                "size": 41311730
+            },
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "f2f23d6629060eb1692c714bfda27dd5f100cc560578c7cdd9df920a8ac1d453",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_aarch64_mac_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 615,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_aarch64_mac_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_aarch64_mac_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jre_aarch64_mac_hotspot_17.0.2_8.tar.gz",
+                "size": 41189587
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:32:16Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    },
+    {
+        "binary": {
+            "architecture": "x64",
+            "download_count": 8606,
+            "heap_size": "normal",
+            "image_type": "jre",
+            "installer": {
+                "checksum": "876b13e7384976eab3a2c61704b663b0b86a1a8d456326f4ebd5c04f2f69c42e",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_mac_hotspot_17.0.2_8.pkg.sha256.txt",
+                "download_count": 7565,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_mac_hotspot_17.0.2_8.pkg",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_mac_hotspot_17.0.2_8.pkg.json",
+                "name": "OpenJDK17U-jre_x64_mac_hotspot_17.0.2_8.pkg",
+                "size": 49671658
+            },
+            "jvm_impl": "hotspot",
+            "os": "mac",
+            "package": {
+                "checksum": "4e2e5e9c079ccc48b056959b2808a96398ebbc92d6b13ee5beb3159b89469aa8",
+                "checksum_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_mac_hotspot_17.0.2_8.tar.gz.sha256.txt",
+                "download_count": 1041,
+                "link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_mac_hotspot_17.0.2_8.tar.gz",
+                "metadata_link": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_mac_hotspot_17.0.2_8.tar.gz.json",
+                "name": "OpenJDK17U-jre_x64_mac_hotspot_17.0.2_8.tar.gz",
+                "size": 49454845
+            },
+            "project": "jdk",
+            "scm_ref": "jdk-17.0.2+8_adopt",
+            "updated_at": "2022-01-27T21:32:25Z"
+        },
+        "release_name": "jdk-17.0.2+8",
+        "vendor": "eclipse",
+        "version": {
+            "build": 8,
+            "major": 17,
+            "minor": 0,
+            "openjdk_version": "17.0.2+8",
+            "security": 2,
+            "semver": "17.0.2+8"
+        }
+    }
+]
