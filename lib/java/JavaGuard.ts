@@ -2,7 +2,6 @@
 import got from 'got'
 import { Architecture, JavaVersion, JdkDistribution, Platform } from 'helios-distribution-types'
 import { join } from 'path'
-import { LauncherJson } from '../model/mojang/LauncherJson'
 import { LoggerUtil } from '../util/LoggerUtil'
 
 const logger = LoggerUtil.getLogger('JavaGuard')
@@ -49,13 +48,14 @@ export interface AdoptiumJdk {
 /**
  * Fetch the last open JDK binary.
  * 
- * HOTFIX: Uses Corretto 8 for macOS.
+ * HOTFIX: Corretto should be used for macOS.
  * See: https://github.com/dscalzi/HeliosLauncher/issues/70
  * See: https://github.com/AdoptOpenJDK/openjdk-support/issues/101
  * 
- * @param {number} major The major version of Java to fetch.
+ * @param major The major version of Java to fetch.
+ * @param distribution The distribution to use.
  * 
- * @returns {Promise.<RemoteJdkDistribution | null>} Promise which resolved to an object containing the JDK download data.
+ * @returns Promise which resolved to an object containing the JDK download data.
  */
 export async function latestOpenJDK(major: number, distribution?: JdkDistribution): Promise<RemoteJdkDistribution | null> {
 
@@ -166,8 +166,8 @@ export async function latestCorretto(major: number): Promise<RemoteJdkDistributi
  * Returns the path of the OS-specific executable for the given Java
  * installation. Supported OS's are win32, darwin, linux.
  * 
- * @param {string} rootDir The root directory of the Java installation.
- * @returns {string} The path to the Java executable.
+ * @param rootDir The root directory of the Java installation.
+ * @returns The path to the Java executable.
  */
 export function javaExecFromRoot(rootDir: string): string {
     switch(process.platform) {
@@ -185,36 +185,18 @@ export function javaExecFromRoot(rootDir: string): string {
 /**
  * Check to see if the given path points to a Java executable.
  * 
- * @param {string} pth The path to check against.
- * @returns {boolean} True if the path points to a Java executable, otherwise false.
+ * @param pth The path to check against.
+ * @returns True if the path points to a Java executable, otherwise false.
  */
 export function isJavaExecPath(pth: string): boolean {
     switch(process.platform) {
         case Platform.WIN32:
             return pth.endsWith(join('bin', 'javaw.exe'))
         case Platform.DARWIN:
-            return pth.endsWith(join('bin', 'java'))
         case Platform.LINUX:
             return pth.endsWith(join('bin', 'java'))
         default:
             return false
-    }
-}
-
-// TODO Move this
-/**
- * Load Mojang's launcher.json file.
- * 
- * @returns {Promise.<Object>} Promise which resolves to Mojang's launcher.json object.
- */
-export async function loadMojangLauncherData(): Promise<LauncherJson | null> {
-
-    try {
-        const res = await got.get<LauncherJson>('https://launchermeta.mojang.com/mc/launcher.json', { responseType: 'json' })
-        return res.body
-    } catch(err) {
-        logger.error('Failed to retrieve Mojang\'s launcher.json file.')
-        return null
     }
 }
 
@@ -223,7 +205,7 @@ export async function loadMojangLauncherData(): Promise<LauncherJson | null> {
  * the version information. Dynamically detects the formatting
  * to use.
  * 
- * @param {string} verString Full version string to parse.
+ * @param verString Full version string to parse.
  * @returns Object containing the version information.
  */
 export function parseJavaRuntimeVersion(verString: string): JavaVersion{
@@ -238,7 +220,7 @@ export function parseJavaRuntimeVersion(verString: string): JavaVersion{
  * Parses a full Java Runtime version string and resolves
  * the version information. Uses Java 8 formatting.
  * 
- * @param {string} verString Full version string to parse.
+ * @param verString Full version string to parse.
  * @returns Object containing the version information.
  */
 export function  parseJavaRuntimeVersion_8(verString: string): JavaVersion {
@@ -259,7 +241,7 @@ export function  parseJavaRuntimeVersion_8(verString: string): JavaVersion {
  * Parses a full Java Runtime version string and resolves
  * the version information. Uses Java 9+ formatting.
  * 
- * @param {string} verString Full version string to parse.
+ * @param verString Full version string to parse.
  * @returns Object containing the version information.
  */
 export function  parseJavaRuntimeVersion_9(verString: string): JavaVersion {
