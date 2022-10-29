@@ -223,7 +223,6 @@ export class MojangRestAPI {
 
                 if (res.body.color == "brightgreen") MojangRestAPI.statuses[i].status = "green";
                 else MojangRestAPI.statuses[i].status = "red";
-                data.push(MojangRestAPI.statuses[i]);
             };
             
             return {
