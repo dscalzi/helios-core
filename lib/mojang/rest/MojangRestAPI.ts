@@ -222,6 +222,7 @@ export class MojangRestAPI {
                 MojangRestAPI.expectSpecificSuccess('Mojang Status', 200, res.statusCode);
 
                 if (res.body.color == "brightgreen") MojangRestAPI.statuses[i].status = "green";
+                else if (res.body.color == "yellowgreen") MojangRestAPI.statuses[i].status = "yellow";
                 else MojangRestAPI.statuses[i].status = "red";
             };
             
