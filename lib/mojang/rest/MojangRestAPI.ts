@@ -48,6 +48,11 @@ export interface MojangStatus {
 
 }
 
+export interface UpptimeSummary {
+    slug: string
+    status: 'up' | 'down'
+}
+
 export class MojangRestAPI {
 
     private static readonly logger = LoggerUtil.getLogger('Mojang')
@@ -55,7 +60,7 @@ export class MojangRestAPI {
     private static readonly TIMEOUT = 2500
 
     public static readonly AUTH_ENDPOINT = 'https://authserver.mojang.com'
-    public static readonly STATUS_ENDPOINT = 'https://raw.githubusercontent.com/AventiumSoftworks/helios-status-page/master/api'
+    public static readonly STATUS_ENDPOINT = 'https://github.com/AventiumSoftworks/helios-status-page/blob/master/history/summary.json'
 
     private static authClient = got.extend({
         prefixUrl: MojangRestAPI.AUTH_ENDPOINT,
@@ -63,7 +68,7 @@ export class MojangRestAPI {
         retry: 0
     })
     private static statusClient = got.extend({
-        prefixUrl: MojangRestAPI.STATUS_ENDPOINT,
+        url: MojangRestAPI.STATUS_ENDPOINT,
         responseType: 'json',
         retry: 0
     })
@@ -134,13 +139,13 @@ export class MojangRestAPI {
             {
                 service: 'microsoft-minecraft-api',
                 status: MojangStatusColor.GREY,
-                name: "Minecraft API for Microsoft Accounts",
+                name: 'Minecraft API for Microsoft Accounts',
                 essential: true
             },
             {
                 service: 'microsoft-minecraft-profile',
                 status: MojangStatusColor.GREY,
-                name: "Minecraft Profile for Microsoft Accounts",
+                name: 'Minecraft Profile for Microsoft Accounts',
                 essential: false
             }
         ]
@@ -214,17 +219,19 @@ export class MojangRestAPI {
      */
     public static async status(): Promise<MojangResponse<MojangStatus[]>>{
         try {
-            const requestURL = function (service) { return `${service}/uptime-day.json`}
-            
-            for(let i=0; i<MojangRestAPI.statuses.length; i++) {
-                const res = await MojangRestAPI.statusClient.get(requestURL(MojangRestAPI.statuses[i].service, { json: true, responseType: 'json' }));
 
-                MojangRestAPI.expectSpecificSuccess('Mojang Status', 200, res.statusCode);
+            const res = await MojangRestAPI.statusClient.get<UpptimeSummary[]>({})
 
-                if (res.body.color == "brightgreen") MojangRestAPI.statuses[i].status = "green";
-                else if (res.body.color == "yellowgreen") MojangRestAPI.statuses[i].status = "yellow";
-                else MojangRestAPI.statuses[i].status = "red";
-            };
+            MojangRestAPI.expectSpecificSuccess('Mojang Status', 200, res.statusCode)
+
+            for(const status of res.body) {
+                for(let i=0; i<MojangRestAPI.statuses.length; i++) {
+                    if(MojangRestAPI.statuses[i].service === status.slug) {
+                        MojangRestAPI.statuses[i].status = status.status === 'up' ? MojangStatusColor.GREEN : MojangStatusColor.RED
+                        break
+                    }
+                }
+            }
             
             return {
                 data: MojangRestAPI.statuses,
