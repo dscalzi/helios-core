@@ -60,7 +60,7 @@ export class MojangRestAPI {
     private static readonly TIMEOUT = 2500
 
     public static readonly AUTH_ENDPOINT = 'https://authserver.mojang.com'
-    public static readonly STATUS_ENDPOINT = 'https://github.com/AventiumSoftworks/helios-status-page/blob/master/history/summary.json'
+    public static readonly STATUS_ENDPOINT = 'https://raw.githubusercontent.com/AventiumSoftworks/helios-status-page/master/history/summary.json'
 
     private static authClient = got.extend({
         prefixUrl: MojangRestAPI.AUTH_ENDPOINT,
@@ -215,7 +215,11 @@ export class MojangRestAPI {
      * a key, where the value is an object containing a status and name
      * property.
      * 
-     * @see http://wiki.vg/Mojang_API#API_Status
+     * Currently uses an in house daily ping. A daily ping is not super useful,
+     * so this may be refactored at a later date. The feature was originally
+     * built on Mojang's status API which has since been removed.
+     * 
+     * @see https://wiki.vg/Mojang_API#API_Status_.28Removed.29
      */
     public static async status(): Promise<MojangResponse<MojangStatus[]>>{
         try {
