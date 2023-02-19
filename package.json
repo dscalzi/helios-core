@@ -1,6 +1,6 @@
 {
   "name": "helios-core",
-  "version": "0.1.2",
+  "version": "0.2.0-pre.1",
   "description": "A library containing core mechanisms for Helios Launcher",
   "main": "dist/index.js",
   "scripts": {
@@ -8,22 +8,34 @@
     "tsc": "tsc",
     "build": "npm run clean && npm run tsc",
     "lint": "eslint . --ext .js,.ts",
-    "test": "cross-env NODE_ENV=test mocha -r ts-node/register --recursive test/**/**/*.ts",
+    "test": "cross-env TS_NODE_PROJECT='./tsconfig.test.json' NODE_ENV=test mocha -r ts-node/register --recursive test/**/**/*.ts",
     "bl": "npm run build && npm link",
     "prepack": "npm run build"
   },
   "exports": {
     ".": "./dist/index.js",
     "./common": "./dist/common.js",
+    "./dl": "./dist/dl.js",
     "./microsoft": "./dist/microsoft.js",
     "./mojang": "./dist/mojang.js"
   },
   "typesVersions": {
     "*": {
-      ".": ["./dist/index.d.ts"],
-      "common": ["./dist/common.d.ts"],
-      "microsoft": ["./dist/microsoft.d.ts"],
-      "mojang": ["./dist/mojang.d.ts"]
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "common": [
+        "./dist/common.d.ts"
+      ],
+      "dl": [
+        "./dist/dl.d.ts"
+      ],
+      "microsoft": [
+        "./dist/microsoft.d.ts"
+      ],
+      "mojang": [
+        "./dist/mojang.d.ts"
+      ]
     }
   },
   "repository": {
@@ -63,6 +75,9 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "@types/adm-zip": "^0.5.0",
+    "adm-zip": "^0.5.10",
+    "fastq": "^1.15.0",
     "fs-extra": "^10.1.0",
     "got": "^11.8.5",
     "luxon": "^3.1.0",
