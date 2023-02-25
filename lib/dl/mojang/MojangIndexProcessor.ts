@@ -5,7 +5,7 @@ import { ensureDir, pathExists, readFile, readJson, writeFile } from 'fs-extra'
 import { Asset } from '../Asset'
 import { AssetGuardError } from '../AssetGuardError'
 import { IndexProcessor } from '../IndexProcessor'
-import { AssetIndex, LibraryArtifact, MojangVersionManifest, VersionJson } from './mojang-types'
+import { AssetIndex, LibraryArtifact, MojangVersionManifest, VersionJson } from './MojangTypes'
 import { calculateHash, getLibraryDir, getVersionJarPath, getVersionJsonPath, validateLocalFile } from '../../common/util/FileUtils'
 import { getMojangOS, isLibraryCompatible } from '../../common/util/MojangUtils'
 import { LoggerUtil } from '../../util/LoggerUtil'
@@ -15,7 +15,7 @@ export class MojangIndexProcessor extends IndexProcessor {
 
     public static readonly LAUNCHER_JSON_ENDPOINT = 'https://launchermeta.mojang.com/mc/launcher.json'
     public static readonly VERSION_MANIFEST_ENDPOINT = 'https://launchermeta.mojang.com/mc/game/version_manifest.json'
-    public static readonly ASSET_RESOURCE_ENDPOINT = 'http://resources.download.minecraft.net'
+    public static readonly ASSET_RESOURCE_ENDPOINT = 'https://resources.download.minecraft.net'
 
     private static readonly logger = LoggerUtil.getLogger('MojangIndexProcessor')
 
@@ -64,6 +64,12 @@ export class MojangIndexProcessor extends IndexProcessor {
         this.versionJson = await this.loadVersionJson(this.version, versionManifest)
         this.assetIndex = await this.loadAssetIndex(this.versionJson)
 
+    }
+
+    // Can be called without init - needed for launch process.
+    public async getVersionJson(): Promise<VersionJson> {
+        const versionManifest = await this.loadVersionManifest()
+        return await this.loadVersionJson(this.version, versionManifest)
     }
 
     private async loadAssetIndex(versionJson: VersionJson): Promise<AssetIndex> {
@@ -166,12 +172,20 @@ export class MojangIndexProcessor extends IndexProcessor {
         return join(this.assetPath, 'indexes', `${id}.json`)
     }
 
-    public async validate(): Promise<{[category: string]: Asset[]}> {
+    public totalStages(): number {
+        return 4
+    }
+
+    public async validate(onStageComplete: () => Promise<void>): Promise<{[category: string]: Asset[]}> {
 
         const assets = await this.validateAssets(this.assetIndex)
+        await onStageComplete()
         const libraries = await this.validateLibraries(this.versionJson)
+        await onStageComplete()
         const client = await this.validateClient(this.versionJson)
+        await onStageComplete()
         const logConfig = await this.validateLogConfig(this.versionJson)
+        await onStageComplete()
 
         return {
             assets,
@@ -181,6 +195,10 @@ export class MojangIndexProcessor extends IndexProcessor {
                 ...logConfig
             ]
         }
+    }
+
+    public async postDownload(): Promise<void> {
+        // no-op
     }
 
     private async validateAssets(assetIndex: AssetIndex): Promise<Asset[]> {

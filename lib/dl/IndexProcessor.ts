@@ -8,6 +8,8 @@ export abstract class IndexProcessor {
     ) {}
 
     abstract init(): Promise<void>
-    abstract validate(): Promise<{[category: string]: Asset[]}>
+    abstract totalStages(): number
+    abstract validate(onStageComplete: () => Promise<void>): Promise<{[category: string]: Asset[]}>
+    abstract postDownload(): Promise<void>
 
 }

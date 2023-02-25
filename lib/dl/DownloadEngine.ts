@@ -4,6 +4,8 @@ import { pipeline } from 'stream/promises'
 import { Asset } from './Asset'
 import * as fastq from 'fastq'
 import type { queueAsPromised } from 'fastq'
+import { ensureDir } from 'fs-extra'
+import { dirname } from 'path'
 
 export function getExpectedDownloadSize(assets: Asset[]): number {
     return assets.map(({ size }) => size).reduce((acc, v) => acc + v, 0)
@@ -33,8 +35,9 @@ export async function downloadQueue(assets: Asset[], onProgress: (received: numb
     return receivedTotals
 }
 
-export function downloadFile(url: string, path: string, onProgress?: (progress: Progress) => void): Promise<void> {
+export async function downloadFile(url: string, path: string, onProgress?: (progress: Progress) => void): Promise<void> {
 
+    await ensureDir(dirname(path))
     const downloadStream = got.stream(url)
     const fileWriterStream = createWriteStream(path)
 
@@ -42,6 +45,6 @@ export function downloadFile(url: string, path: string, onProgress?: (progress: 
         downloadStream.on('downloadProgress', progress => onProgress(progress))
     }
 
-    return pipeline(downloadStream, fileWriterStream)
+    await pipeline(downloadStream, fileWriterStream)
 
 }
