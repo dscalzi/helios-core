@@ -16,6 +16,7 @@ export interface ValidateTransmission {
     serverId: string
     launcherDirectory: string
     commonDirectory: string
+    instanceDirectory: string
     devMode: boolean
 }
 
@@ -66,6 +67,8 @@ export class FullRepairReceiver implements Receiver {
     public async validate(message: ValidateTransmission): Promise<void> {
         const api = new DistributionAPI(
             message.launcherDirectory,
+            message.commonDirectory,
+            message.instanceDirectory,
             null!, // The main process must refresh, this is a local pull only.
             message.devMode
         )

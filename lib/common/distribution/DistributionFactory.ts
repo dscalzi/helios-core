@@ -12,10 +12,12 @@ export class HeliosDistribution {
     public readonly servers: HeliosServer[]
 
     constructor(
-        public readonly rawDistribution: Distribution
+        public readonly rawDistribution: Distribution,
+        commonDir: string,
+        instanceDir: string
     ) {
         this.resolveMainServerIndex()
-        this.servers = this.rawDistribution.servers.map(s => new HeliosServer(s))
+        this.servers = this.rawDistribution.servers.map(s => new HeliosServer(s, commonDir, instanceDir))
     }
 
     private resolveMainServerIndex(): void {
@@ -57,12 +59,14 @@ export class HeliosServer {
     public readonly port: number
 
     constructor(
-        public readonly rawServer: Server
+        public readonly rawServer: Server,
+        commonDir: string,
+        instanceDir: string
     ) {
         const { hostname, port } = this.parseAddress()
         this.hostname = hostname
         this.port = port
-        this.modules = rawServer.modules.map(m => new HeliosModule(m, rawServer.id))
+        this.modules = rawServer.modules.map(m => new HeliosModule(m, rawServer.id, commonDir, instanceDir))
     }
 
     private parseAddress(): { hostname: string, port: number } {
@@ -93,15 +97,17 @@ export class HeliosModule {
 
     constructor(
         public readonly rawModule: Module,
-        private readonly serverId: string
+        private readonly serverId: string,
+        commonDir: string,
+        instanceDir: string
     ) {
 
         this.mavenComponents = this.resolveMavenComponents()
         this.required = this.resolveRequired()
-        this.localPath = this.resolveLocalPath()
+        this.localPath = this.resolveLocalPath(commonDir, instanceDir)
 
         if(this.rawModule.subModules != null) {
-            this.subModules = this.rawModule.subModules.map(m => new HeliosModule(m, serverId))
+            this.subModules = this.rawModule.subModules.map(m => new HeliosModule(m, serverId, commonDir, instanceDir))
         } else {
             this.subModules = []
         }
@@ -151,7 +157,7 @@ export class HeliosModule {
         }
     }
 
-    private resolveLocalPath(): string {
+    private resolveLocalPath(commonDir: string, instanceDir: string): string {
 
         // Version Manifests have a pre-determined path.
         if(this.rawModule.type === Type.VersionManifest) {
@@ -171,13 +177,13 @@ export class HeliosModule {
             case Type.Forge:
             case Type.ForgeHosted:
             case Type.LiteLoader:
-                return join('TODO_COMMON_DIR', 'libraries', relativePath)
+                return join(commonDir, 'libraries', relativePath)
             case Type.ForgeMod:
             case Type.LiteMod:
-                return join('TODO_COMMON_DIR', 'modstore', relativePath)
+                return join(commonDir, 'modstore', relativePath)
             case Type.File:
             default:
-                return join('TODO_INSTANCE_DIR', this.serverId, relativePath) 
+                return join(instanceDir, this.serverId, relativePath) 
         }
         
     }

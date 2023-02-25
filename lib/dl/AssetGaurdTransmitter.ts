@@ -60,6 +60,7 @@ export class FullRepair extends BaseTransmitter {
 
     constructor(
         private commonDirectory: string,
+        private instanceDirectory: string,
         private launcherDirectory: string,
         private serverId: string,
         private devMode: boolean
@@ -101,6 +102,7 @@ export class FullRepair extends BaseTransmitter {
             this.receiver.send({
                 action: 'validate',
                 commonDirectory: this.commonDirectory,
+                instanceDirectory: this.instanceDirectory,
                 launcherDirectory: this.launcherDirectory,
                 serverId: this.serverId,
                 devMode: this.devMode

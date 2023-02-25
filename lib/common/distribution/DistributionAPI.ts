@@ -24,6 +24,8 @@ export class DistributionAPI {
 
     constructor(
         private launcherDirectory: string,
+        private commonDir: string,
+        private instanceDir: string,
         private remoteUrl: string,
         private devMode: boolean
     ) {
@@ -34,7 +36,7 @@ export class DistributionAPI {
     public async getDistribution(): Promise<HeliosDistribution> {
         if(this.rawDistribution == null) {
             this.rawDistribution = await this.loadDistribution()
-            this.distribution = new HeliosDistribution(this.rawDistribution)
+            this.distribution = new HeliosDistribution(this.rawDistribution, this.commonDir, this.instanceDir)
         }
         return this.distribution
     }
@@ -46,7 +48,7 @@ export class DistributionAPI {
                 throw new Error('FATAL: Unable to load distribution from local disk.')
             }
             this.rawDistribution = x
-            this.distribution = new HeliosDistribution(this.rawDistribution)
+            this.distribution = new HeliosDistribution(this.rawDistribution, this.commonDir, this.instanceDir)
         }
         return this.distribution
     }
@@ -60,7 +62,7 @@ export class DistributionAPI {
             return this.distribution
         } else {
             this.rawDistribution = distro
-            this.distribution = new HeliosDistribution(distro)
+            this.distribution = new HeliosDistribution(distro, this.commonDir, this.instanceDir)
 
             return this.distribution
         }
