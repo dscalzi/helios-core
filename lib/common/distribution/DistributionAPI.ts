@@ -3,69 +3,114 @@ import { Distribution } from 'helios-distribution-types'
 import got, { RequestError } from 'got'
 import { LoggerUtil } from '../../util/LoggerUtil'
 import { RestResponse, handleGotError, RestResponseStatus } from '../rest/RestResponse'
-import { pathExists, readFile, writeFile } from 'fs-extra'
+import { pathExists, readFile, writeJson } from 'fs-extra'
+import { HeliosDistribution } from './DistributionFactory'
 
 // TODO Option to check endpoint for hash of distro for local compare
 // Useful if distro is large (MBs)
 
 export class DistributionAPI {
 
-    private static readonly logger = LoggerUtil.getLogger('DistributionAPI')
-
-    private readonly REMOTE_URL = 'http://mc.westeroscraft.com/WesterosCraftLauncher/distribution.json'
+    private static readonly log = LoggerUtil.getLogger('DistributionAPI')
 
     private readonly DISTRO_FILE = 'distribution.json'
     private readonly DISTRO_FILE_DEV = 'distribution_dev.json'
 
-    private readonly DEV_MODE = false // placeholder
-
     private distroPath: string
     private distroDevPath: string
 
+    private distribution!: HeliosDistribution
     private rawDistribution!: Distribution
 
     constructor(
-        private launcherDirectory: string
+        private launcherDirectory: string,
+        private remoteUrl: string,
+        private devMode: boolean
     ) {
         this.distroPath = resolve(launcherDirectory, this.DISTRO_FILE)
         this.distroDevPath = resolve(launcherDirectory, this.DISTRO_FILE_DEV)
     }
 
-    public async testLoad(): Promise<Distribution> {
-        await this.loadDistribution()
-        return this.rawDistribution
+    public async getDistribution(): Promise<HeliosDistribution> {
+        if(this.rawDistribution == null) {
+            this.rawDistribution = await this.loadDistribution()
+            this.distribution = new HeliosDistribution(this.rawDistribution)
+        }
+        return this.distribution
     }
 
-    protected async loadDistribution(): Promise<void> {
-
-        let distro
-
-        if(!this.DEV_MODE) {
-
-            distro = (await this.pullRemote()).data
-            if(distro == null) {
-                distro = await this.pullLocal(false)
-            } else {
-                this.writeDistributionToDisk(distro)
+    public async getDistributionLocalLoadOnly(): Promise<HeliosDistribution> {
+        if(this.rawDistribution == null) {
+            const x = await this.pullLocal()
+            if(x == null) {
+                throw new Error('FATAL: Unable to load distribution from local disk.')
             }
-
-        } else {
-            distro = await this.pullLocal(true)
+            this.rawDistribution = x
+            this.distribution = new HeliosDistribution(this.rawDistribution)
         }
+        return this.distribution
+    }
+
+    public async refreshDistributionOrFallback(): Promise<HeliosDistribution> {
+
+        const distro = await this._loadDistributionNullable()
+
+        if(distro == null) {
+            DistributionAPI.log.warn('Failed to refresh distribution, falling back to current load (if exists).')
+            return this.distribution
+        } else {
+            this.rawDistribution = distro
+            this.distribution = new HeliosDistribution(distro)
+
+            return this.distribution
+        }
+    }
+
+    public toggleDevMode(dev: boolean): void {
+        this.devMode = dev
+    }
+
+    public isDevMode(): boolean {
+        return this.devMode
+    }
+
+    protected async loadDistribution(): Promise<Distribution> {
+
+        const distro = await this._loadDistributionNullable()
 
         if(distro == null) {
             // TODO Bubble this up nicer
             throw new Error('FATAL: Unable to load distribution from remote server or local disk.')
         }
 
-        this.rawDistribution = distro
+        return distro
+    }
+
+    protected async _loadDistributionNullable(): Promise<Distribution | null> {
+
+        let distro
+
+        if(!this.devMode) {
+
+            distro = (await this.pullRemote()).data
+            if(distro == null) {
+                distro = await this.pullLocal()
+            } else {
+                this.writeDistributionToDisk(distro)
+            }
+
+        } else {
+            distro = await this.pullLocal()
+        }
+
+        return distro
     }
 
     protected async pullRemote(): Promise<RestResponse<Distribution | null>> {
 
         try {
 
-            const res = await got.get<Distribution>(this.REMOTE_URL, { responseType: 'json' })
+            const res = await got.get<Distribution>(this.remoteUrl, { responseType: 'json' })
 
             return {
                 data: res.body,
@@ -74,20 +119,19 @@ export class DistributionAPI {
 
         } catch(error) {
 
-            return handleGotError('Pull Remote', error as RequestError, DistributionAPI.logger, () => null)
+            return handleGotError('Pull Remote', error as RequestError, DistributionAPI.log, () => null)
 
         }
         
     }
 
     protected async writeDistributionToDisk(distribution: Distribution): Promise<void> {
-        await writeFile(this.distroPath, distribution)
+        await writeJson(this.distroPath, distribution)
     }
 
-    protected async pullLocal(dev: boolean): Promise<Distribution | null> {
-        return await this.readDistributionFromFile(!dev ? this.distroPath : this.distroDevPath)
+    protected async pullLocal(): Promise<Distribution | null> {
+        return await this.readDistributionFromFile(!this.devMode ? this.distroPath : this.distroDevPath)
     }
-
 
     protected async readDistributionFromFile(path: string): Promise<Distribution | null> {
 
@@ -96,11 +140,11 @@ export class DistributionAPI {
             try {
                 return JSON.parse(raw)
             } catch(error) {
-                DistributionAPI.logger.error(`Malformed distribution file at ${path}`)
+                DistributionAPI.log.error(`Malformed distribution file at ${path}`)
                 return null
             }
         } else {
-            DistributionAPI.logger.error(`No distribution file found at ${path}!`)
+            DistributionAPI.log.error(`No distribution file found at ${path}!`)
             return null
         }
 
