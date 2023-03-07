@@ -1,278 +1,544 @@
 // Commented out for now, focusing on something else.
-// import got from 'got'
-// import { Architecture, JavaVersion, JdkDistribution, Platform } from 'helios-distribution-types'
-// import { join } from 'path'
-// import { LauncherJson } from '../model/mojang/LauncherJson'
-// import { LoggerUtil } from '../util/LoggerUtil'
+import got from 'got'
+import { Architecture, JdkDistribution, Platform } from 'helios-distribution-types'
+import { join } from 'path'
+import { LauncherJson } from '../model/mojang/LauncherJson'
+import { LoggerUtil } from '../util/LoggerUtil'
 
-// const logger = LoggerUtil.getLogger('JavaGuard')
+const logger = LoggerUtil.getLogger('JavaGuard')
 
-// export interface RemoteJdkDistribution {
-//     uri: string
-//     size: number
-//     name: string
-// }
+export interface JavaVersion {
+    major: number
+    minor: number
+    patch: number
+    build: number
+}
 
-// export interface AdoptiumJdk {
-//     binary: {
-//         architecture: string
-//         download_count: number
-//         heap_size: string
-//         image_type: 'jdk' | 'debugimage' | 'testimage'
-//         jvm_impl: string
-//         os: string
-//         package: {
-//             checksum: string
-//             checksum_link: string
-//             download_count: number
-//             link: string
-//             metadata_link: string
-//             name: string
-//             size: number
-//         }
-//         project: string
-//         scm_ref: string
-//         updated_at: string
-//     }
-//     release_name: string
-//     vendor: string
-//     version: {
-//         build: number
-//         major: number
-//         minor: number
-//         openjdk_version: string
-//         security: number
-//         semver: string
-//     }
-// }
+export interface RemoteJdkDistribution {
+    uri: string
+    size: number
+    name: string
+}
 
-// /**
-//  * Fetch the last open JDK binary.
-//  * 
-//  * HOTFIX: Uses Corretto 8 for macOS.
-//  * See: https://github.com/dscalzi/HeliosLauncher/issues/70
-//  * See: https://github.com/AdoptOpenJDK/openjdk-support/issues/101
-//  * 
-//  * @param {number} major The major version of Java to fetch.
-//  * 
-//  * @returns {Promise.<RemoteJdkDistribution | null>} Promise which resolved to an object containing the JDK download data.
-//  */
-// export async function latestOpenJDK(major: number, distribution?: JdkDistribution): Promise<RemoteJdkDistribution | null> {
+export interface AdoptiumJdk {
+    binary: {
+        architecture: string
+        download_count: number
+        heap_size: string
+        image_type: 'jdk' | 'debugimage' | 'testimage'
+        jvm_impl: string
+        os: string
+        package: {
+            checksum: string
+            checksum_link: string
+            download_count: number
+            link: string
+            metadata_link: string
+            name: string
+            size: number
+        }
+        project: string
+        scm_ref: string
+        updated_at: string
+    }
+    release_name: string
+    vendor: string
+    version: {
+        build: number
+        major: number
+        minor: number
+        openjdk_version: string
+        security: number
+        semver: string
+    }
+}
 
-//     if(distribution == null) {
-//         // If no distribution is specified, use Corretto on macOS and Temurin for all else.
-//         if(process.platform === Platform.DARWIN) {
-//             return latestCorretto(major)
-//         } else {
-//             return latestAdoptium(major)
-//         }
-//     } else {
-//         // Respect the preferred distribution.
-//         switch(distribution) {
-//             case JdkDistribution.TEMURIN:
-//                 return latestAdoptium(major)
-//             case JdkDistribution.CORRETTO:
-//                 return latestCorretto(major)
-//             default: {
-//                 const eMsg = `Unknown distribution '${distribution}'`
-//                 logger.error(eMsg)
-//                 throw new Error(eMsg)
-//             }
-//         }
-//     }
-// }
+// REFERENCE
+// awt.toolkit REMOVED IN JDK 9 https://bugs.openjdk.org/browse/JDK-8225358
+// file.encoding.pkg REMOVED IN JDK 11 https://bugs.openjdk.org/browse/JDK-8199470 "Package that contains the converters that handle converting between local encodings and Unicode."
+// java.awt.graphicsenv REMOVED IN JDK 13 https://bugs.openjdk.org/browse/JDK-8130266
+// java.awt.printerjob GONE
+// java.endorsed.dirs REMOVED IN JDK 9 (DEPRECATED IN 8 https://docs.oracle.com/javase/8/docs/technotes/guides/standards/)
+// java.ext.dirs REMOVED IN JDK 9 https://openjdk.org/jeps/220
+// sun.boot.class.path REMOVED IN JDK9 https://openjdk.org/jeps/261
+// sun.desktop REMOVED IN JDK13 https://bugs.openjdk.org/browse/JDK-8222814
+// user.timezone INITIAL VALUE REMOVED IN JDK 12 https://bugs.openjdk.org/browse/JDK-8213551
 
-// export async function latestAdoptium(major: number): Promise<RemoteJdkDistribution | null> {
+/**
+ * HotSpot Properties
+ * 
+ * Obtained via java -XshowSettings:properties -version
+ * 
+ * https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/System.html#getProperties()
+ * https://docs.oracle.com/javase/tutorial/essential/environment/sysprop.html
+ * https://docs.oracle.com/javame/config/cdc/cdc-opt-impl/ojmeec/1.1/architecture/html/properties.htm
+ */
+export interface HotSpotSettings {
+    /**
+     * Character encoding for the default locale.
+     */
+    'file.encoding': string
+    /**
+     * Character that separates components of a file path. This is "/" on UNIX and "\" on Windows.
+     */
+    'file.separator': string
+    /**
+     * Path used to find directories and JAR archives containing class files. Elements of the class path are separated by a platform-specific character specified in the path.separator property.
+     * This will be blank on -XshowSettings for obvious reasons.
+     */
+    'java.class.path': string
+    /**
+     * Java class format version number.
+     * Read as string, actually a number.
+     */
+    'java.class.version': string
+    /**
+     * Java installation directory (in 8, the path to the bundled JRE if using the JDK).
+     */
+    'java.home': string
+    /**
+     * Default temp file path.
+     */
+    'java.io.tmpdir': string
+    /**
+     * List of paths to search when loading libraries.
+     */
+    'java.library.path': string[]
+    /**
+     * Runtime Name *Undocumented*
+     * https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/lang/VersionProps.java.template#L105
+     */
+    'java.runtime.name': string
+    /**
+     * Runtime Version *Undocumented*
+     * https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/lang/VersionProps.java.template#L104
+     * Ex. 17: 17.0.5+8; 8: 1.8.0_352-b08
+     */
+    'java.runtime.version': string
+    /**
+     * Undefined for the initial release. Indicates the runtime implements a revised version of the specification.
+     * https://bugs.openjdk.org/browse/JDK-8286766
+     */
+    'java.specification.maintenance.version'?: string
+    /**
+     * Java Runtime Environment specification name.
+     */
+    'java.specification.name': string
+    /**
+     * Java Runtime Environment specification vendor.
+     */
+    'java.specification.vendor': string
+    /**
+     * Java Runtime Environment specification version, whose value is the feature element of the runtime version
+     * 
+     * Ex. 17: 17; 8: 1.8
+     */
+    'java.specification.version': string
+    /**
+     * Java Runtime Environment vendor
+     */
+    'java.vendor': string
+    /**
+     * Java vendor URL
+     */
+    'java.vendor.url': string
+    /**
+     * Java vendor bug report URL *Undocumented* (but standard)
+     */
+    'java.vendor.url.bug': string
+    /**
+     * Java vendor version (optional)
+     * JDK 10+
+     * https://openjdk.org/jeps/322
+     */
+    'java.vendor.version'?: string
+    /**
+     * Java Runtime Environment version
+     * Ex. 17: 17.0.5; 8: 1.8.0_352
+     */
+    'java.version': string
+    /**
+     * Java Runtime Environment version date, in ISO-8601 YYYY-MM-DD format.
+     * JDK 10+
+     * https://openjdk.org/jeps/322
+     */
+    'java.version.date'?: string
+    /**
+     * Internal flag, Compressed Oop Mode the VM is running in (for JDK internal tests).
+     * JDK 9+
+     * https://bugs.openjdk.org/browse/JDK-8064457
+     */
+    'java.vm.compressedOopsMode'?: string
+    /**
+     * No summary information available, part of the JDK for a very long time.
+     */
+    'java.vm.info': string
+    /**
+     * Java Virtual Machine implementation name.
+     */
+    'java.vm.name': string
+    /**
+     * 	Java Runtime Environment specification name.
+     */
+    'java.vm.specification.name': string
+    /**
+     * Java Runtime Environment specification vendor.
+     */
+    'java.vm.specification.vendor': string
+    /**
+     * Java Virtual Machine specification version, whose value is the feature element of the runtime version.
+     * 
+     * Ex. 17: 17; 8: 1.8
+     */
+    'java.vm.specification.version': string
+    /**
+     * Java Virtual Machine implementation vendor.
+     */
+    'java.vm.vendor': string
+    /**
+     * Java Virtual Machine implementation version.
+     * Ex. 17: 17.0.5+8; 8: 25.352-b08
+     */
+    'java.vm.version': string
+    /**
+     * Probably an internal flag, don't use. On 17, not 8.
+     */
+    'jdk.debug'?: string
+    /**
+     * Line separator ("\n" on UNIX, "\r \n" on Windows)
+     */
+    'line.separator': string
+    /**
+     * Character encoding name derived from the host environment and/or the user's settings. Setting this system property has no effect.
+     * https://openjdk.org/jeps/400
+     * JDK 17+
+     */
+    'native.encoding'?: string
+    /**
+     * Operating system architecture.
+     */
+    'os.arch': string
+    /**
+     * Operating system name.
+     */
+    'os.name': string
+    /**
+     * Operating system version.
+     * Looks like this can be parsed as a number.
+     */
+    'os.version': string
+    /**
+     * 	Path separator (":" on UNIX, ";" on Windows)
+     */
+    'path.separator': string
+    /**
+     * Platform word size. Examples: "32", "64", "unknown"
+     */
+    'sun.arch.data.model': string
+    /**
+     * From here, the VM loads VM libraries (like those related to JVMTI) and any libraries needed for classes on the bootclasspath. Read-only property.
+     */
+    'sun.boot.library.path': string
+    /**
+     * Endianess of CPU, "little" or "big".
+     */
+    'sun.cpu.endian': string
+    /**
+     * The names of the native instruction sets executable on this platform.
+     */
+    'sun.cpu.isalist': string
+    /**
+     * Platform-specific, follows sun.cpu.endian, for example "UnicodeLittle".
+     */
+    'sun.io.unicode.encoding': string
+    /**
+     * Internal, used to determine if java process came from a known launcher.
+     * Ex. https://github.com/openjdk/jdk/blob/master/src/java.desktop/windows/classes/sun/java2d/windows/WindowsFlags.java#L86
+     */
+    'sun.java.launcher': string
+    /**
+     * Encoding used to interpret platform strings.
+     * https://happygiraffe.net/2009/09/24/java-platform-encoding/
+     */
+    'sun.jnu.encoding': string
+    /**
+     * Tiered, client, or server
+     * https://stackoverflow.com/questions/14818584/which-java-hotspot-jit-compiler-is-running
+     */
+    'sun.management.compiler': string
+    /**
+     * Internal
+     */
+    'sun.os.patch.level': string
+    /**
+     * Internal
+     */
+    'sun.stderr.encoding': string
+    /**
+     * Internal
+     */
+    'sun.stdout.encoding': string
+    /**
+     * Country (system dependent).
+     */
+    'user.country': string
+    /**
+     * User's current working directory.
+     */
+    'user.dir': string
+    /**
+     * 	User's home directory.
+     */
+    'user.home': string
+    /**
+     * Two-letter language code of the default locale (system dependent).
+     */
+    'user.language': string
+    /**
+     * User's account name.
+     */
+    'user.name': string
+    /**
+     * User specified script.
+     * https://bugs.openjdk.org/browse/JDK-6990452
+     */
+    'user.script': string
+    /**
+     * Variant (more specific than country and language).
+     */
+    'user.variant': string
+}
 
-//     const sanitizedOS = process.platform === Platform.WIN32 ? 'windows' : (process.platform === Platform.DARWIN ? 'mac' : process.platform)
-//     const arch = process.arch === Architecture.ARM64 ? 'aarch64' : Architecture.X64
-//     const url = `https://api.adoptium.net/v3/assets/latest/${major}/hotspot?vendor=eclipse`
+/**
+ * Fetch the last open JDK binary.
+ * 
+ * HOTFIX: Uses Corretto 8 for macOS.
+ * See: https://github.com/dscalzi/HeliosLauncher/issues/70
+ * See: https://github.com/AdoptOpenJDK/openjdk-support/issues/101
+ * 
+ * @param {number} major The major version of Java to fetch.
+ * 
+ * @returns {Promise.<RemoteJdkDistribution | null>} Promise which resolved to an object containing the JDK download data.
+ */
+export async function latestOpenJDK(major: number, distribution?: JdkDistribution): Promise<RemoteJdkDistribution | null> {
 
-//     try {
-//         const res = await got.get<AdoptiumJdk[]>(url, { responseType: 'json' })
-//         if(res.body.length > 0) {
-//             const targetBinary = res.body.find(entry => {
-//                 return entry.version.major === major
-//                     && entry.binary.os === sanitizedOS
-//                     && entry.binary.image_type === 'jdk'
-//                     && entry.binary.architecture === arch
-//             })
+    if(distribution == null) {
+        // If no distribution is specified, use Corretto on macOS and Temurin for all else.
+        if(process.platform === Platform.DARWIN) {
+            return latestCorretto(major)
+        } else {
+            return latestAdoptium(major)
+        }
+    } else {
+        // Respect the preferred distribution.
+        switch(distribution) {
+            case JdkDistribution.TEMURIN:
+                return latestAdoptium(major)
+            case JdkDistribution.CORRETTO:
+                return latestCorretto(major)
+            default: {
+                const eMsg = `Unknown distribution '${distribution}'`
+                logger.error(eMsg)
+                throw new Error(eMsg)
+            }
+        }
+    }
+}
 
-//             if(targetBinary != null) {
-//                 return {
-//                     uri: targetBinary.binary.package.link,
-//                     size: targetBinary.binary.package.size,
-//                     name: targetBinary.binary.package.name
-//                 }
-//             } else {
-//                 logger.error(`Failed to find a suitable Adoptium binary for JDK ${major} (${sanitizedOS} ${arch}).`)
-//                 return null
-//             }
-//         } else {
-//             logger.error(`Adoptium returned no results for JDK ${major}.`)
-//             return null
-//         }
+export async function latestAdoptium(major: number): Promise<RemoteJdkDistribution | null> {
 
-//     } catch(err) {
-//         logger.error(`Error while retrieving latest Adoptium JDK ${major} binaries.`, err)
-//         return null
-//     }
-// }
+    const sanitizedOS = process.platform === Platform.WIN32 ? 'windows' : (process.platform === Platform.DARWIN ? 'mac' : process.platform)
+    const arch = process.arch === Architecture.ARM64 ? 'aarch64' : Architecture.X64
+    const url = `https://api.adoptium.net/v3/assets/latest/${major}/hotspot?vendor=eclipse`
 
-// export async function latestCorretto(major: number): Promise<RemoteJdkDistribution | null> {
+    try {
+        const res = await got.get<AdoptiumJdk[]>(url, { responseType: 'json' })
+        if(res.body.length > 0) {
+            const targetBinary = res.body.find(entry => {
+                return entry.version.major === major
+                    && entry.binary.os === sanitizedOS
+                    && entry.binary.image_type === 'jdk'
+                    && entry.binary.architecture === arch
+            })
 
-//     let sanitizedOS: string, ext: string
-//     const arch = Architecture.X64
+            if(targetBinary != null) {
+                return {
+                    uri: targetBinary.binary.package.link,
+                    size: targetBinary.binary.package.size,
+                    name: targetBinary.binary.package.name
+                }
+            } else {
+                logger.error(`Failed to find a suitable Adoptium binary for JDK ${major} (${sanitizedOS} ${arch}).`)
+                return null
+            }
+        } else {
+            logger.error(`Adoptium returned no results for JDK ${major}.`)
+            return null
+        }
 
-//     switch(process.platform) {
-//         case Platform.WIN32:
-//             sanitizedOS = 'windows'
-//             ext = 'zip'
-//             break
-//         case Platform.DARWIN:
-//             // TODO Corretto does not yet support arm64
-//             sanitizedOS = 'macos'
-//             ext = 'tar.gz'
-//             break
-//         case Platform.LINUX:
-//             sanitizedOS = 'linux'
-//             ext = 'tar.gz'
-//             break
-//         default:
-//             sanitizedOS = process.platform
-//             ext = 'tar.gz'
-//             break
-//     }
+    } catch(err) {
+        logger.error(`Error while retrieving latest Adoptium JDK ${major} binaries.`, err)
+        return null
+    }
+}
 
-//     const url = `https://corretto.aws/downloads/latest/amazon-corretto-${major}-${arch}-${sanitizedOS}-jdk.${ext}`
-//     try {
-//         const res = await got.head(url)
-//         if(res.statusCode === 200) {
-//             return {
-//                 uri: url,
-//                 size: parseInt(res.headers['content-length']!),
-//                 name: url.substr(url.lastIndexOf('/')+1)
-//             }
-//         } else {
-//             logger.error(`Error while retrieving latest Corretto JDK ${major} (${sanitizedOS} ${arch}): ${res.statusCode} ${res.statusMessage ?? ''}`)
-//             return null
-//         }
-//     } catch(err) {
-//         logger.error(`Error while retrieving latest Corretto JDK ${major} (${sanitizedOS} ${arch}).`, err)
-//         return null
-//     }
-// }
+export async function latestCorretto(major: number): Promise<RemoteJdkDistribution | null> {
 
-// /**
-//  * Returns the path of the OS-specific executable for the given Java
-//  * installation. Supported OS's are win32, darwin, linux.
-//  * 
-//  * @param {string} rootDir The root directory of the Java installation.
-//  * @returns {string} The path to the Java executable.
-//  */
-// export function javaExecFromRoot(rootDir: string): string {
-//     switch(process.platform) {
-//         case Platform.WIN32:
-//             return join(rootDir, 'bin', 'javaw.exe')
-//         case Platform.DARWIN:
-//             return join(rootDir, 'Contents', 'Home', 'bin', 'java')
-//         case Platform.LINUX:
-//             return join(rootDir, 'bin', 'java')
-//         default:
-//             return rootDir
-//     }
-// }
+    let sanitizedOS: string, ext: string
+    const arch = process.arch === Architecture.ARM64 ? 'aarch64' : Architecture.X64
 
-// /**
-//  * Check to see if the given path points to a Java executable.
-//  * 
-//  * @param {string} pth The path to check against.
-//  * @returns {boolean} True if the path points to a Java executable, otherwise false.
-//  */
-// export function isJavaExecPath(pth: string): boolean {
-//     switch(process.platform) {
-//         case Platform.WIN32:
-//             return pth.endsWith(join('bin', 'javaw.exe'))
-//         case Platform.DARWIN:
-//             return pth.endsWith(join('bin', 'java'))
-//         case Platform.LINUX:
-//             return pth.endsWith(join('bin', 'java'))
-//         default:
-//             return false
-//     }
-// }
+    switch(process.platform) {
+        case Platform.WIN32:
+            sanitizedOS = 'windows'
+            ext = 'zip'
+            break
+        case Platform.DARWIN:
+            sanitizedOS = 'macos'
+            ext = 'tar.gz'
+            break
+        case Platform.LINUX:
+            sanitizedOS = 'linux'
+            ext = 'tar.gz'
+            break
+        default:
+            sanitizedOS = process.platform
+            ext = 'tar.gz'
+            break
+    }
 
-// // TODO Move this
-// /**
-//  * Load Mojang's launcher.json file.
-//  * 
-//  * @returns {Promise.<Object>} Promise which resolves to Mojang's launcher.json object.
-//  */
-// export async function loadMojangLauncherData(): Promise<LauncherJson | null> {
+    const url = `https://corretto.aws/downloads/latest/amazon-corretto-${major}-${arch}-${sanitizedOS}-jdk.${ext}`
+    try {
+        const res = await got.head(url)
+        if(res.statusCode === 200) {
+            return {
+                uri: url,
+                size: parseInt(res.headers['content-length']!),
+                name: url.substring(url.lastIndexOf('/')+1)
+            }
+        } else {
+            logger.error(`Error while retrieving latest Corretto JDK ${major} (${sanitizedOS} ${arch}): ${res.statusCode} ${res.statusMessage ?? ''}`)
+            return null
+        }
+    } catch(err) {
+        logger.error(`Error while retrieving latest Corretto JDK ${major} (${sanitizedOS} ${arch}).`, err)
+        return null
+    }
+}
 
-//     try {
-//         const res = await got.get<LauncherJson>('https://launchermeta.mojang.com/mc/launcher.json', { responseType: 'json' })
-//         return res.body
-//     } catch(err) {
-//         logger.error('Failed to retrieve Mojang\'s launcher.json file.')
-//         return null
-//     }
-// }
+/**
+ * Returns the path of the OS-specific executable for the given Java
+ * installation. Supported OS's are win32, darwin, linux.
+ * 
+ * @param {string} rootDir The root directory of the Java installation.
+ * @returns {string} The path to the Java executable.
+ */
+export function javaExecFromRoot(rootDir: string): string {
+    switch(process.platform) {
+        case Platform.WIN32:
+            return join(rootDir, 'bin', 'javaw.exe')
+        case Platform.DARWIN:
+            return join(rootDir, 'Contents', 'Home', 'bin', 'java')
+        case Platform.LINUX:
+            return join(rootDir, 'bin', 'java')
+        default:
+            return rootDir
+    }
+}
 
-// /**
-//  * Parses a full Java Runtime version string and resolves
-//  * the version information. Dynamically detects the formatting
-//  * to use.
-//  * 
-//  * @param {string} verString Full version string to parse.
-//  * @returns Object containing the version information.
-//  */
-// export function parseJavaRuntimeVersion(verString: string): JavaVersion{
-//     if(verString.startsWith('1.')){
-//         return parseJavaRuntimeVersion_8(verString)
-//     } else {
-//         return parseJavaRuntimeVersion_9(verString)
-//     }
-// }
+/**
+ * Check to see if the given path points to a Java executable.
+ * 
+ * @param {string} pth The path to check against.
+ * @returns {boolean} True if the path points to a Java executable, otherwise false.
+ */
+export function isJavaExecPath(pth: string): boolean {
+    switch(process.platform) {
+        case Platform.WIN32:
+            return pth.endsWith(join('bin', 'javaw.exe'))
+        case Platform.DARWIN:
+            return pth.endsWith(join('bin', 'java'))
+        case Platform.LINUX:
+            return pth.endsWith(join('bin', 'java'))
+        default:
+            return false
+    }
+}
 
-// /**
-//  * Parses a full Java Runtime version string and resolves
-//  * the version information. Uses Java 8 formatting.
-//  * 
-//  * @param {string} verString Full version string to parse.
-//  * @returns Object containing the version information.
-//  */
-// export function  parseJavaRuntimeVersion_8(verString: string): JavaVersion {
-//     // 1.{major}.0_{update}-b{build}
-//     // ex. 1.8.0_152-b16
-//     const regex = /^1.(.+).(.+)_(.+)-b(.+)$/
-//     const match = regex.exec(verString)!
+// TODO Move this
+/**
+ * Load Mojang's launcher.json file.
+ * 
+ * @returns {Promise.<Object>} Promise which resolves to Mojang's launcher.json object.
+ */
+export async function loadMojangLauncherData(): Promise<LauncherJson | null> {
 
-//     return {
-//         major: parseInt(match[1]),
-//         minor: parseInt(match[2]),
-//         revision: parseInt(match[3]),
-//         build: parseInt(match[4])
-//     }
-// }
+    try {
+        const res = await got.get<LauncherJson>('https://launchermeta.mojang.com/mc/launcher.json', { responseType: 'json' })
+        return res.body
+    } catch(err) {
+        logger.error('Failed to retrieve Mojang\'s launcher.json file.')
+        return null
+    }
+}
 
-// /**
-//  * Parses a full Java Runtime version string and resolves
-//  * the version information. Uses Java 9+ formatting.
-//  * 
-//  * @param {string} verString Full version string to parse.
-//  * @returns Object containing the version information.
-//  */
-// export function  parseJavaRuntimeVersion_9(verString: string): JavaVersion {
-//     // {major}.{minor}.{revision}+{build}
-//     // ex. 10.0.2+13
-//     const regex = /^(.+)\.(.+).(.+)\+(.+)$/
-//     const match = regex.exec(verString)!
+/**
+ * Parses a full Java Runtime version string and resolves
+ * the version information. Dynamically detects the formatting
+ * to use.
+ * 
+ * @param {string} verString Full version string to parse.
+ * @returns Object containing the version information.
+ */
+export function parseJavaRuntimeVersion(verString: string): JavaVersion{
+    if(verString.startsWith('1.')){
+        return parseJavaRuntimeVersion_8(verString)
+    } else {
+        return parseJavaRuntimeVersion_9(verString)
+    }
+}
 
-//     return {
-//         major: parseInt(match[1]),
-//         minor: parseInt(match[2]),
-//         revision: parseInt(match[3]),
-//         build: parseInt(match[4])
-//     }
-// }
+/**
+ * Parses a full Java Runtime version string and resolves
+ * the version information. Uses Java 8 formatting.
+ * 
+ * @param {string} verString Full version string to parse.
+ * @returns Object containing the version information.
+ */
+export function  parseJavaRuntimeVersion_8(verString: string): JavaVersion {
+    // 1.{major}.0_{update}-b{build}
+    // ex. 1.8.0_152-b16
+    const regex = /^1.(.+).(.+)_(.+)-b(.+)$/
+    const match = regex.exec(verString)!
+
+    return {
+        major: parseInt(match[1]),
+        minor: parseInt(match[2]),
+        patch: parseInt(match[3]),
+        build: parseInt(match[4])
+    }
+}
+
+/**
+ * Parses a full Java Runtime version string and resolves
+ * the version information. Uses Java 9+ formatting.
+ * 
+ * @param {string} verString Full version string to parse.
+ * @returns Object containing the version information.
+ */
+export function  parseJavaRuntimeVersion_9(verString: string): JavaVersion {
+    // {major}.{minor}.{patch}+{build}
+    // ex. 10.0.2+13
+    const regex = /^(.+)\.(.+).(.+)\+(.+)$/
+    const match = regex.exec(verString)!
+
+    return {
+        major: parseInt(match[1]),
+        minor: parseInt(match[2]),
+        patch: parseInt(match[3]),
+        build: parseInt(match[4])
+    }
+}
+
+export function javaVersionToString({ major, minor, patch, build }: JavaVersion): string {
+    return `${major}.${minor}.${patch}+${build}`
+}
