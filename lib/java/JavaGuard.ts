@@ -1,7 +1,9 @@
 // Commented out for now, focusing on something else.
+import { exec } from 'child_process'
 import got from 'got'
 import { Architecture, JdkDistribution, Platform } from 'helios-distribution-types'
 import { join } from 'path'
+import { promisify } from 'util'
 import { LauncherJson } from '../model/mojang/LauncherJson'
 import { LoggerUtil } from '../util/LoggerUtil'
 
@@ -307,6 +309,50 @@ export interface HotSpotSettings {
      * Variant (more specific than country and language).
      */
     'user.variant': string
+}
+
+// TODO Doc
+export async function getHotSpotSettings(execPath: string): Promise<HotSpotSettings> {
+
+    // TODO Ensure run against java, not javaw
+
+    const execAsync = promisify(exec)
+
+    const { stderr } = await execAsync(`"${execPath}" -XshowSettings:properties -version`)
+
+    const listProps = [
+        'java.library.path'
+    ]
+
+    const ret: Record<string, unknown> = {}
+
+    const split = stderr.split('\n')
+    let lastProp: string = null!
+    for(const prop of split) {
+        if(prop.startsWith('        ')) {
+            // Add to previous prop.
+            if(!Array.isArray(ret[lastProp])) {
+                ret[lastProp] = [ret[lastProp]]
+            }
+            (ret[lastProp] as Array<unknown>).push(prop.trim())
+        }
+        else if(prop.startsWith('    ')) {
+            const tmp = prop.split('=')
+            const key = tmp[0].trim()
+            const val = tmp[1].trim()
+
+            ret[key] = val
+            lastProp = key
+        }
+    }
+
+    for(const key of listProps) {
+        if(!Array.isArray(ret[key])) {
+            ret[key] = [ret[key]]
+        }
+    }
+
+    return ret as unknown as HotSpotSettings
 }
 
 /**
