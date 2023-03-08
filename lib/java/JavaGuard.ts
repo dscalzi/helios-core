@@ -311,14 +311,21 @@ export interface HotSpotSettings {
     'user.variant': string
 }
 
-// TODO Doc
+/**
+ * Get the target JDK's properties. Only HotSpot VMs are officially
+ * supported, as properties may change between VMs. Usage of internal
+ * properties should be avoided.
+ * 
+ * @param execPath The path to the Java executable. 
+ * @returns The parsed HotSpot VM properties.
+ */
 export async function getHotSpotSettings(execPath: string): Promise<HotSpotSettings> {
 
-    // TODO Ensure run against java, not javaw
+    const javaExecutable = execPath.includes('javaw.exe') ? execPath.replace('javaw.exe', 'java.exe') : execPath
 
     const execAsync = promisify(exec)
 
-    const { stderr } = await execAsync(`"${execPath}" -XshowSettings:properties -version`)
+    const { stderr } = await execAsync(`"${javaExecutable}" -XshowSettings:properties -version`)
 
     const listProps = [
         'java.library.path'
