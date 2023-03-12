@@ -1,9 +1,23 @@
 import { createHash } from 'crypto'
 import { join } from 'path'
-import { pathExists, readFile } from 'fs-extra'
+import { pathExists, createReadStream } from 'fs-extra'
+import { LoggerUtil } from '../..//util/LoggerUtil'
 
-export function calculateHash(buf: Buffer, algo: string): string {
+const log = LoggerUtil.getLogger('FileUtils')
+
+export function calculateHashByBuffer(buf: Buffer, algo: string): string {
     return createHash(algo).update(buf).digest('hex')
+}
+
+export function calculateHash(path: string, algo: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const hash = createHash(algo)
+        const input = createReadStream(path)
+
+        input.on('error', reject)
+        input.on('data', chunk => hash.update(chunk))
+        input.on('close', () => resolve(hash.digest('hex')))
+    })
 }
 
 export async function validateLocalFile(path: string, algo: string, hash?: string): Promise<boolean> {
@@ -11,8 +25,12 @@ export async function validateLocalFile(path: string, algo: string, hash?: strin
         if(hash == null) {
             return true
         }
-        const buf = await readFile(path)
-        return calculateHash(buf, algo) === hash
+        
+        try {
+            return (await calculateHash(path, algo)) === hash
+        } catch(err) {
+            log.error('Failed to calculate hash.', err)
+        }
     }
     return false
 }

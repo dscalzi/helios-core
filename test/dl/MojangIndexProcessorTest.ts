@@ -52,7 +52,7 @@ describe('Mojang Index Processor', () => {
         const mojangIndexProcessor = new MojangIndexProcessor(commonDir, '1.15.2')
         await mojangIndexProcessor.init()
 
-        const notValid = await mojangIndexProcessor.validate()
+        const notValid = await mojangIndexProcessor.validate(async () => { /* no-op */ })
 
         const savedJson = await pathExists(jsonPath115)
         const savedIndex = await pathExists(indexPath115)
@@ -83,7 +83,7 @@ describe('Mojang Index Processor', () => {
         const mojangIndexProcessor = new MojangIndexProcessor(commonDir, '1.12.2')
         await mojangIndexProcessor.init()
 
-        const notValid = await mojangIndexProcessor.validate()
+        const notValid = await mojangIndexProcessor.validate(async () => { /* no-op */ })
         expect(notValid).to.haveOwnProperty('assets')
         expect(notValid.assets).to.have.lengthOf(1305-2)
         expect(notValid).to.haveOwnProperty('libraries')
@@ -112,7 +112,7 @@ describe('Mojang Index Processor', () => {
         const mojangIndexProcessor = new MojangIndexProcessor(commonDir, '1.7.10')
         await mojangIndexProcessor.init()
 
-        const notValid = await mojangIndexProcessor.validate()
+        const notValid = await mojangIndexProcessor.validate(async () => { /* no-op */ })
 
         const savedJson = await pathExists(jsonPath1710)
 

@@ -6,7 +6,7 @@ import { Asset, HashAlgo } from '../Asset'
 import { AssetGuardError } from '../AssetGuardError'
 import { IndexProcessor } from '../IndexProcessor'
 import { AssetIndex, LibraryArtifact, MojangVersionManifest, VersionJson } from './MojangTypes'
-import { calculateHash, getLibraryDir, getVersionJarPath, getVersionJsonPath, validateLocalFile } from '../../common/util/FileUtils'
+import { calculateHashByBuffer, getLibraryDir, getVersionJarPath, getVersionJsonPath, validateLocalFile } from '../../common/util/FileUtils'
 import { getMojangOS, isLibraryCompatible } from '../../common/util/MojangUtils'
 import { LoggerUtil } from '../../util/LoggerUtil'
 import { handleGotError } from '../../common/rest/RestResponse'
@@ -115,7 +115,7 @@ export class MojangIndexProcessor extends IndexProcessor {
             if(await pathExists(path)) {
                 const buf = await readFile(path)
                 if(hash) {
-                    const bufHash = calculateHash(buf, hash.algo)
+                    const bufHash = calculateHashByBuffer(buf, hash.algo)
                     if(bufHash === hash.value) {
                         return JSON.parse(buf.toString())
                     }
