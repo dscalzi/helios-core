@@ -2,7 +2,7 @@ import got, { RequestError } from 'got'
 import { dirname, join } from 'path'
 import { ensureDir, pathExists, readFile, readJson, writeFile } from 'fs-extra'
 
-import { Asset } from '../Asset'
+import { Asset, HashAlgo } from '../Asset'
 import { AssetGuardError } from '../AssetGuardError'
 import { IndexProcessor } from '../IndexProcessor'
 import { AssetIndex, LibraryArtifact, MojangVersionManifest, VersionJson } from './MojangTypes'
@@ -74,7 +74,7 @@ export class MojangIndexProcessor extends IndexProcessor {
 
     private async loadAssetIndex(versionJson: VersionJson): Promise<AssetIndex> {
         const assetIndexPath = this.getAssetIndexPath(versionJson.assetIndex.id)
-        const assetIndex = await this.loadContentWithRemoteFallback<AssetIndex>(versionJson.assetIndex.url, assetIndexPath, { algo: 'sha1', value: versionJson.assetIndex.sha1 })
+        const assetIndex = await this.loadContentWithRemoteFallback<AssetIndex>(versionJson.assetIndex.url, assetIndexPath, { algo: HashAlgo.SHA1, value: versionJson.assetIndex.sha1 })
         if(assetIndex == null) {
             throw new AssetGuardError(`Failed to download ${versionJson.assetIndex.id} asset index.`)
         }
@@ -92,7 +92,7 @@ export class MojangIndexProcessor extends IndexProcessor {
             if(hash == null) {
                 throw new AssetGuardError('Format of Mojang\'s version manifest has changed. Unable to proceed.')
             }
-            const versionJson = await this.loadContentWithRemoteFallback<VersionJson>(versionJsonUrl, versionJsonPath, { algo: 'sha1', value: hash })
+            const versionJson = await this.loadContentWithRemoteFallback<VersionJson>(versionJsonUrl, versionJsonPath, { algo: HashAlgo.SHA1, value: hash })
             if(versionJson == null) {
                 throw new AssetGuardError(`Failed to download ${version} json index.`)
             }
@@ -211,10 +211,11 @@ export class MojangIndexProcessor extends IndexProcessor {
             const path = join(objectDir, hash.substring(0, 2), hash)
             const url = `${MojangIndexProcessor.ASSET_RESOURCE_ENDPOINT}/${hash.substring(0, 2)}/${hash}`
 
-            if(!await validateLocalFile(path, 'sha1', hash)) {
+            if(!await validateLocalFile(path, HashAlgo.SHA1, hash)) {
                 notValid.push({
                     id: assetEntry[0],
                     hash,
+                    algo: HashAlgo.SHA1,
                     size: assetEntry[1].size,
                     url,
                     path
@@ -247,10 +248,11 @@ export class MojangIndexProcessor extends IndexProcessor {
 
                 const path = join(libDir, artifact.path)
                 const hash = artifact.sha1
-                if(!await validateLocalFile(path, 'sha1', hash)) {
+                if(!await validateLocalFile(path, HashAlgo.SHA1, hash)) {
                     notValid.push({
                         id: libEntry.name,
                         hash,
+                        algo: HashAlgo.SHA1,
                         size: artifact.size,
                         url: artifact.url,
                         path
@@ -268,10 +270,11 @@ export class MojangIndexProcessor extends IndexProcessor {
         const versionJarPath = getVersionJarPath(this.commonDir, version)
         const hash = versionJson.downloads.client.sha1
 
-        if(!await validateLocalFile(versionJarPath, 'sha1', hash)) {
+        if(!await validateLocalFile(versionJarPath, HashAlgo.SHA1, hash)) {
             return [{
                 id: `${version} client`,
                 hash,
+                algo: HashAlgo.SHA1,
                 size: versionJson.downloads.client.size,
                 url: versionJson.downloads.client.url,
                 path: versionJarPath
@@ -288,10 +291,11 @@ export class MojangIndexProcessor extends IndexProcessor {
         const path = join(this.assetPath, 'log_configs', logFile.id)
         const hash = logFile.sha1
 
-        if(!await validateLocalFile(path, 'sha1', hash)) {
+        if(!await validateLocalFile(path, HashAlgo.SHA1, hash)) {
             return [{
                 id: logFile.id,
                 hash,
+                algo: HashAlgo.SHA1,
                 size: logFile.size,
                 url: logFile.url,
                 path

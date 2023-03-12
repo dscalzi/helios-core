@@ -2,7 +2,7 @@ import { LoggerUtil } from '../../util/LoggerUtil'
 import { IndexProcessor } from '../IndexProcessor'
 import { AssetGuardError } from '../AssetGuardError'
 import { validateLocalFile, getVersionJsonPath} from '../../common/util/FileUtils'
-import { Asset } from '../Asset'
+import { Asset, HashAlgo } from '../Asset'
 import { HeliosDistribution, HeliosModule, HeliosServer } from '../../common/distribution/DistributionFactory'
 import { Type } from 'helios-distribution-types'
 import { mcVersionAtLeast } from '../../common/util/MojangUtils'
@@ -50,10 +50,11 @@ export class DistributionIndexProcessor extends IndexProcessor {
         for(const module of modules) {
             const hash = module.rawModule.artifact.MD5
 
-            if(!await validateLocalFile(module.getPath(), 'md5', hash)) {
+            if(!await validateLocalFile(module.getPath(), HashAlgo.MD5, hash)) {
                 accumulator.push({
                     id: module.rawModule.id,
                     hash: hash!,
+                    algo: HashAlgo.MD5,
                     size: module.rawModule.artifact.size,
                     url: module.rawModule.artifact.url,
                     path: module.getPath()

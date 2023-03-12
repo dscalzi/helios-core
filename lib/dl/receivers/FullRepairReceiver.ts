@@ -6,6 +6,7 @@ import { MojangIndexProcessor } from '../mojang/MojangIndexProcessor'
 import { ErrorReply, Receiver } from './Receiver'
 import { LoggerUtil } from '../../util/LoggerUtil'
 import { IndexProcessor } from '../IndexProcessor'
+import { validateLocalFile } from '../../common/util/FileUtils'
 
 const log = LoggerUtil.getLogger('FullRepairReceiver')
 
@@ -134,6 +135,9 @@ export class FullRepairReceiver implements Receiver {
         for(const asset of this.assets) {
             if(asset.size !== receivedEach[asset.id]) {
                 log.warn(`Asset ${asset.id} declared a size of ${asset.size} bytes, but ${receivedEach[asset.id]} were received!`)
+                if(!validateLocalFile(asset.path, asset.algo, asset.hash)) {
+                    log.error(`Hashes do not match, ${asset.id} may be corrupted.`)
+                }
             }
         }
 

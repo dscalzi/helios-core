@@ -354,7 +354,7 @@ export async function getHotSpotSettings(execPath: string): Promise<HotSpotSetti
     }
 
     for(const key of listProps) {
-        if(!Array.isArray(ret[key])) {
+        if(ret[key] != null && !Array.isArray(ret[key])) {
             ret[key] = [ret[key]]
         }
     }
