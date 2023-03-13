@@ -16,6 +16,7 @@
     ".": "./dist/index.js",
     "./common": "./dist/common.js",
     "./dl": "./dist/dl.js",
+    "./java": "./dist/java.js",
     "./microsoft": "./dist/microsoft.js",
     "./mojang": "./dist/mojang.js"
   },
@@ -29,6 +30,9 @@
       ],
       "dl": [
         "./dist/dl.d.ts"
+      ],
+      "java": [
+        "./dist/java.d.ts"
       ],
       "microsoft": [
         "./dist/microsoft.d.ts"

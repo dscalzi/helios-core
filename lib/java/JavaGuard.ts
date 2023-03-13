@@ -3,15 +3,24 @@ import { exec } from 'child_process'
 import { pathExists, readdir } from 'fs-extra'
 import got from 'got'
 import { Architecture, JdkDistribution, Platform } from 'helios-distribution-types'
-import { join } from 'path'
+import { join, sep } from 'path'
 import { promisify } from 'util'
 import { LauncherJson } from '../model/mojang/LauncherJson'
 import { LoggerUtil } from '../util/LoggerUtil'
 import { getDiskInfo } from 'node-disk-info'
 import Registry from 'winreg'
 import semver from 'semver'
+import { mcVersionAtLeast } from '../common/util/MojangUtils'
 
 const log = LoggerUtil.getLogger('JavaGuard')
+
+export function getDefaultSemverRange(minecraftVersion: string): string {
+    if(mcVersionAtLeast('1.17', minecraftVersion)) {
+        return '>=17.x'
+    } else {
+        return '8.x'
+    }
+}
 
 export interface JavaVersion {
     major: number
@@ -435,6 +444,7 @@ export function rankApplicableJvms(details: JvmDetails[]): void {
     })
 }
 
+// Used to discover the best installation.
 export async function discoverBestJvmInstallation(dataDir: string, semverRange: string): Promise<JvmDetails | null> {
 
     // Get candidates, filter duplicates out.
@@ -442,6 +452,25 @@ export async function discoverBestJvmInstallation(dataDir: string, semverRange: 
 
     // Get VM settings.
     const resolvedSettings = await resolveJvmSettings(paths)
+
+    // Filter
+    const jvmDetails = filterApplicableJavaPaths(resolvedSettings, semverRange)
+
+    // Rank
+    rankApplicableJvms(jvmDetails)
+
+    return jvmDetails.length > 0 ? jvmDetails[0] : null
+}
+
+// Used to validate the selected jvm.
+export async function validateSelectedJvm(path: string, semverRange: string): Promise<JvmDetails | null> {
+
+    if(!await pathExists(path)) {
+        return null
+    }
+
+    // Get VM settings.
+    const resolvedSettings = await resolveJvmSettings([path])
 
     // Filter
     const jvmDetails = filterApplicableJavaPaths(resolvedSettings, semverRange)
@@ -602,8 +631,10 @@ export function ensureJavaDirIsRoot(dir: string): string {
         }
         case Platform.WIN32:
         case Platform.LINUX:
-        default:
-            return dir // Currently not needed.
+        default: {
+            const index = dir.indexOf(join('/', 'bin', 'java'))
+            return index > -1 ? dir.substring(0, index) : dir
+        }
     }
 }
 
