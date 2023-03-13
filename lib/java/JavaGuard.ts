@@ -9,6 +9,7 @@ import { LauncherJson } from '../model/mojang/LauncherJson'
 import { LoggerUtil } from '../util/LoggerUtil'
 import { getDiskInfo } from 'node-disk-info'
 import Registry from 'winreg'
+import semver from 'semver'
 
 const log = LoggerUtil.getLogger('JavaGuard')
 
@@ -363,6 +364,92 @@ export async function getHotSpotSettings(execPath: string): Promise<HotSpotSetti
     }
 
     return ret as unknown as HotSpotSettings
+}
+
+export async function resolveJvmSettings(paths: string[]): Promise<{ [path: string]: HotSpotSettings }> {
+
+    const ret: { [path: string]: HotSpotSettings } = {}
+
+    for(const path of paths) {
+        const settings = await getHotSpotSettings(javaExecFromRoot(path))
+        ret[path] = settings
+    }
+
+    return ret
+}
+
+export interface JvmDetails {
+    semver: JavaVersion
+    semverStr: string
+    vendor: string
+    path: string
+}
+
+export function filterApplicableJavaPaths(resolvedSettings: { [path: string]: HotSpotSettings }, semverRange: string): JvmDetails[] {
+
+    const arm = process.arch === Architecture.ARM64
+
+    const jvmDetailsUnfiltered = Object.entries(resolvedSettings)
+        .filter(([, settings ]) => parseInt(settings['sun.arch.data.model']) === 64) // Only allow 64-bit.
+        .filter(([, settings ]) => arm ? settings['os.arch'] === 'aarch64' : true) // Only allow arm on arm architecture (disallow rosetta on m2 mac)
+        .map(([ path, settings ]) => {
+            const parsedVersion = parseJavaRuntimeVersion(settings['java.runtime.version'])
+            return {
+                semver: parsedVersion,
+                semverStr: javaVersionToString(parsedVersion),
+                vendor: settings['java.vendor'],
+                path
+            }
+        })
+
+    // Now filter by options.
+    const jvmDetails = jvmDetailsUnfiltered
+        .filter(details => semver.satisfies(details.semverStr, semverRange))
+
+    return jvmDetails
+}
+
+export function rankApplicableJvms(details: JvmDetails[]): void {
+    details.sort((a, b) => {
+
+        if(a.semver.major === b.semver.major){
+            if(a.semver.minor === b.semver.minor){
+                if(a.semver.patch === b.semver.patch){
+
+                    // Same version, give priority to JRE.
+                    if(a.path.toLowerCase().indexOf('jdk') > -1){
+                        return b.path.toLowerCase().indexOf('jdk') > -1 ? 0 : 1
+                    } else {
+                        return -1
+                    }
+
+                } else {
+                    return (a.semver.patch - b.semver.patch)*-1
+                }
+            } else {
+                return (a.semver.minor - b.semver.minor)*-1
+            }
+        } else {
+            return (a.semver.major - b.semver.major)*-1
+        }
+    })
+}
+
+export async function discoverBestJvmInstallation(dataDir: string, semverRange: string): Promise<JvmDetails | null> {
+
+    // Get candidates, filter duplicates out.
+    const paths = [...new Set<string>(await getValidatableJavaPaths(dataDir))]
+
+    // Get VM settings.
+    const resolvedSettings = await resolveJvmSettings(paths)
+
+    // Filter
+    const jvmDetails = filterApplicableJavaPaths(resolvedSettings, semverRange)
+
+    // Rank
+    rankApplicableJvms(jvmDetails)
+
+    return jvmDetails.length > 0 ? jvmDetails[0] : null
 }
 
 /**
