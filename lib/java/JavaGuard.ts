@@ -1,13 +1,16 @@
 // Commented out for now, focusing on something else.
 import { exec } from 'child_process'
+import { pathExists, readdir } from 'fs-extra'
 import got from 'got'
 import { Architecture, JdkDistribution, Platform } from 'helios-distribution-types'
 import { join } from 'path'
 import { promisify } from 'util'
 import { LauncherJson } from '../model/mojang/LauncherJson'
 import { LoggerUtil } from '../util/LoggerUtil'
+import { getDiskInfo } from 'node-disk-info'
+import Registry from 'winreg'
 
-const logger = LoggerUtil.getLogger('JavaGuard')
+const log = LoggerUtil.getLogger('JavaGuard')
 
 export interface JavaVersion {
     major: number
@@ -391,7 +394,7 @@ export async function latestOpenJDK(major: number, distribution?: JdkDistributio
                 return latestCorretto(major)
             default: {
                 const eMsg = `Unknown distribution '${distribution}'`
-                logger.error(eMsg)
+                log.error(eMsg)
                 throw new Error(eMsg)
             }
         }
@@ -421,16 +424,16 @@ export async function latestAdoptium(major: number): Promise<RemoteJdkDistributi
                     name: targetBinary.binary.package.name
                 }
             } else {
-                logger.error(`Failed to find a suitable Adoptium binary for JDK ${major} (${sanitizedOS} ${arch}).`)
+                log.error(`Failed to find a suitable Adoptium binary for JDK ${major} (${sanitizedOS} ${arch}).`)
                 return null
             }
         } else {
-            logger.error(`Adoptium returned no results for JDK ${major}.`)
+            log.error(`Adoptium returned no results for JDK ${major}.`)
             return null
         }
 
     } catch(err) {
-        logger.error(`Error while retrieving latest Adoptium JDK ${major} binaries.`, err)
+        log.error(`Error while retrieving latest Adoptium JDK ${major} binaries.`, err)
         return null
     }
 }
@@ -469,11 +472,11 @@ export async function latestCorretto(major: number): Promise<RemoteJdkDistributi
                 name: url.substring(url.lastIndexOf('/')+1)
             }
         } else {
-            logger.error(`Error while retrieving latest Corretto JDK ${major} (${sanitizedOS} ${arch}): ${res.statusCode} ${res.statusMessage ?? ''}`)
+            log.error(`Error while retrieving latest Corretto JDK ${major} (${sanitizedOS} ${arch}): ${res.statusCode} ${res.statusMessage ?? ''}`)
             return null
         }
     } catch(err) {
-        logger.error(`Error while retrieving latest Corretto JDK ${major} (${sanitizedOS} ${arch}).`, err)
+        log.error(`Error while retrieving latest Corretto JDK ${major} (${sanitizedOS} ${arch}).`, err)
         return null
     }
 }
@@ -499,6 +502,25 @@ export function javaExecFromRoot(rootDir: string): string {
 }
 
 /**
+ * Given a Java path, ensure it points to the root.
+ * 
+ * @param dir The untested path.
+ * @returns The root java path.
+ */
+export function ensureJavaDirIsRoot(dir: string): string {
+    switch(process.platform) {
+        case Platform.DARWIN: {
+            const index = dir.indexOf('/Contents/Home')
+            return index > -1 ? dir.substring(0, index) : dir
+        }
+        case Platform.WIN32:
+        case Platform.LINUX:
+        default:
+            return dir // Currently not needed.
+    }
+}
+
+/**
  * Check to see if the given path points to a Java executable.
  * 
  * @param {string} pth The path to check against.
@@ -509,7 +531,6 @@ export function isJavaExecPath(pth: string): boolean {
         case Platform.WIN32:
             return pth.endsWith(join('bin', 'javaw.exe'))
         case Platform.DARWIN:
-            return pth.endsWith(join('bin', 'java'))
         case Platform.LINUX:
             return pth.endsWith(join('bin', 'java'))
         default:
@@ -529,7 +550,7 @@ export async function loadMojangLauncherData(): Promise<LauncherJson | null> {
         const res = await got.get<LauncherJson>('https://launchermeta.mojang.com/mc/launcher.json', { responseType: 'json' })
         return res.body
     } catch(err) {
-        logger.error('Failed to retrieve Mojang\'s launcher.json file.')
+        log.error('Failed to retrieve Mojang\'s launcher.json file.')
         return null
     }
 }
@@ -542,11 +563,11 @@ export async function loadMojangLauncherData(): Promise<LauncherJson | null> {
  * @param {string} verString Full version string to parse.
  * @returns Object containing the version information.
  */
-export function parseJavaRuntimeVersion(verString: string): JavaVersion{
+export function parseJavaRuntimeVersion(verString: string): JavaVersion {
     if(verString.startsWith('1.')){
-        return parseJavaRuntimeVersion_8(verString)
+        return parseJavaRuntimeVersionLegacy(verString)
     } else {
-        return parseJavaRuntimeVersion_9(verString)
+        return parseJavaRuntimeVersionSemver(verString)
     }
 }
 
@@ -557,11 +578,15 @@ export function parseJavaRuntimeVersion(verString: string): JavaVersion{
  * @param {string} verString Full version string to parse.
  * @returns Object containing the version information.
  */
-export function  parseJavaRuntimeVersion_8(verString: string): JavaVersion {
+export function  parseJavaRuntimeVersionLegacy(verString: string): JavaVersion {
     // 1.{major}.0_{update}-b{build}
     // ex. 1.8.0_152-b16
-    const regex = /^1.(.+).(.+)_(.+)-b(.+)$/
+    const regex = /^1.(\d+).(\d+)_(\d+)-b(\d+)$/
     const match = regex.exec(verString)!
+
+    if(match == null) {
+        throw new Error(`Failed to parse legacy Java version: ${verString}`)
+    }
 
     return {
         major: parseInt(match[1]),
@@ -578,11 +603,15 @@ export function  parseJavaRuntimeVersion_8(verString: string): JavaVersion {
  * @param {string} verString Full version string to parse.
  * @returns Object containing the version information.
  */
-export function  parseJavaRuntimeVersion_9(verString: string): JavaVersion {
+export function  parseJavaRuntimeVersionSemver(verString: string): JavaVersion {
     // {major}.{minor}.{patch}+{build}
-    // ex. 10.0.2+13
-    const regex = /^(.+)\.(.+).(.+)\+(.+)$/
+    // ex. 10.0.2+13 or 10.0.2.13
+    const regex = /^(\d+)\.(\d+).(\d+)[+.](\d+)$/
     const match = regex.exec(verString)!
+
+    if(match == null) {
+        throw new Error(`Failed to parse semver Java version: ${verString}`)
+    }
 
     return {
         major: parseInt(match[1]),
@@ -594,4 +623,298 @@ export function  parseJavaRuntimeVersion_9(verString: string): JavaVersion {
 
 export function javaVersionToString({ major, minor, patch, build }: JavaVersion): string {
     return `${major}.${minor}.${patch}+${build}`
+}
+
+export interface JavaDiscoverer {
+
+    discover(): Promise<string[]>
+
+}
+
+export class PathBasedJavaDiscoverer implements JavaDiscoverer {
+
+    constructor(
+        protected paths: string[]
+    ) {}
+
+    public async discover(): Promise<string[]> {
+
+        const res = new Set<string>()
+
+        for(const path of this.paths) {
+            if(await pathExists(javaExecFromRoot(path))) {
+                res.add(path)
+            }
+        }
+
+        return [...res]
+    }
+}
+
+export class DirectoryBasedJavaDiscoverer implements JavaDiscoverer {
+
+    constructor(
+        protected directories: string[]
+    ) {}
+
+    public async discover(): Promise<string[]> {
+
+        const res = new Set<string>()
+
+        for(const directory of this.directories) {
+
+            if(await pathExists(directory)) {
+                const files = await readdir(directory)
+                for(const file of files) {
+                    const fullPath = join(directory, file)
+                    
+                    if(await pathExists(javaExecFromRoot(fullPath))) {
+                        res.add(fullPath)
+                    }
+                }
+            }
+        }
+
+        return [...res]
+    }
+}
+
+export class EnvironmentBasedJavaDiscoverer implements JavaDiscoverer {
+
+    constructor(
+        protected keys: string[]
+    ) {}
+
+    public async discover(): Promise<string[]> {
+
+        const res = new Set<string>()
+
+        for(const key of this.keys) {
+
+            const value = process.env[key]
+            if(value != null) {
+                const asRoot = ensureJavaDirIsRoot(value)
+                if(await pathExists(asRoot)) {
+                    res.add(asRoot)
+                }
+            }
+        }
+
+        return [...res]
+    }
+}
+
+export class Win32RegistryJavaDiscoverer implements JavaDiscoverer {
+
+    public discover(): Promise<string[]> {
+
+        return new Promise((resolve) => {
+
+            const regKeys = [
+                '\\SOFTWARE\\JavaSoft\\Java Runtime Environment', // Java 8 and prior
+                '\\SOFTWARE\\JavaSoft\\Java Development Kit',     // Java 8 and prior
+                '\\SOFTWARE\\JavaSoft\\JRE',                      // Java 9+
+                '\\SOFTWARE\\JavaSoft\\JDK'                       // Java 9+
+            ]
+
+            let keysDone = 0
+
+            const candidates = new Set<string>()
+
+            for(let i=0; i<regKeys.length; i++){
+                const key = new Registry({
+                    hive: Registry.HKLM,
+                    key: regKeys[i],
+                    arch: 'x64'
+                })
+                key.keyExists((err, exists) => {
+                    if(exists) {
+                        key.keys((err, javaVers) => {
+                            if(err){
+                                keysDone++
+                                console.error(err)
+
+                                // REG KEY DONE
+                                // DUE TO ERROR
+                                if(keysDone === regKeys.length){
+                                    resolve([...candidates])
+                                }
+                            } else {
+                                if(javaVers.length === 0){
+                                    // REG KEY DONE
+                                    // NO SUBKEYS
+                                    keysDone++
+                                    if(keysDone === regKeys.length){
+                                        resolve([...candidates])
+                                    }
+                                } else {
+
+                                    let numDone = 0
+
+                                    for(let j=0; j<javaVers.length; j++){
+                                        const javaVer = javaVers[j]
+                                        const vKey = javaVer.key.substring(javaVer.key.lastIndexOf('\\')+1).trim()
+
+                                        let major = -1
+                                        if(vKey.length > 0) {
+                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                            if(isNaN(vKey as any)) {
+                                                // Should be a semver key.
+                                                major = parseJavaRuntimeVersion(vKey).major
+                                            } else {
+                                                // This is an abbreviated version, ie 1.8 or 17.
+                                                const asNum = parseFloat(vKey)
+                                                if(asNum < 2) {
+                                                    // 1.x
+                                                    major = asNum % 1 * 10
+                                                } else {
+                                                    major = asNum
+                                                }
+                                            }
+                                        }
+
+                                        if(major > -1) {
+                                            javaVer.get('JavaHome', (err, res) => {
+                                                const jHome = res.value
+                                                // Exclude 32bit.
+                                                if(!jHome.includes('(x86)')){
+                                                    candidates.add(jHome)
+                                                }
+    
+                                                // SUBKEY DONE
+    
+                                                numDone++
+                                                if(numDone === javaVers.length){
+                                                    keysDone++
+                                                    if(keysDone === regKeys.length){
+                                                        resolve([...candidates])
+                                                    }
+                                                }
+                                            })
+                                        } else {
+
+                                            // SUBKEY DONE
+                                            // MAJOR VERSION UNPARSEABLE
+                                                
+                                            numDone++
+                                            if(numDone === javaVers.length){
+                                                keysDone++
+                                                if(keysDone === regKeys.length){
+                                                    resolve([...candidates])
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                    } else {
+
+                        // REG KEY DONE
+                        // DUE TO NON-EXISTANCE
+
+                        keysDone++
+                        if(keysDone === regKeys.length){
+                            resolve([...candidates])
+                        }
+                    }
+                })
+            }
+
+        })
+
+    }
+}
+
+
+
+export async function getValidatableJavaPaths(dataDir: string): Promise<string[]> {
+    let discoverers: JavaDiscoverer[]
+    switch(process.platform) {
+        case Platform.WIN32:
+            discoverers = await getWin32Discoverers(dataDir)
+            break
+        case Platform.DARWIN:
+            discoverers = await getDarwinDiscoverers(dataDir)
+            break
+        case Platform.LINUX:
+            discoverers = await getLinuxDiscoverers(dataDir)
+            break
+        default:
+            discoverers = []
+            log.warn(`Unable to discover Java paths on platform: ${process.platform}`)
+    }
+
+    let paths: string[] = []
+    for(const discover of discoverers) {
+        paths = [
+            ...paths,
+            ...await discover.discover()
+        ]
+    }
+
+    return [...(new Set<string>(paths))]
+}
+
+export async function getWin32Discoverers(dataDir: string): Promise<JavaDiscoverer[]> {
+    return [
+        new EnvironmentBasedJavaDiscoverer(getPossibleJavaEnvs()),
+        new DirectoryBasedJavaDiscoverer([
+            ...(await getPathsOnAllDrives([
+                'Program Files\\Java',
+                'Program Files\\Eclipse Adoptium',
+                'Program Files\\Eclipse Foundation',
+                'Program Files\\AdoptOpenJDK'
+            ])),
+            getLauncherRuntimeDir(dataDir)
+        ]),
+        new Win32RegistryJavaDiscoverer()
+    ]
+}
+
+export async function getDarwinDiscoverers(dataDir: string): Promise<JavaDiscoverer[]> {
+    return [
+        new EnvironmentBasedJavaDiscoverer(getPossibleJavaEnvs()),
+        new DirectoryBasedJavaDiscoverer([
+            '/Library/Java/JavaVirtualMachines',
+            getLauncherRuntimeDir(dataDir)
+        ]),
+        new PathBasedJavaDiscoverer([
+            '/Library/Internet Plug-Ins/JavaAppletPlugin.plugin' // /Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java
+        ])
+        
+    ]
+}
+
+export async function getLinuxDiscoverers(dataDir: string): Promise<JavaDiscoverer[]> {
+    return [
+        new EnvironmentBasedJavaDiscoverer(getPossibleJavaEnvs()),
+        new DirectoryBasedJavaDiscoverer([
+            '/usr/lib/jvm',
+            getLauncherRuntimeDir(dataDir)
+        ])
+    ]
+}
+
+export async function getPathsOnAllDrives(paths: string[]): Promise<string[]> {
+    const driveMounts = (await getDiskInfo()).map(({ mounted }) => mounted)
+    const res: string[] = []
+    for(const path of paths) {
+        for(const mount of driveMounts) {
+            res.push(join(mount, path))
+        }
+    }
+    return res
+}
+
+export function getPossibleJavaEnvs(): string[] {
+    return [
+        'JAVA_HOME',
+        'JRE_HOME',
+        'JDK_HOME'
+    ]
+}
+
+export function getLauncherRuntimeDir(dataDir: string): string {
+    return join(dataDir, 'runtime', process.arch)
 }
