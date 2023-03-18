@@ -1,4 +1,6 @@
 /* eslint-disable no-control-regex */
+import { SrvRecord } from 'dns'
+import { resolveSrv } from 'dns/promises'
 import { connect } from 'net'
 import { LoggerUtil } from '../../util/LoggerUtil'
 import { ServerBoundPacket, ClientBoundPacket, ProtocolUtils } from './Protocol'
@@ -82,9 +84,24 @@ function unifyStatusResponse(resp: ServerStatus): ServerStatus {
     return resp
 }
 
-export function getServerStatus(protocol: number, hostname: string, port = 25565): Promise<ServerStatus> {
+async function checkSrv(hostname: string): Promise<SrvRecord | null> {
+    try {
+        const records = await resolveSrv(`_minecraft._tcp.${hostname}`)
+        return records.length > 0 ? records[0] : null
+    } catch(err) {
+        return null
+    }
+}
 
-    return new Promise((resolve, reject) => {
+export async function getServerStatus(protocol: number, hostname: string, port = 25565): Promise<ServerStatus> {
+
+    const srvRecord = await checkSrv(hostname)
+    if(srvRecord != null) {
+        hostname = srvRecord.name
+        port = srvRecord.port
+    }
+
+    return await new Promise((resolve, reject) => {
 
         const socket = connect(port, hostname, () => {
             socket.write(getHandshakePacket(protocol, hostname, port))
