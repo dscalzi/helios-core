@@ -3,36 +3,23 @@ import { exec } from 'child_process'
 import { pathExists, readdir } from 'fs-extra'
 import got from 'got'
 import { Architecture, JdkDistribution, Platform } from 'helios-distribution-types'
-import { join, sep } from 'path'
+import { dirname, join } from 'path'
 import { promisify } from 'util'
 import { LauncherJson } from '../model/mojang/LauncherJson'
 import { LoggerUtil } from '../util/LoggerUtil'
 import { getDiskInfo } from 'node-disk-info'
 import Registry from 'winreg'
 import semver from 'semver'
-import { mcVersionAtLeast } from '../common/util/MojangUtils'
+import { Asset, HashAlgo } from '../dl'
+import { extractTarGz, extractZip } from '../common/util/FileUtils'
 
 const log = LoggerUtil.getLogger('JavaGuard')
-
-export function getDefaultSemverRange(minecraftVersion: string): string {
-    if(mcVersionAtLeast('1.17', minecraftVersion)) {
-        return '>=17.x'
-    } else {
-        return '8.x'
-    }
-}
 
 export interface JavaVersion {
     major: number
     minor: number
     patch: number
     build: number
-}
-
-export interface RemoteJdkDistribution {
-    uri: string
-    size: number
-    name: string
 }
 
 export interface AdoptiumJdk {
@@ -492,22 +479,22 @@ export async function validateSelectedJvm(path: string, semverRange: string): Pr
  * 
  * @returns {Promise.<RemoteJdkDistribution | null>} Promise which resolved to an object containing the JDK download data.
  */
-export async function latestOpenJDK(major: number, distribution?: JdkDistribution): Promise<RemoteJdkDistribution | null> {
+export async function latestOpenJDK(major: number, dataDir: string, distribution?: JdkDistribution): Promise<Asset | null> {
 
     if(distribution == null) {
         // If no distribution is specified, use Corretto on macOS and Temurin for all else.
         if(process.platform === Platform.DARWIN) {
-            return latestCorretto(major)
+            return latestCorretto(major, dataDir)
         } else {
-            return latestAdoptium(major)
+            return latestAdoptium(major, dataDir)
         }
     } else {
         // Respect the preferred distribution.
         switch(distribution) {
             case JdkDistribution.TEMURIN:
-                return latestAdoptium(major)
+                return latestAdoptium(major, dataDir)
             case JdkDistribution.CORRETTO:
-                return latestCorretto(major)
+                return latestCorretto(major, dataDir)
             default: {
                 const eMsg = `Unknown distribution '${distribution}'`
                 log.error(eMsg)
@@ -517,7 +504,7 @@ export async function latestOpenJDK(major: number, distribution?: JdkDistributio
     }
 }
 
-export async function latestAdoptium(major: number): Promise<RemoteJdkDistribution | null> {
+export async function latestAdoptium(major: number, dataDir: string): Promise<Asset | null> {
 
     const sanitizedOS = process.platform === Platform.WIN32 ? 'windows' : (process.platform === Platform.DARWIN ? 'mac' : process.platform)
     const arch = process.arch === Architecture.ARM64 ? 'aarch64' : Architecture.X64
@@ -535,9 +522,12 @@ export async function latestAdoptium(major: number): Promise<RemoteJdkDistributi
 
             if(targetBinary != null) {
                 return {
-                    uri: targetBinary.binary.package.link,
+                    url: targetBinary.binary.package.link,
                     size: targetBinary.binary.package.size,
-                    name: targetBinary.binary.package.name
+                    id: targetBinary.binary.package.name,
+                    hash: targetBinary.binary.package.checksum,
+                    algo: HashAlgo.SHA256,
+                    path: join(getLauncherRuntimeDir(dataDir), targetBinary.binary.package.name)
                 }
             } else {
                 log.error(`Failed to find a suitable Adoptium binary for JDK ${major} (${sanitizedOS} ${arch}).`)
@@ -554,7 +544,7 @@ export async function latestAdoptium(major: number): Promise<RemoteJdkDistributi
     }
 }
 
-export async function latestCorretto(major: number): Promise<RemoteJdkDistribution | null> {
+export async function latestCorretto(major: number, dataDir: string): Promise<Asset | null> {
 
     let sanitizedOS: string, ext: string
     const arch = process.arch === Architecture.ARM64 ? 'aarch64' : Architecture.X64
@@ -579,13 +569,19 @@ export async function latestCorretto(major: number): Promise<RemoteJdkDistributi
     }
 
     const url = `https://corretto.aws/downloads/latest/amazon-corretto-${major}-${arch}-${sanitizedOS}-jdk.${ext}`
+    const md5url = `https://corretto.aws/downloads/latest_checksum/amazon-corretto-${major}-${arch}-${sanitizedOS}-jdk.${ext}`
     try {
         const res = await got.head(url)
+        const checksum = await got.get(md5url)
         if(res.statusCode === 200) {
+            const name = url.substring(url.lastIndexOf('/')+1)
             return {
-                uri: url,
+                url: url,
                 size: parseInt(res.headers['content-length']!),
-                name: url.substring(url.lastIndexOf('/')+1)
+                id: name,
+                hash: checksum.body,
+                algo: HashAlgo.MD5,
+                path: join(getLauncherRuntimeDir(dataDir), name)
             }
         } else {
             log.error(`Error while retrieving latest Corretto JDK ${major} (${sanitizedOS} ${arch}): ${res.statusCode} ${res.statusMessage ?? ''}`)
@@ -595,6 +591,30 @@ export async function latestCorretto(major: number): Promise<RemoteJdkDistributi
         log.error(`Error while retrieving latest Corretto JDK ${major} (${sanitizedOS} ${arch}).`, err)
         return null
     }
+}
+
+export async function extractJdk(archivePath: string): Promise<string> {
+    let javaExecPath: string = null!
+    if(archivePath.endsWith('zip')) {
+        await extractZip(archivePath, async zip => {
+            const entries = await zip.entries()
+            javaExecPath = javaExecFromRoot(join(dirname(archivePath), Object.keys(entries)[0]))
+        })
+    }
+    else {
+        await extractTarGz(archivePath, header => {
+            // Get the first
+            if(javaExecPath == null) {
+                let h = header.name
+                if(h.indexOf('/') > -1){
+                    h = h.substring(0, h.indexOf('/'))
+                }
+                javaExecPath = javaExecFromRoot(join(dirname(archivePath), h))
+            }
+        })
+    }
+
+    return javaExecPath
 }
 
 /**

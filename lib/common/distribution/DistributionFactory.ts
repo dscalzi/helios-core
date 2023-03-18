@@ -1,7 +1,8 @@
-import { Distribution, Server, Module, Type, Required as HeliosRequired } from 'helios-distribution-types'
+import { Distribution, Server, Module, Type, Required as HeliosRequired, JavaVersionProps, JavaPlatformOptions, Platform, JdkDistribution } from 'helios-distribution-types'
 import { MavenComponents, MavenUtil } from '../util/MavenUtil'
 import { join } from 'path'
 import { LoggerUtil } from '../../util/LoggerUtil'
+import { mcVersionAtLeast } from '../util/MojangUtils'
 
 const logger = LoggerUtil.getLogger('DistributionFactory')
 
@@ -57,6 +58,7 @@ export class HeliosServer {
     public readonly modules: HeliosModule[]
     public readonly hostname: string
     public readonly port: number
+    public readonly effectiveJavaOptions: Required<JavaVersionProps>
 
     constructor(
         public readonly rawServer: Server,
@@ -66,6 +68,7 @@ export class HeliosServer {
         const { hostname, port } = this.parseAddress()
         this.hostname = hostname
         this.port = port
+        this.effectiveJavaOptions = this.parseEffectiveJavaOptions()
         this.modules = rawServer.modules.map(m => new HeliosModule(m, rawServer.id, commonDir, instanceDir))
     }
 
@@ -82,6 +85,47 @@ export class HeliosServer {
             return { hostname: pieces[0], port }
         } else {
             return { hostname: this.rawServer.address, port: 25565 }
+        }
+    }
+
+    private parseEffectiveJavaOptions(): Required<JavaVersionProps> {
+
+        const options: JavaPlatformOptions[] = this.rawServer.javaOptions?.platformOptions ?? []
+
+        const mergeableProps: JavaVersionProps[] = []
+        for(const option of options) {
+
+            if (option.platform === process.platform) {
+                if (option.architecture === process.arch) {
+                    mergeableProps[0] = option
+                } else {
+                    mergeableProps[1] = option
+                }
+            }
+        }
+        mergeableProps[3] = {
+            distribution: this.rawServer.javaOptions?.distribution,
+            supported: this.rawServer.javaOptions?.supported,
+            suggestedMajor: this.rawServer.javaOptions?.suggestedMajor
+        }
+
+        const merged: JavaVersionProps = {}
+        for(let i=mergeableProps.length-1; i>=0; i--) {
+            if(mergeableProps[i] != null) {
+                merged.distribution = mergeableProps[i].distribution
+                merged.supported = mergeableProps[i].supported
+                merged.suggestedMajor = mergeableProps[i].suggestedMajor
+            }
+        }
+
+        return this.defaultUndefinedJavaOptions(merged)
+    }
+
+    private defaultUndefinedJavaOptions(props: JavaVersionProps): Required<JavaVersionProps> {
+        return {
+            supported: props.distribution ?? mcVersionAtLeast('1.17', this.rawServer.minecraftVersion) ? '>=17.x' : '8.x',
+            distribution: props.distribution ?? process.platform === Platform.DARWIN ? JdkDistribution.CORRETTO : JdkDistribution.TEMURIN,
+            suggestedMajor: props.suggestedMajor ?? mcVersionAtLeast('1.17', this.rawServer.minecraftVersion) ? 17 : 8,
         }
     }
 
@@ -161,7 +205,7 @@ export class HeliosModule {
 
         // Version Manifests have a pre-determined path.
         if(this.rawModule.type === Type.VersionManifest) {
-            return join('TODO_COMMON_DIR', 'versions', this.rawModule.id, `${this.rawModule.id}.json`)
+            return join(commonDir, 'versions', this.rawModule.id, `${this.rawModule.id}.json`)
         }
 
         const relativePath = this.rawModule.artifact.path ?? MavenUtil.mavenComponentsAsNormalizedPath(
