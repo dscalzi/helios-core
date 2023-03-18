@@ -11,8 +11,7 @@ export interface MavenComponents {
 
 export class MavenUtil {
 
-    public static readonly ID_REGEX = /(.+):(.+):([^@]+)()(?:@{1}(.+)$)?/
-    public static readonly ID_REGEX_WITH_CLASSIFIER = /(.+):(.+):(?:([^@]+)(?:-([a-zA-Z]+)))(?:@{1}(.+)$)?/
+    public static readonly ID_REGEX = /([^@:]+):([^@:]+):?([^@:]+)?:?(?:([^@:]+))?:?(?:@{1}([^@:]+))?/
 
     public static mavenComponentsToIdentifier(
         group: string,
@@ -41,7 +40,7 @@ export class MavenUtil {
     }
 
     public static isMavenIdentifier(id: string): boolean {
-        return MavenUtil.ID_REGEX.test(id) || MavenUtil.ID_REGEX_WITH_CLASSIFIER.test(id)
+        return MavenUtil.ID_REGEX.test(id)
     }
 
     public static getMavenComponents(id: string, extension = 'jar'): MavenComponents {
@@ -49,20 +48,14 @@ export class MavenUtil {
             throw new Error('Id is not a maven identifier.')
         }
 
-        let result
-
-        if (MavenUtil.ID_REGEX_WITH_CLASSIFIER.test(id)) {
-            result = MavenUtil.ID_REGEX_WITH_CLASSIFIER.exec(id)
-        } else {
-            result = MavenUtil.ID_REGEX.exec(id)
-        }
+        const result = MavenUtil.ID_REGEX.exec(id)
 
         if (result != null) {
             return {
                 group: result[1],
                 artifact: result[2],
                 version: result[3],
-                classifier: result[4] || undefined,
+                classifier: result[4],
                 extension: result[5] || extension
             }
         }

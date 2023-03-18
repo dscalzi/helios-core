@@ -33,13 +33,20 @@ abstract class BaseTransmitter {
 
         // Stdout
         this.receiver.stdio[1]!.setEncoding('utf8')
-        this.receiver.stdio[1]!.on('data', data => {
-            console.log(`\x1b[32m[_]\x1b[0m ${data}`)
+        this.receiver.stdio[1]!.on('data', (data: string) => {
+            `${data}`.split('\n')
+                .map(line => line.trim())
+                .filter(line => line.length > 0)
+                .forEach(line => console.log(`\x1b[32m[_]\x1b[0m ${line}`))
+            
         })
         // Stderr
         this.receiver.stdio[2]!.setEncoding('utf8')
-        this.receiver.stdio[2]!.on('data', data => {
-            console.log(`\x1b[31m[_]\x1b[0m ${data}`)
+        this.receiver.stdio[2]!.on('data', (data: string) => {
+            `${data}`.split('\n')
+                .map(line => line.trim())
+                .filter(line => line.length > 0)
+                .forEach(line => console.log(`\x1b[31m[_]\x1b[0m ${line}`))
         })
     }
 

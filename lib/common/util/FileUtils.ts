@@ -75,7 +75,7 @@ export async function extractZip(zipPath: string, peek?: (zip: StreamZipAsync) =
     } catch(err) {
         log.error('Zip extraction failed', err)
     } finally {
-        zip.close()
+        await zip.close()
     }
 }
 

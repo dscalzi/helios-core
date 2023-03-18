@@ -94,13 +94,20 @@ export class DistributionIndexProcessor extends IndexProcessor {
         } else {
 
             const zip = new StreamZip.async({ file: forgeModule.getPath() })
-            const data = JSON.parse((await zip.entryData('version.json')).toString('utf8'))
-            const writePath = getVersionJsonPath(this.commonDir, data.id)
 
-            await ensureDir(dirname(writePath))
-            await writeJson(writePath, data)
-
-            return data
+            try {
+                const data = JSON.parse((await zip.entryData('version.json')).toString('utf8'))
+                const writePath = getVersionJsonPath(this.commonDir, data.id)
+    
+                await ensureDir(dirname(writePath))
+                await writeJson(writePath, data)
+    
+                return data
+            }
+            finally {
+                await zip.close()
+            }
+            
         }
     }
 
