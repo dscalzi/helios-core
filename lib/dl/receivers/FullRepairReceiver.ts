@@ -7,6 +7,7 @@ import { ErrorReply, Receiver } from './Receiver'
 import { LoggerUtil } from '../../util/LoggerUtil'
 import { IndexProcessor } from '../IndexProcessor'
 import { validateLocalFile } from '../../common/util/FileUtils'
+import { HTTPError, ParseError, RequestError, TimeoutError } from 'got'
 
 const log = LoggerUtil.getLogger('FullRepairReceiver')
 
@@ -65,6 +66,34 @@ export class FullRepairReceiver implements Receiver {
 
     }
 
+    // Construct friendly error messages
+    public async parseError(error: unknown): Promise<string | undefined> {
+        if(error instanceof RequestError) {
+            if(error?.request?.requestUrl) {
+                log.debug(`Error during request to ${error.request.requestUrl}`)
+            }
+
+            if(error instanceof HTTPError) {
+                log.debug('Response Details:')
+                log.debug('Body:', error.response.body)
+                log.debug('Headers:', error.response.headers)
+
+                return `Error during request (HTTP Response ${error.response.statusCode})`
+            } else if(error.name === 'RequestError') {
+                return `Request received no response (${error.code}).`
+            } else if(error instanceof TimeoutError) {
+                return `Request timed out (${error.timings.phases.total}ms).`
+            } else if(error instanceof ParseError) {
+                return 'Request received unexepected body (Parse Error).'
+            } else {
+                // CacheError, ReadError, MaxRedirectsError, UnsupportedProtocolError, CancelError
+                return 'Error during request.'
+            }
+        } else {
+            return undefined
+        }
+    }
+
     public async validate(message: ValidateTransmission): Promise<void> {
         const api = new DistributionAPI(
             message.launcherDirectory,
@@ -118,9 +147,8 @@ export class FullRepairReceiver implements Receiver {
     public async download(_message: DownloadTransmission): Promise<void> {
         const expectedTotalSize = getExpectedDownloadSize(this.assets)
     
-        // temp
         log.debug('Expected download size ' + expectedTotalSize)
-        this.assets.forEach(({ id }) => log.debug(id))
+        this.assets.forEach(({ id }) => log.debug(`Asset Requires Download: ${id}`))
 
         // Reduce load on IPC channel by sending only whole numbers.
         let currentPercent = 0
