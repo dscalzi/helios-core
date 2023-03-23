@@ -102,6 +102,7 @@ export interface AssetIndex {
 
 }
 
+// v2 spec https://piston-meta.mojang.com/mc/game/version_manifest_v2.json
 export interface MojangVersionManifest {
 
     latest: {
@@ -114,6 +115,8 @@ export interface MojangVersionManifest {
         url: string
         time: string
         releaseTime: string
+        sha1: string
+        complianceLevel: number
     }[]
 
 }

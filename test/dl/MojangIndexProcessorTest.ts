@@ -34,8 +34,8 @@ describe('Mojang Index Processor', () => {
     it('[ MIP ] Validate Full Remote (1.15.2)', async () => {
 
         const manifestUrl = new URL(MojangIndexProcessor.VERSION_MANIFEST_ENDPOINT)
-        const versionJsonUrl = new URL('https://launchermeta.mojang.com/v1/packages/1a36ca2e147f4fdc4a8b9c371450e1581732c354/1.15.2.json')
-        const assetIndexUrl = new URL('https://launchermeta.mojang.com/v1/packages/5406d9a75dfb58f549070d8bae279562c38a68f6/1.15.json')
+        const versionJsonUrl = new URL('https://piston-meta.mojang.com/v1/packages/a134a40902959810875d4642a4ac9c69c37e39a0/1.15.2.json')
+        const assetIndexUrl = new URL('https://launchermeta.mojang.com/v1/packages/3b41ad81220d2f21ff5b343629de725047dac13d/1.15.json')
 
         nock(manifestUrl.origin)
             .get(manifestUrl.pathname)
@@ -58,7 +58,7 @@ describe('Mojang Index Processor', () => {
         const savedIndex = await pathExists(indexPath115)
 
         expect(notValid).to.haveOwnProperty('assets')
-        expect(notValid.assets).to.have.lengthOf(2109-2)
+        expect(notValid.assets).to.have.lengthOf(2102-2)
         expect(notValid).to.haveOwnProperty('libraries')
         // Natives are different per OS
         expect(notValid.libraries).to.have.length.gte(24)
@@ -99,7 +99,7 @@ describe('Mojang Index Processor', () => {
     it('[ MIP ] Validate Half Remote (1.7.10)', async () => {
 
         const manifestUrl = new URL(MojangIndexProcessor.VERSION_MANIFEST_ENDPOINT)
-        const versionJsonUrl = new URL('https://launchermeta.mojang.com/v1/packages/2e818dc89e364c7efcfa54bec7e873c5f00b3840/1.7.10.json')
+        const versionJsonUrl = new URL('https://piston-meta.mojang.com/v1/packages/ed5d8789ed29872ea2ef1c348302b0c55e3f3468/1.7.10.json')
 
         nock(manifestUrl.origin)
             .get(manifestUrl.pathname)

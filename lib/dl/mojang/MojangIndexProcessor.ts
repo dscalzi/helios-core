@@ -14,7 +14,7 @@ import { handleGotError } from '../../common/rest/RestResponse'
 export class MojangIndexProcessor extends IndexProcessor {
 
     public static readonly LAUNCHER_JSON_ENDPOINT = 'https://launchermeta.mojang.com/mc/launcher.json'
-    public static readonly VERSION_MANIFEST_ENDPOINT = 'https://launchermeta.mojang.com/mc/game/version_manifest.json'
+    public static readonly VERSION_MANIFEST_ENDPOINT = 'https://piston-meta.mojang.com/mc/game/version_manifest_v2.json'
     public static readonly ASSET_RESOURCE_ENDPOINT = 'https://resources.download.minecraft.net'
 
     private static readonly logger = LoggerUtil.getLogger('MojangIndexProcessor')
@@ -33,7 +33,7 @@ export class MojangIndexProcessor extends IndexProcessor {
     }
 
     /**
-     * Download https://launchermeta.mojang.com/mc/game/version_manifest.json
+     * Download https://piston-meta.mojang.com/mc/game/version_manifest_v2.json
      *   Unable to download:
      *     Proceed, check versions directory for target version
      *       If version.json not present, fatal error.
@@ -84,15 +84,11 @@ export class MojangIndexProcessor extends IndexProcessor {
     private async loadVersionJson(version: string, versionManifest: MojangVersionManifest | null): Promise<VersionJson> {
         const versionJsonPath = getVersionJsonPath(this.commonDir, version)
         if(versionManifest != null) {
-            const versionJsonUrl = this.getVersionJsonUrl(version, versionManifest)
-            if(versionJsonUrl == null) {
+            const versionInfo = versionManifest.versions.find(({ id }) => id === version)
+            if(versionInfo == null) {
                 throw new AssetGuardError(`Invalid version: ${version}.`)
             }
-            const hash = this.getVersionJsonHash(versionJsonUrl)
-            if(hash == null) {
-                throw new AssetGuardError('Format of Mojang\'s version manifest has changed. Unable to proceed.')
-            }
-            const versionJson = await this.loadContentWithRemoteFallback<VersionJson>(versionJsonUrl, versionJsonPath, { algo: HashAlgo.SHA1, value: hash })
+            const versionJson = await this.loadContentWithRemoteFallback<VersionJson>(versionInfo.url, versionJsonPath, { algo: HashAlgo.SHA1, value: versionInfo.sha1 })
             if(versionJson == null) {
                 throw new AssetGuardError(`Failed to download ${version} json index.`)
             }
@@ -146,25 +142,6 @@ export class MojangIndexProcessor extends IndexProcessor {
             return res.body
         } catch(error) {
             return handleGotError('Load Mojang Version Manifest', error as RequestError, MojangIndexProcessor.logger, () => null).data
-        }
-    }
-
-    private getVersionJsonUrl(id: string, manifest: MojangVersionManifest): string | null {
-        for(const version of manifest.versions) {
-            if(version.id == id){
-                return version.url
-            }
-        }
-        return null
-    }
-
-    private getVersionJsonHash(url: string): string | null {
-        const regex = /^https:\/\/launchermeta.mojang.com\/v1\/packages\/(.+)\/.+.json$/
-        const match = regex.exec(url)
-        if(match != null && match[1]) {
-            return match[1]
-        } else {
-            return null
         }
     }
 
