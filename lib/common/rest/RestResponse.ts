@@ -76,14 +76,15 @@ export function handleGotError<T>(operation: string, error: RequestError, logger
     if(error instanceof HTTPError) {
         logger.error(`Error during ${operation} request (HTTP Response ${error.response.statusCode})`, error)
         logger.debug('Response Details:')
+        logger.debug(`URL: ${error.request.requestUrl}`)
         logger.debug('Body:', error.response.body)
         logger.debug('Headers:', error.response.headers)
     } else if(error.name === 'RequestError') {
-        logger.error(`${operation} request recieved no response (${error.code}).`, error)
+        logger.error(`${operation} request received no response (${error.code}).`, error)
     } else if(error instanceof TimeoutError) {
         logger.error(`${operation} request timed out (${error.timings.phases.total}ms).`)
     } else if(error instanceof ParseError) {
-        logger.error(`${operation} request recieved unexepected body (Parse Error).`)
+        logger.error(`${operation} request received unexepected body (Parse Error).`)
     } else {
         // CacheError, ReadError, MaxRedirectsError, UnsupportedProtocolError, CancelError
         logger.error(`Error during ${operation} request.`, error)
