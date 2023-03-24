@@ -7,7 +7,7 @@ import { ErrorReply, Receiver } from './Receiver'
 import { LoggerUtil } from '../../util/LoggerUtil'
 import { IndexProcessor } from '../IndexProcessor'
 import { validateLocalFile } from '../../common/util/FileUtils'
-import { HTTPError, ParseError, RequestError, TimeoutError } from 'got'
+import { HTTPError, ParseError, ReadError, RequestError, TimeoutError } from 'got'
 
 const log = LoggerUtil.getLogger('FullRepairReceiver')
 
@@ -85,8 +85,10 @@ export class FullRepairReceiver implements Receiver {
                 return `Request timed out (${error.timings.phases.total}ms).`
             } else if(error instanceof ParseError) {
                 return 'Request received unexepected body (Parse Error).'
+            } else if(error instanceof ReadError) {
+                return `Read Error (${error.code}): ${error.message}.`
             } else {
-                // CacheError, ReadError, MaxRedirectsError, UnsupportedProtocolError, CancelError
+                // CacheError, MaxRedirectsError, UnsupportedProtocolError, CancelError
                 return 'Error during request.'
             }
         } else {
