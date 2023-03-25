@@ -1,4 +1,4 @@
-import { filterApplicableJavaPaths, HotSpotSettings, JvmDetails, rankApplicableJvms, Win32RegistryJavaDiscoverer } from '../../lib/java/JavaGuard'
+import { filterApplicableJavaPaths, HotSpotSettings, JavaVersion, JvmDetails, parseJavaRuntimeVersion, rankApplicableJvms, Win32RegistryJavaDiscoverer } from '../../lib/java/JavaGuard'
 import { expect } from 'chai'
 
 describe('JavaGuard', () => {
@@ -86,6 +86,24 @@ describe('JavaGuard', () => {
             rankApplicableJvms(details)
             assertion(details.length > 0 ? details[0] : null)
         }
+    })
+
+    it('Java Version Parsing', async () => {
+
+        const testMatrix: [string, JavaVersion][] = [
+            ['1.8.0_351', { major: 8, minor: 0, patch: 351, build: undefined }],
+            ['1.8.0_351-b10', { major: 8, minor: 0, patch: 351, build: 10 }],
+            ['17.0.5', { major: 17, minor: 0, patch: 5, build: undefined }],
+            ['17.0.5.8', { major: 17, minor: 0, patch: 5, build: 8 }]
+        ]
+
+        for(const [test, res] of testMatrix) {
+            expect(parseJavaRuntimeVersion(test)).to.deep.equal(res)
+        }
+
+        expect(() => parseJavaRuntimeVersion('abc')).to.throw()
+        expect(() => parseJavaRuntimeVersion('1.8')).to.throw()
+        expect(() => parseJavaRuntimeVersion('17.0')).to.throw()
     })
 
     it.skip('Win32 Registry Keys', async () => {
