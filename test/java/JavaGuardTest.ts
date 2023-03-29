@@ -94,7 +94,8 @@ describe('JavaGuard', () => {
             ['1.8.0_351', { major: 8, minor: 0, patch: 351, build: undefined }],
             ['1.8.0_351-b10', { major: 8, minor: 0, patch: 351, build: 10 }],
             ['17.0.5', { major: 17, minor: 0, patch: 5, build: undefined }],
-            ['17.0.5.8', { major: 17, minor: 0, patch: 5, build: 8 }]
+            ['17.0.5.8', { major: 17, minor: 0, patch: 5, build: 8 }],
+            ['17.0.6+9-LTS-190', { major: 17, minor: 0, patch: 6, build: 9 }]
         ]
 
         for(const [test, res] of testMatrix) {

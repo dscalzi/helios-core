@@ -719,7 +719,7 @@ export function parseJavaRuntimeVersion(verString: string): JavaVersion {
 export function  parseJavaRuntimeVersionLegacy(verString: string): JavaVersion {
     // 1.{major}.0_{update}-b{build}
     // ex. 1.8.0_152-b16
-    const regex = /^1.(\d+).(\d+)_(\d+)(?:-b(\d+))?$/
+    const regex = /1.(\d+).(\d+)_(\d+)(?:-b(\d+))?/
     const match = regex.exec(verString)!
 
     if(match == null) {
@@ -744,7 +744,7 @@ export function  parseJavaRuntimeVersionLegacy(verString: string): JavaVersion {
 export function  parseJavaRuntimeVersionSemver(verString: string): JavaVersion {
     // {major}.{minor}.{patch}+{build}
     // ex. 10.0.2+13 or 10.0.2.13
-    const regex = /^(\d+)\.(\d+).(\d+)(?:[+.](\d+))?$/
+    const regex = /(\d+)\.(\d+).(\d+)(?:[+.](\d+))?/
     const match = regex.exec(verString)!
 
     if(match == null) {
