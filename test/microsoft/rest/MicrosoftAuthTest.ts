@@ -45,25 +45,23 @@ describe('[Microsoft Auth] Errors', () => {
 
     })
 
-    it('getXBLToken (NOT_OWNED)', async () => {
+    it('getMCProfile (NO_PROFILE)', async () => {
 
-        const XBL_AUTH_URL = new URL(MicrosoftAuth.XBL_AUTH_ENDPOINT)
+        const MC_PROFILE_URL = new URL(MicrosoftAuth.MC_PROFILE_ENDPOINT)
 
-        nock(XBL_AUTH_URL.origin)
-            .post(XBL_AUTH_URL.pathname)
+        nock(MC_PROFILE_URL.origin)
+            .get(MC_PROFILE_URL.pathname)
             // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
             .reply(404, (uri, requestBody: unknown): Record<string, any> => {
                 return {
                     path: '/minecraft/profile',
-                    errorType: 'NOT_FOUND',
                     error: 'NOT_FOUND',
-                    errorMessage: 'The server has not found anything matching the request URI',
-                    developerMessage: 'The server has not found anything matching the request URI'
+                    errorMessage: 'Not Found'
                 }
             })
 
-        const res = await MicrosoftAuth.getXBLToken('A_TOKEN')
-        expectMicrosoftResponse(res, MicrosoftErrorCode.NOT_OWNED)
+        const res = await MicrosoftAuth.getMCProfile('A_TOKEN')
+        expectMicrosoftResponse(res, MicrosoftErrorCode.NO_PROFILE)
         expect(res.data).to.be.a('null')
         expect(res.error).to.not.be.a('null')
 

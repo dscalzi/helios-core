@@ -11,7 +11,7 @@ export enum MicrosoftErrorCode {
     /**
      * Profile Error
      * 
-     * Account does not own the game.
+     * Account has not set up a minecraft profile or does not own the game.
      * 
      * Note that Xbox Game Pass users who haven't logged into the new Minecraft
      * Launcher at least once will not return a profile, and will need to login
@@ -19,7 +19,7 @@ export enum MicrosoftErrorCode {
      * 
      * @see https://wiki.vg/Microsoft_Authentication_Scheme#Get_the_profile
      */
-    NOT_OWNED,
+    NO_PROFILE,
     /**
      * XSTS Error
      * 
@@ -55,10 +55,10 @@ export enum MicrosoftErrorCode {
 
 export function microsoftErrorDisplayable(errorCode: MicrosoftErrorCode): DisplayableError {
     switch(errorCode) {
-        case MicrosoftErrorCode.NOT_OWNED:
+        case MicrosoftErrorCode.NO_PROFILE:
             return {
-                title: 'Error During Login:<br>Game Not Owned',
-                desc: 'The account you are trying to login with has not purchased a copy of Minecraft.<br>You may purchase a copy on <a href="https://minecraft.net/">Minecraft.net</a><br><br><strong>NOTE: Xbox Game Pass users must log in with the vanilla launcher at least once to set up their username.</strong>'
+                title: 'Error During Login:<br>Profile Not Set Up',
+                desc: 'Your Microsoft account does not yet have a Minecraft profile set up. If you have recently purchased the game or redeemed it through Xbox Game Pass, you have to set up your profile on <a href="https://minecraft.net/">Minecraft.net</a>.<br><br>If you have not yet purchased the game, you can also do that on <a href="https://minecraft.net/">Minecraft.net</a>.'
             }
         case MicrosoftErrorCode.NO_XBOX_ACCOUNT:
             return {
@@ -96,9 +96,6 @@ export interface MicrosoftResponse<T> extends RestResponse<T> {
 export function decipherErrorCode(body: any): MicrosoftErrorCode {
 
     if(body) {
-        if(body.path === '/minecraft/profile' && body.errorType === 'NOT_FOUND') {
-            return MicrosoftErrorCode.NOT_OWNED
-        }
         if(body.XErr) {
             const xErr: number = body.XErr
             switch(xErr) {

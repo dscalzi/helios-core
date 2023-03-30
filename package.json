@@ -1,6 +1,6 @@
 {
   "name": "helios-core",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A library containing core mechanisms for Helios Launcher",
   "main": "dist/index.js",
   "scripts": {
@@ -78,7 +78,7 @@
     "nock": "^13.3.0",
     "rimraf": "^4.4.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.3"
   },
   "dependencies": {
     "fastq": "^1.15.0",

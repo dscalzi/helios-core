@@ -145,7 +145,11 @@ export class MicrosoftAuth {
         const response: MicrosoftResponse<T> = handleGotError(operation, error, MicrosoftAuth.logger, dataProvider)
 
         if(error instanceof HTTPError) {
-            response.microsoftErrorCode = decipherErrorCode(error.response.body)
+            if(error.response.statusCode === 404 && error.request.requestUrl === MicrosoftAuth.MC_PROFILE_ENDPOINT) {
+                response.microsoftErrorCode = MicrosoftErrorCode.NO_PROFILE
+            } else {
+                response.microsoftErrorCode = decipherErrorCode(error.response.body)
+            }
         } else {
             response.microsoftErrorCode = MicrosoftErrorCode.UNKNOWN
         }
