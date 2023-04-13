@@ -19,7 +19,6 @@ export interface JavaVersion {
     major: number
     minor: number
     patch: number
-    build?: number
 }
 
 export interface AdoptiumJdk {
@@ -319,13 +318,26 @@ export interface HotSpotSettings {
  * @param execPath The path to the Java executable. 
  * @returns The parsed HotSpot VM properties.
  */
-export async function getHotSpotSettings(execPath: string): Promise<HotSpotSettings> {
+export async function getHotSpotSettings(execPath: string): Promise<HotSpotSettings | null> {
 
     const javaExecutable = execPath.includes('javaw.exe') ? execPath.replace('javaw.exe', 'java.exe') : execPath
 
+    if(!await pathExists(execPath)) {
+        log.warn(`Candidate JVM path does not exist, skipping. ${execPath}`)
+        return null
+    }
+
     const execAsync = promisify(exec)
 
-    const { stderr } = await execAsync(`"${javaExecutable}" -XshowSettings:properties -version`)
+    let stderr
+    try {
+        stderr = (await execAsync(`"${javaExecutable}" -XshowSettings:properties -version`)).stderr
+    } catch(error) {
+        log.error(`Failed to resolve JVM settings for '${execPath}'`)
+        log.error(error)
+        return null
+    }
+    
 
     const listProps = [
         'java.library.path'
@@ -368,7 +380,11 @@ export async function resolveJvmSettings(paths: string[]): Promise<{ [path: stri
 
     for(const path of paths) {
         const settings = await getHotSpotSettings(javaExecFromRoot(path))
-        ret[path] = settings
+        if(settings != null) {
+            ret[path] = settings
+        } else {
+            log.warn(`Skipping invalid JVM candidate: ${path}`)
+        }
     }
 
     return ret
@@ -389,7 +405,11 @@ export function filterApplicableJavaPaths(resolvedSettings: { [path: string]: Ho
         .filter(([, settings ]) => parseInt(settings['sun.arch.data.model']) === 64) // Only allow 64-bit.
         .filter(([, settings ]) => arm ? settings['os.arch'] === 'aarch64' : true) // Only allow arm on arm architecture (disallow rosetta on m2 mac)
         .map(([ path, settings ]) => {
-            const parsedVersion = parseJavaRuntimeVersion(settings['java.runtime.version'])
+            const parsedVersion = parseJavaRuntimeVersion(settings['java.version'])
+            if(parsedVersion == null) {
+                log.error(`Failed to parse JDK version at location '${path}' (Vendor: ${settings['java.vendor']})`)
+                return null!
+            }
             return {
                 semver: parsedVersion,
                 semverStr: javaVersionToString(parsedVersion),
@@ -397,6 +417,7 @@ export function filterApplicableJavaPaths(resolvedSettings: { [path: string]: Ho
                 path
             }
         })
+        .filter(x => x != null)
 
     // Now filter by options.
     const jvmDetails = jvmDetailsUnfiltered
@@ -701,7 +722,7 @@ export async function loadMojangLauncherData(): Promise<LauncherJson | null> {
  * @param {string} verString Full version string to parse.
  * @returns Object containing the version information.
  */
-export function parseJavaRuntimeVersion(verString: string): JavaVersion {
+export function parseJavaRuntimeVersion(verString: string): JavaVersion | null {
     if(verString.startsWith('1.')){
         return parseJavaRuntimeVersionLegacy(verString)
     } else {
@@ -716,21 +737,21 @@ export function parseJavaRuntimeVersion(verString: string): JavaVersion {
  * @param {string} verString Full version string to parse.
  * @returns Object containing the version information.
  */
-export function  parseJavaRuntimeVersionLegacy(verString: string): JavaVersion {
+export function  parseJavaRuntimeVersionLegacy(verString: string): JavaVersion | null {
     // 1.{major}.0_{update}-b{build}
     // ex. 1.8.0_152-b16
     const regex = /1.(\d+).(\d+)_(\d+)(?:-b(\d+))?/
     const match = regex.exec(verString)!
 
     if(match == null) {
-        throw new Error(`Failed to parse legacy Java version: ${verString}`)
+        log.error(`Failed to parse legacy Java version: ${verString}`)
+        return null
     }
 
     return {
         major: parseInt(match[1]),
         minor: parseInt(match[2]),
-        patch: parseInt(match[3]),
-        build: match[4] != undefined ? parseInt(match[4]) : undefined
+        patch: parseInt(match[3])
     }
 }
 
@@ -741,26 +762,26 @@ export function  parseJavaRuntimeVersionLegacy(verString: string): JavaVersion {
  * @param {string} verString Full version string to parse.
  * @returns Object containing the version information.
  */
-export function  parseJavaRuntimeVersionSemver(verString: string): JavaVersion {
+export function  parseJavaRuntimeVersionSemver(verString: string): JavaVersion | null {
     // {major}.{minor}.{patch}+{build}
     // ex. 10.0.2+13 or 10.0.2.13
     const regex = /(\d+)\.(\d+).(\d+)(?:[+.](\d+))?/
     const match = regex.exec(verString)!
 
     if(match == null) {
-        throw new Error(`Failed to parse semver Java version: ${verString}`)
+        log.error(`Failed to parse semver Java version: ${verString}`)
+        return null
     }
 
     return {
         major: parseInt(match[1]),
         minor: parseInt(match[2]),
-        patch: parseInt(match[3]),
-        build: match[4] != undefined ? parseInt(match[4]) : undefined
+        patch: parseInt(match[3])
     }
 }
 
-export function javaVersionToString({ major, minor, patch, build }: JavaVersion): string {
-    return `${major}.${minor}.${patch}${build != null ? `+${build}` : ''}`
+export function javaVersionToString({ major, minor, patch }: JavaVersion): string {
+    return `${major}.${minor}.${patch}`
 }
 
 export interface JavaDiscoverer {
@@ -898,7 +919,7 @@ export class Win32RegistryJavaDiscoverer implements JavaDiscoverer {
                                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                             if(isNaN(vKey as any)) {
                                                 // Should be a semver key.
-                                                major = parseJavaRuntimeVersion(vKey).major
+                                                major = parseJavaRuntimeVersion(vKey)?.major ?? -1
                                             } else {
                                                 // This is an abbreviated version, ie 1.8 or 17.
                                                 const asNum = parseFloat(vKey)

@@ -8,30 +8,35 @@ describe('JavaGuard', () => {
         'path/to/jdk-64/21': {
             'sun.arch.data.model': '64',
             'os.arch': 'amd64',
+            'java.version': '21.0.0',
             'java.runtime.version': '21.0.0+1',
             'java.vendor': 'Eclipse Adoptium'
         } as HotSpotSettings,
         'path/to/jdk-64/17': {
             'sun.arch.data.model': '64',
             'os.arch': 'amd64',
+            'java.version': '17.0.5',
             'java.runtime.version': '17.0.5+8',
             'java.vendor': 'Eclipse Adoptium'
         } as HotSpotSettings,
         'path/to/jdk-32/17': {
             'sun.arch.data.model': '32',
             'os.arch': 'x86',
+            'java.version': '17.0.5',
             'java.runtime.version': '17.0.5+8',
             'java.vendor': 'Eclipse Adoptium'
         } as HotSpotSettings,
         'path/to/jdk-64/8': {
             'sun.arch.data.model': '64',
             'os.arch': 'amd64',
+            'java.version': '1.8.0_362',
             'java.runtime.version': '1.8.0_362-b09',
             'java.vendor': 'Eclipse Adoptium'
         } as HotSpotSettings,
         'path/to/jdk-32/8': {
             'sun.arch.data.model': '32',
             'os.arch': 'x86',
+            'java.version': '1.8.0_362',
             'java.runtime.version': '1.8.0_362-b09',
             'java.vendor': 'Eclipse Adoptium'
         } as HotSpotSettings
@@ -90,21 +95,20 @@ describe('JavaGuard', () => {
 
     it('Java Version Parsing', async () => {
 
-        const testMatrix: [string, JavaVersion][] = [
-            ['1.8.0_351', { major: 8, minor: 0, patch: 351, build: undefined }],
-            ['1.8.0_351-b10', { major: 8, minor: 0, patch: 351, build: 10 }],
-            ['17.0.5', { major: 17, minor: 0, patch: 5, build: undefined }],
-            ['17.0.5.8', { major: 17, minor: 0, patch: 5, build: 8 }],
-            ['17.0.6+9-LTS-190', { major: 17, minor: 0, patch: 6, build: 9 }]
+        const testMatrix: [string, JavaVersion | null][] = [
+            ['1.8.0_351', { major: 8, minor: 0, patch: 351 }],
+            ['1.8.0_351-b10', { major: 8, minor: 0, patch: 351 }],
+            ['17.0.5', { major: 17, minor: 0, patch: 5 }],
+            ['17.0.5.8', { major: 17, minor: 0, patch: 5 }],
+            ['17.0.6+9-LTS-190', { major: 17, minor: 0, patch: 6 }],
+            ['abc', null],
+            ['1.8', null],
+            ['17.0', null]
         ]
 
         for(const [test, res] of testMatrix) {
             expect(parseJavaRuntimeVersion(test)).to.deep.equal(res)
         }
-
-        expect(() => parseJavaRuntimeVersion('abc')).to.throw()
-        expect(() => parseJavaRuntimeVersion('1.8')).to.throw()
-        expect(() => parseJavaRuntimeVersion('17.0')).to.throw()
     })
 
     it.skip('Win32 Registry Keys', async () => {
