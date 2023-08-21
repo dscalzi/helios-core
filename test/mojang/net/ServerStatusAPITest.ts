@@ -34,9 +34,8 @@ function verifyResult(res: ServerStatus): void {
 }
 
 const serversToCheck = [
-    'play.hypixel.net',
+    'mc.hypixel.net',
     'mc.westeroscraft.com',
-    'us.mineplex.com',
     // 'stoneblock.colaian.tech' // SRV - commented out b/c may be shut down.
 ]
 

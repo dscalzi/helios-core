@@ -7,7 +7,6 @@ import { dirname, join } from 'path'
 import { promisify } from 'util'
 import { LauncherJson } from '../model/mojang/LauncherJson'
 import { LoggerUtil } from '../util/LoggerUtil'
-import { getDiskInfo } from 'node-disk-info'
 import Registry from 'winreg'
 import semver from 'semver'
 import { Asset, HashAlgo } from '../dl'
@@ -1019,7 +1018,7 @@ export async function getWin32Discoverers(dataDir: string): Promise<JavaDiscover
     return [
         new EnvironmentBasedJavaDiscoverer(getPossibleJavaEnvs()),
         new DirectoryBasedJavaDiscoverer([
-            ...(await getPathsOnAllDrives([
+            ...(await getPathsOnAllDrivesWin32([
                 'Program Files\\Java',
                 'Program Files\\Eclipse Adoptium',
                 'Program Files\\Eclipse Foundation',
@@ -1055,8 +1054,25 @@ export async function getLinuxDiscoverers(dataDir: string): Promise<JavaDiscover
     ]
 }
 
-export async function getPathsOnAllDrives(paths: string[]): Promise<string[]> {
-    const driveMounts = (await getDiskInfo()).map(({ mounted }) => mounted)
+export async function win32DriveMounts(): Promise<string[]> {
+
+    const execAsync = promisify(exec)
+
+    let stdout
+    try {
+        stdout = (await execAsync('gdr -psp FileSystem | select -eXp root | ConvertTo-Json', {shell: 'powershell.exe'})).stdout
+    } catch(error) {
+        log.error('Failed to resolve drive mounts!')
+        log.error(error)
+        // Default to C:\\
+        return ['C:\\']
+    }
+
+    return JSON.parse(stdout)
+}
+
+export async function getPathsOnAllDrivesWin32(paths: string[]): Promise<string[]> {
+    const driveMounts = await win32DriveMounts()
     const res: string[] = []
     for(const path of paths) {
         for(const mount of driveMounts) {
