@@ -89,6 +89,7 @@ export class DistributionIndexProcessor extends IndexProcessor {
                 throw new AssetGuardError('No Forge version manifest module found!')
             }
 
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             return await readJson(versionManifstModule.getPath(), 'utf-8')
 
         } else {
@@ -96,12 +97,14 @@ export class DistributionIndexProcessor extends IndexProcessor {
             const zip = new StreamZip.async({ file: forgeModule.getPath() })
 
             try {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 const data = JSON.parse((await zip.entryData('version.json')).toString('utf8'))
-                const writePath = getVersionJsonPath(this.commonDir, data.id)
+                const writePath = getVersionJsonPath(this.commonDir, data.id as string)
     
                 await ensureDir(dirname(writePath))
                 await writeJson(writePath, data)
     
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                 return data
             }
             finally {

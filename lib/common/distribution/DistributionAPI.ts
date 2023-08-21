@@ -98,7 +98,7 @@ export class DistributionAPI {
             if(distro == null) {
                 distro = await this.pullLocal()
             } else {
-                this.writeDistributionToDisk(distro)
+                await this.writeDistributionToDisk(distro)
             }
 
         } else {
@@ -140,7 +140,7 @@ export class DistributionAPI {
         if(await pathExists(path)) {
             const raw = await readFile(path, 'utf-8')
             try {
-                return JSON.parse(raw)
+                return JSON.parse(raw) as Distribution
             } catch(error) {
                 DistributionAPI.log.error(`Malformed distribution file at ${path}`)
                 return null

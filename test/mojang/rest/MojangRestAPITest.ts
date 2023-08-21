@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MojangRestAPI, Session } from '../../../lib/mojang/rest/MojangRestAPI'
+import { AuthPayload, MojangRestAPI, Session } from '../../../lib/mojang/rest/MojangRestAPI'
 import { expect } from 'chai'
 import nock from 'nock'
 import { MojangErrorCode, MojangResponse } from '../../../lib/mojang/rest/MojangResponse'
@@ -23,6 +23,7 @@ describe('[Mojang Rest API] Errors', () => {
 
     it('Status (Offline)', async () => {
 
+        // eslint-disable-next-line @typescript-eslint/dot-notation
         const defStatusHack = MojangRestAPI['statuses']
 
         nock(MojangRestAPI.STATUS_ENDPOINT)
@@ -60,6 +61,7 @@ describe('[Mojang Rest API] Status', () => {
 
     it('Status (Online)', async () => {
 
+        // eslint-disable-next-line @typescript-eslint/dot-notation
         const defStatusHack = MojangRestAPI['statuses']
 
         nock(MojangRestAPI.STATUS_ENDPOINT)
@@ -81,10 +83,10 @@ describe('[Mojang Rest API] Auth', () => {
 
         nock(MojangRestAPI.AUTH_ENDPOINT)
             .post('/authenticate')
-            .reply(200, (uri, requestBody: any): Session => {
+            .reply(200, (uri, requestBody: AuthPayload): Session => {
                 const mockResponse: Session = {
                     accessToken: 'abc',
-                    clientToken: requestBody.clientToken,
+                    clientToken: requestBody.clientToken!,
                     selectedProfile: {
                         id: 'def',
                         name: 'username'
@@ -152,7 +154,7 @@ describe('[Mojang Rest API] Auth', () => {
             .reply(200, (uri, requestBody: any): Session => {
                 const mockResponse: Session = {
                     accessToken: 'abc',
-                    clientToken: requestBody.clientToken,
+                    clientToken: requestBody.clientToken as string,
                     selectedProfile: {
                         id: 'def',
                         name: 'username'

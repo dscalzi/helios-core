@@ -4,5 +4,8 @@
       "esModuleInterop": true,
       "resolveJsonModule": true
     },
+    "include": [
+      "test"
+    ],
     "extends": "./tsconfig.json"
   }

@@ -98,7 +98,7 @@ export class MojangIndexProcessor extends IndexProcessor {
         } else {
             // Attempt to find local index.
             if(await pathExists(versionJsonPath)) {
-                return await readJson(versionJsonPath)
+                return await readJson(versionJsonPath) as VersionJson
             } else {
                 throw new AssetGuardError(`Unable to load version manifest and ${version} json index does not exist locally.`)
             }
@@ -113,10 +113,10 @@ export class MojangIndexProcessor extends IndexProcessor {
                 if(hash) {
                     const bufHash = calculateHashByBuffer(buf, hash.algo)
                     if(bufHash === hash.value) {
-                        return JSON.parse(buf.toString())
+                        return JSON.parse(buf.toString()) as T
                     }
                 } else {
-                    return JSON.parse(buf.toString())
+                    return JSON.parse(buf.toString()) as T
                 }
             }
         } catch(error) {
@@ -217,10 +217,10 @@ export class MojangIndexProcessor extends IndexProcessor {
                 } else {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
-                    const classifier = libEntry.natives[getMojangOS()].replace('${arch}', process.arch.replace('x', ''))
+                    const classifier = libEntry.natives[getMojangOS()].replace('${arch}', process.arch.replace('x', '')) as string
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
-                    artifact = libEntry.downloads.classifiers[classifier]
+                    artifact = libEntry.downloads.classifiers[classifier] as LibraryArtifact
                 }
 
                 const path = join(libDir, artifact.path)

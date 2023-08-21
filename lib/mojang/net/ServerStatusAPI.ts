@@ -160,7 +160,7 @@ export async function getServerStatus(protocol: number, hostname: string, port =
                     const result = inboundPacket.readString()
 
                     try {
-                        const parsed: ServerStatus = JSON.parse(result)
+                        const parsed = JSON.parse(result) as ServerStatus
                         socket.end()
                         resolve(unifyStatusResponse(parsed))
                     } catch(err) {

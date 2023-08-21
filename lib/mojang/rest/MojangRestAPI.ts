@@ -25,10 +25,10 @@ export interface Session {
     }
     user?: {
         id: string
-        properties: Array<{
+        properties: {
             name: string
             value: string
-        }>
+        }[]
     }
 }
 
@@ -229,9 +229,9 @@ export class MojangRestAPI {
             MojangRestAPI.expectSpecificSuccess('Mojang Status', 200, res.statusCode)
 
             for(const status of res.body) {
-                for(let i=0; i<MojangRestAPI.statuses.length; i++) {
-                    if(MojangRestAPI.statuses[i].service === status.slug) {
-                        MojangRestAPI.statuses[i].status = status.status === 'up' ? MojangStatusColor.GREEN : MojangStatusColor.RED
+                for(const mojStatus of MojangRestAPI.statuses) {
+                    if(mojStatus.service === status.slug) {
+                        mojStatus.status = status.status === 'up' ? MojangStatusColor.GREEN : MojangStatusColor.RED
                         break
                     }
                 }
@@ -245,8 +245,8 @@ export class MojangRestAPI {
         } catch(error) {
 
             return MojangRestAPI.handleGotError('Mojang Status', error as RequestError, () => {
-                for(let i=0; i<MojangRestAPI.statuses.length; i++){
-                    MojangRestAPI.statuses[i].status = MojangStatusColor.GREY
+                for(const status of MojangRestAPI.statuses){
+                    status.status = MojangStatusColor.GREY
                 }
                 return MojangRestAPI.statuses
             })

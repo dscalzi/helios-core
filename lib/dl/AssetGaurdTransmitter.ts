@@ -21,8 +21,8 @@ abstract class BaseTransmitter {
 
         if(additionalEnvVars) {
             // Copy and enrich current env
-            const forkEnv = {
-                ...JSON.parse(JSON.stringify(process.env)),
+            const forkEnv: NodeJS.ProcessEnv = {
+                ...JSON.parse(JSON.stringify(process.env)) as NodeJS.ProcessEnv,
                 ...additionalEnvVars
             }
 

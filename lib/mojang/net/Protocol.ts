@@ -132,8 +132,8 @@ export class ClientBoundPacket {
 
         let value = ''
 
-        for (let i=0; i<data.length; i++) {
-            value += String.fromCharCode(data[i])
+        for (const charCode of data) {
+            value += String.fromCharCode(charCode)
         }
 
         return value

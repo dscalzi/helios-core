@@ -69,7 +69,7 @@ export async function downloadFile(url: string, path: string, onProgress?: (prog
             fileWriterStream = createWriteStream(path)
 
             if(onProgress) {
-                downloadStream.on('downloadProgress', progress => onProgress(progress))
+                downloadStream.on('downloadProgress', (progress: Progress) => onProgress(progress))
             }
 
             await pipeline(downloadStream, fileWriterStream)
