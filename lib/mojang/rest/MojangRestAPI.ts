@@ -107,12 +107,6 @@ export class MojangRestAPI {
                 essential: false
             },
             {
-                service: 'minecraft-net-website',
-                status: MojangStatusColor.GREY,
-                name: 'Minecraft.net',
-                essential: false
-            },
-            {
                 service: 'mojang-accounts-website',
                 status: MojangStatusColor.GREY,
                 name: 'Mojang Accounts Website',
