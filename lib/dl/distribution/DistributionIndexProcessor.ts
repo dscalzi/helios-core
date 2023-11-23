@@ -43,7 +43,7 @@ export class DistributionIndexProcessor extends IndexProcessor {
     }
 
     public async postDownload(): Promise<void> {
-        await this.loadForgeVersionJson()
+        await this.loadModLoaderVersionJson()
     }
 
     private async validateModules(modules: HeliosModule[], accumulator: Asset[]): Promise<void> {
@@ -69,24 +69,24 @@ export class DistributionIndexProcessor extends IndexProcessor {
 
     // TODO Type the return type.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public async loadForgeVersionJson(): Promise<any> {
+    public async loadModLoaderVersionJson(): Promise<any> {
 
         const server: HeliosServer = this.distribution.getServerById(this.serverId)!
         if(server == null) {
             throw new AssetGuardError(`Invalid server id ${this.serverId}`)
         }
 
-        const forgeModule = server.modules.find(({ rawModule: { type } }) => type === Type.ForgeHosted || type === Type.Forge)
+        const modLoaderModule = server.modules.find(({ rawModule: { type } }) => type === Type.ForgeHosted || type === Type.Forge || type === Type.Fabric)
 
-        if(forgeModule == null) {
-            throw new AssetGuardError('No Forge module found!')
+        if(modLoaderModule == null) {
+            throw new AssetGuardError('No mod loader found!')
         }
 
-        if(DistributionIndexProcessor.isForgeGradle3(server.rawServer.minecraftVersion, forgeModule.getMavenComponents().version)) {
+        if(DistributionIndexProcessor.isForgeGradle3OrFabric(server.rawServer.minecraftVersion, modLoaderModule.getMavenComponents().version)) {
 
-            const versionManifstModule = forgeModule.subModules.find(({ rawModule: { type }}) => type === Type.VersionManifest)
+            const versionManifstModule = modLoaderModule.subModules.find(({ rawModule: { type }}) => type === Type.VersionManifest)
             if(versionManifstModule == null) {
-                throw new AssetGuardError('No Forge version manifest module found!')
+                throw new AssetGuardError('No mod loader version manifest module found!')
             }
 
             // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -94,7 +94,7 @@ export class DistributionIndexProcessor extends IndexProcessor {
 
         } else {
 
-            const zip = new StreamZip.async({ file: forgeModule.getPath() })
+            const zip = new StreamZip.async({ file: modLoaderModule.getPath() })
 
             try {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -115,7 +115,7 @@ export class DistributionIndexProcessor extends IndexProcessor {
     }
 
     // TODO Move this to a util maybe
-    public static isForgeGradle3(mcVersion: string, forgeVersion: string): boolean {
+    public static isForgeGradle3OrFabric(mcVersion: string, forgeVersion: string): boolean {
 
         if(mcVersionAtLeast('1.13', mcVersion)) {
             return true
