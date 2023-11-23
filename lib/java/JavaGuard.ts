@@ -1024,7 +1024,8 @@ export async function getWin32Discoverers(dataDir: string): Promise<JavaDiscover
                 'Program Files\\Java',
                 'Program Files\\Eclipse Adoptium',
                 'Program Files\\Eclipse Foundation',
-                'Program Files\\AdoptOpenJDK'
+                'Program Files\\AdoptOpenJDK',
+                'Program Files\\Amazon Corretto'
             ])),
             getLauncherRuntimeDir(dataDir)
         ]),
