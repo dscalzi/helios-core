@@ -33,18 +33,18 @@ function verifyResult(res: ServerStatus): void {
     expect(res.description).to.have.property('text')
 }
 
-const serversToCheck = [
-    'mc.hypixel.net',
-    'mc.westeroscraft.com',
+const serversToCheck: [string, number?][] = [
+    ['mc.hypixel.net'],
+    ['mc.westeroscraft.com', 1182],
     // 'stoneblock.colaian.tech' // SRV - commented out b/c may be shut down.
 ]
 
 describe('[Server Status API] Server Status', () => {
 
-    for(const server of serversToCheck) {
+    for(const [server, port] of serversToCheck) {
         it(`Server Status (${server})`, async () => {
 
-            verifyResult((await getServerStatus(47, server, 25565))!)
+            verifyResult((await getServerStatus(47, server, port))!)
     
         }).timeout(5000)
     }
