@@ -5,7 +5,7 @@ import { ensureDir, pathExists, readFile, readJson, writeFile } from 'fs-extra'
 import { Asset, HashAlgo } from '../Asset'
 import { AssetGuardError } from '../AssetGuardError'
 import { IndexProcessor } from '../IndexProcessor'
-import { AssetIndex, LibraryArtifact, MojangVersionManifest, VersionJson } from './MojangTypes'
+import { AssetIndex, LibraryArtifact, MojangVersionManifest, VersionJsonBase } from './MojangTypes'
 import { calculateHashByBuffer, getLibraryDir, getVersionJarPath, getVersionJsonPath, validateLocalFile } from '../../common/util/FileUtils'
 import { getMojangOS, isLibraryCompatible } from '../../common/util/MojangUtils'
 import { LoggerUtil } from '../../util/LoggerUtil'
@@ -19,7 +19,7 @@ export class MojangIndexProcessor extends IndexProcessor {
 
     private static readonly logger = LoggerUtil.getLogger('MojangIndexProcessor')
 
-    private versionJson!: VersionJson
+    private versionJson!: VersionJsonBase
     private assetIndex!: AssetIndex
     private client = got.extend({
         responseType: 'json'
@@ -67,12 +67,12 @@ export class MojangIndexProcessor extends IndexProcessor {
     }
 
     // Can be called without init - needed for launch process.
-    public async getVersionJson(): Promise<VersionJson> {
+    public async getVersionJson(): Promise<VersionJsonBase> {
         const versionManifest = await this.loadVersionManifest()
         return await this.loadVersionJson(this.version, versionManifest)
     }
 
-    private async loadAssetIndex(versionJson: VersionJson): Promise<AssetIndex> {
+    private async loadAssetIndex(versionJson: VersionJsonBase): Promise<AssetIndex> {
         const assetIndexPath = this.getAssetIndexPath(versionJson.assetIndex.id)
         const assetIndex = await this.loadContentWithRemoteFallback<AssetIndex>(versionJson.assetIndex.url, assetIndexPath, { algo: HashAlgo.SHA1, value: versionJson.assetIndex.sha1 })
         if(assetIndex == null) {
@@ -81,14 +81,14 @@ export class MojangIndexProcessor extends IndexProcessor {
         return assetIndex
     }
 
-    private async loadVersionJson(version: string, versionManifest: MojangVersionManifest | null): Promise<VersionJson> {
+    private async loadVersionJson(version: string, versionManifest: MojangVersionManifest | null): Promise<VersionJsonBase> {
         const versionJsonPath = getVersionJsonPath(this.commonDir, version)
         if(versionManifest != null) {
             const versionInfo = versionManifest.versions.find(({ id }) => id === version)
             if(versionInfo == null) {
                 throw new AssetGuardError(`Invalid version: ${version}.`)
             }
-            const versionJson = await this.loadContentWithRemoteFallback<VersionJson>(versionInfo.url, versionJsonPath, { algo: HashAlgo.SHA1, value: versionInfo.sha1 })
+            const versionJson = await this.loadContentWithRemoteFallback<VersionJsonBase>(versionInfo.url, versionJsonPath, { algo: HashAlgo.SHA1, value: versionInfo.sha1 })
             if(versionJson == null) {
                 throw new AssetGuardError(`Failed to download ${version} json index.`)
             }
@@ -98,7 +98,7 @@ export class MojangIndexProcessor extends IndexProcessor {
         } else {
             // Attempt to find local index.
             if(await pathExists(versionJsonPath)) {
-                return await readJson(versionJsonPath) as VersionJson
+                return await readJson(versionJsonPath) as VersionJsonBase
             } else {
                 throw new AssetGuardError(`Unable to load version manifest and ${version} json index does not exist locally.`)
             }
@@ -204,7 +204,7 @@ export class MojangIndexProcessor extends IndexProcessor {
 
     }
 
-    private async validateLibraries(versionJson: VersionJson): Promise<Asset[]> {
+    private async validateLibraries(versionJson: VersionJsonBase): Promise<Asset[]> {
         
         const libDir = getLibraryDir(this.commonDir)
         const notValid: Asset[] = []
@@ -241,7 +241,7 @@ export class MojangIndexProcessor extends IndexProcessor {
         return notValid
     }
 
-    private async validateClient(versionJson: VersionJson): Promise<Asset[]> {
+    private async validateClient(versionJson: VersionJsonBase): Promise<Asset[]> {
 
         const version = versionJson.id
         const versionJarPath = getVersionJarPath(this.commonDir, version)
@@ -262,7 +262,7 @@ export class MojangIndexProcessor extends IndexProcessor {
 
     }
 
-    private async validateLogConfig(versionJson: VersionJson): Promise<Asset[]> {
+    private async validateLogConfig(versionJson: VersionJsonBase): Promise<Asset[]> {
 
         const logFile = versionJson.logging.client.file
         const path = join(this.assetPath, 'log_configs', logFile.id)
