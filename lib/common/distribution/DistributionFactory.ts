@@ -220,11 +220,15 @@ export class HeliosModule {
             case Type.Library:
             case Type.Forge:
             case Type.ForgeHosted:
+            case Type.Fabric:
             case Type.LiteLoader:
                 return join(commonDir, 'libraries', relativePath)
             case Type.ForgeMod:
             case Type.LiteMod:
+                // TODO Move to /mods/forge eventually..
                 return join(commonDir, 'modstore', relativePath)
+            case Type.FabricMod:
+                return join(commonDir, 'mods', 'fabric', relativePath)
             case Type.File:
             default:
                 return join(instanceDir, this.serverId, relativePath) 

@@ -48,15 +48,8 @@ export interface Library {
     rules?: Rule[]
 }
 
-export interface VersionJson {
+export interface VersionJsonBase {
 
-    arguments: {
-        game: string[]
-        jvm: {
-            rules: Rule[]
-            value: string[]
-        }[]
-    }
     assetIndex: {
         id: string
         sha1: string
@@ -70,6 +63,10 @@ export interface VersionJson {
         server: BaseArtifact
     }
     id: string
+    /**
+     * Only on modloader version properties (extend and override base version)
+     */
+    inheritsFrom?: string
     libraries: Library[]
     logging: {
         client: {
@@ -84,11 +81,25 @@ export interface VersionJson {
         }
     }
     mainClass: string
-    minimumLauncherVersion: number
     releaseTime: string
     time: string
     type: string
+}
 
+export interface VersionJsonLegacy extends VersionJsonBase {
+    minecraftArguments: string
+}
+
+export interface VersionJsonNew extends VersionJsonBase {
+    arguments: {
+        game: (string | RuleBasedArgument)[]
+        jvm: (string | RuleBasedArgument)[]
+    }
+}
+
+export interface RuleBasedArgument {
+    rules: Rule[]
+    value: string | string[]
 }
 
 export interface AssetIndex {
