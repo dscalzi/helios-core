@@ -89,12 +89,6 @@ export class MojangRestAPI {
                 essential: true
             },
             {
-                service: 'mojang-authserver',
-                status: MojangStatusColor.GREY,
-                name: 'Authentication Service',
-                essential: true
-            },
-            {
                 service: 'minecraft-skins',
                 status: MojangStatusColor.GREY,
                 name: 'Minecraft Skins',
