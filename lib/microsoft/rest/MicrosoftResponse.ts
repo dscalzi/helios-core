@@ -53,36 +53,6 @@ export enum MicrosoftErrorCode {
     UNDER_18 = 2148916238
 }
 
-export function microsoftErrorDisplayable(errorCode: MicrosoftErrorCode): DisplayableError {
-    switch(errorCode) {
-        case MicrosoftErrorCode.NO_PROFILE:
-            return {
-                title: 'Error During Login:<br>Profile Not Set Up',
-                desc: 'Your Microsoft account does not yet have a Minecraft profile set up. If you have recently purchased the game or redeemed it through Xbox Game Pass, you have to set up your profile on <a href="https://minecraft.net/">Minecraft.net</a>.<br><br>If you have not yet purchased the game, you can also do that on <a href="https://minecraft.net/">Minecraft.net</a>.'
-            }
-        case MicrosoftErrorCode.NO_XBOX_ACCOUNT:
-            return {
-                title: 'Error During Login:<br>No Xbox Account',
-                desc: 'Your Microsoft account has no Xbox account associated with it.'
-            }
-        case MicrosoftErrorCode.XBL_BANNED:
-            return {
-                title: 'Error During Login:<br>Xbox Live Unavailable',
-                desc: 'Your Microsoft account is from a country where Xbox Live is not available or banned.'
-            }
-        case MicrosoftErrorCode.UNDER_18:
-            return {
-                title: 'Error During Login:<br>Parental Approval Required',
-                desc: 'Accounts for users under the age of 18 must be added to a Family by an adult.'
-            }
-        case MicrosoftErrorCode.UNKNOWN:
-            return {
-                title: 'Unknown Error During Login',
-                desc: 'An unknown error has occurred. Please see the console for details.'
-            }
-    }
-}
-
 export interface MicrosoftResponse<T> extends RestResponse<T> {
     microsoftErrorCode?: MicrosoftErrorCode
 }
