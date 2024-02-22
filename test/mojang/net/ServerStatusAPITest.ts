@@ -44,7 +44,7 @@ describe('[Server Status API] Server Status', () => {
     for(const [server, port] of serversToCheck) {
         it(`Server Status (${server})`, async () => {
 
-            verifyResult((await getServerStatus(47, server, port))!)
+            verifyResult(await getServerStatus(47, server, port))
     
         }).timeout(5000)
     }
