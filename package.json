@@ -1,7 +1,7 @@
 {
-  "name": "helios-core",
-  "version": "2.2.0",
-  "description": "A library containing core mechanisms for Helios Launcher",
+  "name": "limbo-core",
+  "version": "1.0.0",
+  "description": "A library containing core mechanisms for Limbo Launcher",
   "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf dist",
@@ -44,19 +44,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dscalzi/helios-core.git"
+    "url": "git+https://github.com/Limbo-Studios/limbo-core.git"
   },
   "keywords": [
-    "helios-launcher",
-    "helios-core",
+    "limbo-launcher",
+    "limbo-core",
     "minecraft-launcher"
   ],
   "author": "Daniel Scalzi",
   "license": " LGPL-3.0-only",
   "bugs": {
-    "url": "https://github.com/dscalzi/helios-core/issues"
+    "url": "https://github.com/Limbo-Studios/Limbo-Core/issues"
   },
-  "homepage": "https://github.com/dscalzi/helios-core#readme",
+  "homepage": "https://github.com/Limbo-Studios/Limbo-Core#readme",
   "devDependencies": {
     "@types/chai": "^4.3.11",
     "@types/chai-as-promised": "^7.1.8",
