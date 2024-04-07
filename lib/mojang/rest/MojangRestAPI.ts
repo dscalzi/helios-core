@@ -59,8 +59,8 @@ export class MojangRestAPI {
 
     private static readonly TIMEOUT = 2500
 
-    public static readonly AUTH_ENDPOINT = 'https://authserver.mojang.com'
-    public static readonly STATUS_ENDPOINT = 'https://raw.githubusercontent.com/AventiumSoftworks/helios-status-page/master/history/summary.json'
+    public static readonly AUTH_ENDPOINT = 'https://auth.lsmp.site/auth'
+    public static readonly STATUS_ENDPOINT = 'https://raw.githubusercontent.com/Limbo-Studios/limbo-status-page/master/history/summary.json'
 
     private static authClient = got.extend({
         prefixUrl: MojangRestAPI.AUTH_ENDPOINT,
@@ -83,57 +83,39 @@ export class MojangRestAPI {
     public static getDefaultStatuses(): MojangStatus[] {
         return [
             {
-                service: 'mojang-multiplayer-session-service',
+                service: 'limbo-yggdrasil-multiplayer-session-service',
                 status: MojangStatusColor.GREY,
                 name: 'Multiplayer Session Service',
                 essential: true
             },
             {
-                service: 'minecraft-skins',
+                service: 'limbo-yggdrasil-authserver',
+                status: MojangStatusColor.GREY,
+                name: 'Authentication Service',
+                essential: true
+            },
+            {
+                service: 'skins',
                 status: MojangStatusColor.GREY,
                 name: 'Minecraft Skins',
                 essential: false
             },
             {
-                service: 'mojang-s-public-api',
+                service: 'limbo-yggdrasil-public-api',
                 status: MojangStatusColor.GREY,
                 name: 'Public API',
                 essential: false
             },
             {
-                service: 'mojang-accounts-website',
+                service: 'main-limbo-auth-website',
                 status: MojangStatusColor.GREY,
-                name: 'Mojang Accounts Website',
+                name: 'Limbo Auth Website',
                 essential: false
             },
             {
-                service: 'microsoft-o-auth-server',
+                service: 'limbo-yggdrasil',
                 status: MojangStatusColor.GREY,
-                name: 'Microsoft OAuth Server',
-                essential: true
-            },
-            {
-                service: 'xbox-live-auth-server',
-                status: MojangStatusColor.GREY,
-                name: 'Xbox Live Auth Server',
-                essential: true
-            },
-            {
-                service: 'xbox-live-gatekeeper', // Server used to give XTokens
-                status: MojangStatusColor.GREY,
-                name: 'Xbox Live Gatekeeper',
-                essential: true
-            },
-            {
-                service: 'microsoft-minecraft-api',
-                status: MojangStatusColor.GREY,
-                name: 'Minecraft API for Microsoft Accounts',
-                essential: true
-            },
-            {
-                service: 'microsoft-minecraft-profile',
-                status: MojangStatusColor.GREY,
-                name: 'Minecraft Profile for Microsoft Accounts',
+                name: 'Minecraft Profile for LimboAuth Accounts',
                 essential: false
             }
         ]
