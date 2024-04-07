@@ -98,7 +98,7 @@ export class MojangRestAPI {
                 service: 'skins',
                 status: MojangStatusColor.GREY,
                 name: 'Minecraft Skins',
-                essential: false
+                essential: true
             },
             {
                 service: 'limbo-yggdrasil-public-api',
