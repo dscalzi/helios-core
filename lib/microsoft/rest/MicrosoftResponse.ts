@@ -1,4 +1,4 @@
-import { DisplayableError, RestResponse } from '../../common/rest/RestResponse'
+import { RestResponse } from '../../common/rest/RestResponse'
 
 /**
  * Various error codes from any point of the Microsoft authentication process.

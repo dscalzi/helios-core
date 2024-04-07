@@ -1,4 +1,4 @@
-import { DisplayableError, RestResponse } from '../../common/rest/RestResponse'
+import { RestResponse } from '../../common/rest/RestResponse'
 
 /**
  * @see https://wiki.vg/Authentication#Errors
