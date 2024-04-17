@@ -85,37 +85,37 @@ export class MojangRestAPI {
             {
                 service: 'limbo-yggdrasil-multiplayer-session-service',
                 status: MojangStatusColor.GREY,
-                name: 'Multiplayer Session Service',
+                name: 'Servicio de sesión Multijugador',
                 essential: true
             },
             {
                 service: 'limbo-yggdrasil-authserver',
                 status: MojangStatusColor.GREY,
-                name: 'Authentication Service',
+                name: 'Servicio de Autenticación',
                 essential: true
             },
             {
                 service: 'skins',
                 status: MojangStatusColor.GREY,
                 name: 'Minecraft Skins',
-                essential: true
+                essential: false
             },
             {
                 service: 'limbo-yggdrasil-public-api',
                 status: MojangStatusColor.GREY,
-                name: 'Public API',
+                name: 'API Publica',
                 essential: false
             },
             {
                 service: 'main-limbo-auth-website',
                 status: MojangStatusColor.GREY,
-                name: 'Limbo Auth Website',
+                name: 'Web de LimboAuth',
                 essential: false
             },
             {
                 service: 'limbo-yggdrasil',
                 status: MojangStatusColor.GREY,
-                name: 'Minecraft Profile for LimboAuth Accounts',
+                name: 'Perfiles de Minecraft para Cuentas de LimboAuth',
                 essential: false
             }
         ]
