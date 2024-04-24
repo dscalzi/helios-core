@@ -1,6 +1,6 @@
 {
   "name": "limbo-core",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "description": "A library containing core mechanisms for Limbo Launcher",
   "main": "dist/index.js",
   "scripts": {
