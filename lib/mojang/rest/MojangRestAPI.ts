@@ -59,7 +59,7 @@ export class MojangRestAPI {
 
     private static readonly TIMEOUT = 2500
 
-    public static readonly AUTH_ENDPOINT = 'https://auth.lsmp.site/auth'
+    public static readonly AUTH_ENDPOINT = 'https://auth.lsmp.site/api/yggdrasil'
     public static readonly STATUS_ENDPOINT = 'https://raw.githubusercontent.com/Limbo-Studios/limbo-status-page/master/history/summary.json'
 
     private static authClient = got.extend({
@@ -85,13 +85,13 @@ export class MojangRestAPI {
             {
                 service: 'limbo-yggdrasil-multiplayer-session-service',
                 status: MojangStatusColor.GREY,
-                name: 'Servicio de sesión Multijugador',
+                name: 'Servicio de sesion Multijugador',
                 essential: true
             },
             {
                 service: 'limbo-yggdrasil-authserver',
                 status: MojangStatusColor.GREY,
-                name: 'Servicio de Autenticación',
+                name: 'Servicio de Autenticacion',
                 essential: true
             },
             {
@@ -224,6 +224,7 @@ export class MojangRestAPI {
         
     }
 
+
     /**
      * Authenticate a user with their Mojang credentials.
      * 
@@ -255,7 +256,7 @@ export class MojangRestAPI {
                 json.clientToken = clientToken
             }
 
-            const res = await MojangRestAPI.authClient.post<Session>('authenticate', { json, responseType: 'json' })
+            const res = await MojangRestAPI.authClient.post<Session>('authserver/authenticate', { json, method: 'POST', headers: { 'Content-Type': 'application/json' }, responseType: 'json' })
             MojangRestAPI.expectSpecificSuccess('Mojang Authenticate', 200, res.statusCode)
             return {
                 data: res.body,
@@ -282,11 +283,11 @@ export class MojangRestAPI {
         try {
 
             const json = {
-                accessToken,
-                clientToken
+                'accessToken': accessToken,
+                'clientToken': clientToken
             }
 
-            const res = await MojangRestAPI.authClient.post('validate', { json })
+            const res = await MojangRestAPI.authClient.post('authserver/validate', { headers: { method: 'POST', 'Content-Type': 'application/json' }, json })
             MojangRestAPI.expectSpecificSuccess('Mojang Validate', 204, res.statusCode)
 
             return {
@@ -320,11 +321,11 @@ export class MojangRestAPI {
         try {
 
             const json = {
-                accessToken,
-                clientToken
+                'accessToken': accessToken,
+                'clientToken': clientToken
             }
 
-            const res = await MojangRestAPI.authClient.post('invalidate', { json })
+            const res = await MojangRestAPI.authClient.post('authserver/invalidate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, json })
             MojangRestAPI.expectSpecificSuccess('Mojang Invalidate', 204, res.statusCode)
 
             return {
@@ -359,7 +360,7 @@ export class MojangRestAPI {
                 requestUser
             }
 
-            const res = await MojangRestAPI.authClient.post<Session>('refresh', { json, responseType: 'json' })
+            const res = await MojangRestAPI.authClient.post<Session>('authserver/refresh', { method: 'POST', headers: { 'Content-Type': 'application/json' }, json, responseType: 'json' })
             MojangRestAPI.expectSpecificSuccess('Mojang Refresh', 200, res.statusCode)
 
             return {
