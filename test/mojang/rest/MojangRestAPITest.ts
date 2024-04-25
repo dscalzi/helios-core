@@ -40,7 +40,7 @@ describe('[Mojang Rest API] Errors', () => {
     it('Authenticate (Invalid Credentials)', async () => {
 
         nock(MojangRestAPI.AUTH_ENDPOINT)
-            .post('/authenticate')
+            .post('/authserver/authenticate')
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .reply(403, (uri, requestBody: unknown): { error: string, errorMessage: string } => {
                 return {
@@ -82,7 +82,7 @@ describe('[Mojang Rest API] Auth', () => {
     it('Authenticate', async () => {
 
         nock(MojangRestAPI.AUTH_ENDPOINT)
-            .post('/authenticate')
+            .post('/authserver/authenticate')
             .reply(200, (uri, requestBody: AuthPayload): Session => {
                 const mockResponse: Session = {
                     accessToken: 'abc',
@@ -113,7 +113,7 @@ describe('[Mojang Rest API] Auth', () => {
     it('Validate', async () => {
 
         nock(MojangRestAPI.AUTH_ENDPOINT)
-            .post('/validate')
+            .post('/authserver/validate')
             .times(2)
             .reply((uri, requestBody: any) => {
                 return [
@@ -138,7 +138,7 @@ describe('[Mojang Rest API] Auth', () => {
     it('Invalidate', async () => {
 
         nock(MojangRestAPI.AUTH_ENDPOINT)
-            .post('/invalidate')
+            .post('/authserver/invalidate')
             .reply(204)
 
         const res = await MojangRestAPI.invalidate('adc', 'def')
@@ -150,7 +150,7 @@ describe('[Mojang Rest API] Auth', () => {
     it('Refresh', async () => {
 
         nock(MojangRestAPI.AUTH_ENDPOINT)
-            .post('/refresh')
+            .post('/authserver/refresh')
             .reply(200, (uri, requestBody: any): Session => {
                 const mockResponse: Session = {
                     accessToken: 'abc',
