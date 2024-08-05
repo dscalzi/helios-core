@@ -1,5 +1,4 @@
 import { Rule, Natives } from '../../dl/mojang/MojangTypes'
-import semver from 'semver'
 
 export function getMojangOS(): string {
     const opSys = process.platform
@@ -49,5 +48,13 @@ export function isLibraryCompatible(rules?: Rule[], natives?: Natives): boolean 
  * @param {string} actual The actual version.
  */
 export function mcVersionAtLeast(desired: string, actual: string): boolean {
-    return semver.satisfies(actual, `>=${desired}`)
+    const des = desired.split('.')
+    const act = actual.split('.')
+
+    for(let i=0; i<des.length; i++){
+        if(!(parseInt(act[i]) >= parseInt(des[i]))){
+            return false
+        }
+    }
+    return true
 }
