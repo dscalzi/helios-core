@@ -7,6 +7,8 @@ describe('MojangUtil', () => {
 
         expect(mcVersionAtLeast('1.21', '1.21')).to.be.true
         expect(mcVersionAtLeast('1.20.5', '1.20.3')).to.be.false
+        expect(mcVersionAtLeast('1.20.5', '1.20.5')).to.be.true
+        expect(mcVersionAtLeast('1.20.5', '1.20.6')).to.be.true
         expect(mcVersionAtLeast('1.20.5', '1.20')).to.be.false
         expect(mcVersionAtLeast('1.20', '1.20.5')).to.be.true
 
