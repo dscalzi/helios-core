@@ -50,9 +50,18 @@ export function isLibraryCompatible(rules?: Rule[], natives?: Natives): boolean 
 export function mcVersionAtLeast(desired: string, actual: string): boolean {
     const des = desired.split('.')
     const act = actual.split('.')
+    if(act.length < des.length) {
+        for(let i=act.length; i<des.length; i++) {
+            act[i] = '0'
+        }
+    }
 
-    for(let i=0; i<des.length; i++){
-        if(!(parseInt(act[i]) >= parseInt(des[i]))){
+    for(let i=0; i<des.length; i++) {
+        const parsedDesired = parseInt(des[i])
+        const parsedActual = parseInt(act[i])
+        if(parsedActual > parsedDesired){
+            return true
+        } else if(parsedActual < parsedDesired) {
             return false
         }
     }
