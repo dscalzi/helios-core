@@ -1,4 +1,3 @@
-/* eslint-disable no-control-regex */
 import { SrvRecord } from 'dns'
 import { resolveSrv } from 'dns/promises'
 import { connect } from 'net'

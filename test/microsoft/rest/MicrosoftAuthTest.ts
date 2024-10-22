@@ -5,7 +5,6 @@ import { assertResponse, expectSuccess } from '../../common/RestResponseUtil'
 import { AuthorizationTokenResponse, AuthTokenRequest, MCInfoState, MCTokenResponse, MCUserInfo, MicrosoftAuth, RefreshTokenRequest, XboxServiceTokenResponse } from '../../../lib/microsoft/rest/MicrosoftAuth'
 import { URL } from 'url'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function expectMicrosoftResponse(res: MicrosoftResponse<unknown>, responseCode: MicrosoftErrorCode, negate = false): void {
     assertResponse(res)
     expect(res).to.have.property('microsoftErrorCode')
@@ -216,7 +215,7 @@ describe('[Microsoft Auth] Auth', () => {
 
         nock(MC_PROFILE_URL.origin)
             .get(MC_PROFILE_URL.pathname)
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .reply(200, (uri): MCUserInfo => {
                 const mockResponse: MCUserInfo = {
                     id: '986dec87b7ec47ff89ff033fdb95c4b5',

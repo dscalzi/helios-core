@@ -145,7 +145,7 @@ export class MojangRestAPI {
      * to our project which represents an unknown status.
      */
     public static statusToHex(status: string): string {
-        switch(status.toLowerCase()){
+        switch(status.toLowerCase() as MojangStatusColor){
             case MojangStatusColor.GREEN:
                 return '#a5c325'
             case MojangStatusColor.YELLOW:
