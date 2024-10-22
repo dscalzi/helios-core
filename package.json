@@ -1,6 +1,6 @@
 {
   "name": "helios-core",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "A library containing core mechanisms for Helios Launcher",
   "main": "dist/index.js",
   "scripts": {
