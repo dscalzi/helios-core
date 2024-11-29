@@ -1,4 +1,3 @@
-// Commented out for now, focusing on something else.
 import { exec } from 'child_process'
 import { pathExists, readdir } from 'fs-extra'
 import got from 'got'
