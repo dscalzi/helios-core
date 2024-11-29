@@ -58,13 +58,13 @@
   },
   "homepage": "https://github.com/dscalzi/helios-core#readme",
   "devDependencies": {
-    "@stylistic/eslint-plugin-ts": "^2.9.0",
+    "@stylistic/eslint-plugin-ts": "^2.11.0",
     "@types/chai": "^4.3.20",
     "@types/chai-as-promised": "^7.1.8",
     "@types/fs-extra": "^11.0.4",
     "@types/luxon": "^3.4.2",
-    "@types/mocha": "^10.0.9",
-    "@types/node": "^20.16.13",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.17.9",
     "@types/semver": "^7.5.8",
     "@types/tar-fs": "^2.0.4",
     "@types/triple-beam": "^1.3.5",
@@ -72,14 +72,14 @@
     "chai": "^4.4.1",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.3",
-    "eslint": "^9.13.0",
+    "eslint": "^9.15.0",
     "helios-distribution-types": "^1.3.0",
-    "mocha": "^10.7.3",
-    "nock": "^13.5.5",
+    "mocha": "^10.8.2",
+    "nock": "^13.5.6",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3",
-    "typescript-eslint": "^8.9.0"
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.16.0"
   },
   "dependencies": {
     "fastq": "^1.17.1",
@@ -91,7 +91,7 @@
     "tar-fs": "^3.0.6",
     "triple-beam": "^1.4.1",
     "winreg": "^1.2.5",
-    "winston": "^3.15.0"
+    "winston": "^3.17.0"
   },
   "files": [
     "dist"
