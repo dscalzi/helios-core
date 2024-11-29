@@ -124,7 +124,7 @@ export class HeliosServer {
     private defaultUndefinedJavaOptions(props: JavaVersionProps): Required<JavaVersionProps> {
         const [defaultRange, defaultSuggestion] = this.defaultJavaVersion()
         return {
-            supported: props.distribution ?? defaultRange,
+            supported: props.supported ?? defaultRange,
             distribution: props.distribution ?? this.defaultJavaPlatform(),
             suggestedMajor: props.suggestedMajor ?? defaultSuggestion,
         }
