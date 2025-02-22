@@ -34,9 +34,10 @@ export class MavenUtil {
 
     public static mavenComponentsToVersionlessIdentifier(
         group: string,
-        artifact: string
+        artifact: string,
+        classifier?: string
     ): string {
-        return `${group}:${artifact}`
+        return `${group}:${artifact}${classifier ? `:${classifier}` : ''}`
     }
 
     public static isMavenIdentifier(id: string): boolean {

@@ -289,7 +289,8 @@ export class HeliosModule {
     public getVersionlessMavenIdentifier(): string {
         return MavenUtil.mavenComponentsToVersionlessIdentifier(
             this.mavenComponents.group,
-            this.mavenComponents.artifact
+            this.mavenComponents.artifact,
+            this.mavenComponents.classifier
         )
     }
 
