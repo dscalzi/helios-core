@@ -1,4 +1,5 @@
 import got, { RequestError } from 'got'
+import { Architecture } from 'helios-distribution-types'
 import { dirname, join } from 'path'
 import { ensureDir, pathExists, readFile, readJson, writeFile } from 'fs-extra'
 
@@ -7,7 +8,7 @@ import { AssetGuardError } from '../AssetGuardError'
 import { IndexProcessor } from '../IndexProcessor'
 import { AssetIndex, LibraryArtifact, MojangVersionManifest, VersionJsonBase } from './MojangTypes'
 import { calculateHashByBuffer, getLibraryDir, getVersionJarPath, getVersionJsonPath, validateLocalFile } from '../../common/util/FileUtils'
-import { getMojangOS, isLibraryCompatible } from '../../common/util/MojangUtils'
+import { getMojangOS, isLibraryCompatible, mcVersionAtLeast } from '../../common/util/MojangUtils'
 import { LoggerUtil } from '../../util/LoggerUtil'
 import { handleGotError } from '../../common/rest/RestResponse'
 
@@ -91,6 +92,21 @@ export class MojangIndexProcessor extends IndexProcessor {
             const versionJson = await this.loadContentWithRemoteFallback<VersionJsonBase>(versionInfo.url, versionJsonPath, { algo: HashAlgo.SHA1, value: versionInfo.sha1 })
             if(versionJson == null) {
                 throw new AssetGuardError(`Failed to download ${version} json index.`)
+            }
+
+            if (process.arch === Architecture.ARM64 && !mcVersionAtLeast('1.19', version)) {
+                const latestVersion = versionManifest.latest.release
+                const latestVersionJsonPath = getVersionJsonPath(this.commonDir, latestVersion)
+                const latestVersionInfo = versionManifest.versions.find(({ id }) => id === latestVersion)
+                if(latestVersionInfo == null) {
+                    throw new AssetGuardError('Cannot find the latest version.')
+                }
+                const latestVersionJson = await this.loadContentWithRemoteFallback<VersionJsonBase>(latestVersionInfo.url, latestVersionJsonPath, { algo: HashAlgo.SHA1, value: latestVersionInfo.sha1 })
+                if(latestVersionJson == null) {
+                    throw new AssetGuardError(`Failed to download ${latestVersion} json index.`)
+                }
+                MojangIndexProcessor.logger.info(`Using LWJGL from ${latestVersion} for ARM64 compatibility.`)
+                versionJson.libraries = versionJson.libraries.filter(l => !l.name.startsWith('org.lwjgl:')).concat(latestVersionJson.libraries.filter(l => l.name.startsWith('org.lwjgl:')))
             }
 
             return versionJson
