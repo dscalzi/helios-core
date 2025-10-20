@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import nock from 'nock'
 import { URL } from 'url'
-import { MojangIndexProcessor } from '../../lib/dl/mojang/MojangIndexProcessor'
+import { MojangIndexProcessor } from '../../../lib/dl/mojang/MojangIndexProcessor'
 import { dirname, join } from 'path'
 import { expect } from 'chai'
 import { remove, pathExists } from 'fs-extra'
-import { getVersionJsonPath } from '../../lib/common/util/FileUtils'
+import { getVersionJsonPath } from '../../../lib/common/util/FileUtils'
 
 // @ts-ignore (JSON Modules enabled in tsconfig.test.json)
-import versionManifest from './files/version_manifest.json'
+import versionManifest from '../files/version_manifest.json'
 // @ts-ignore (JSON Modules enabled in tsconfig.test.json)
-import versionJson115 from './files/1.15.2.json'
+import versionJson115 from '../files/1.15.2.json'
 // @ts-ignore (JSON Modules enabled in tsconfig.test.json)
-import versionJson1710 from './files/1.7.10.json'
+import versionJson1710 from '../files/1.7.10.json'
 // @ts-ignore (JSON Modules enabled in tsconfig.test.json)
-import index115 from './files/index_1.15.json'
+import index115 from '../files/index_1.15.json'
 
-const commonDir = join(__dirname, 'files')
+const commonDir = join(__dirname, '..', 'files')
 const assetDir = join(commonDir, 'assets')
 const jsonPath115 = getVersionJsonPath(commonDir, '1.15.2')
 const indexPath115 = join(assetDir, 'indexes', '1.15.json')
@@ -127,6 +127,30 @@ describe('Mojang Index Processor', () => {
         expect(notValid.misc).to.have.lengthOf(1)
 
         expect(savedJson).to.equal(true)
+
+    })
+
+    it('[ MIP ] Validate Full Local (1.12.2) with parallel validation', async () => {
+
+        const manifestUrl = new URL(MojangIndexProcessor.VERSION_MANIFEST_ENDPOINT)
+
+        nock(manifestUrl.origin)
+            .get(manifestUrl.pathname)
+            .reply(200, versionManifest)
+
+        const mojangIndexProcessor = new MojangIndexProcessor(commonDir, '1.12.2')
+        await mojangIndexProcessor.init()
+
+        const notValid = await mojangIndexProcessor.validate(async () => { /* no-op */ })
+        expect(notValid).to.haveOwnProperty('assets')
+        expect(notValid.assets).to.have.lengthOf(1305-2)
+        expect(notValid).to.haveOwnProperty('libraries')
+        // Natives are different per OS
+        expect(notValid.libraries).to.have.length.gte(27)
+        expect(notValid).to.haveOwnProperty('client')
+        expect(notValid.client).to.have.lengthOf(1)
+        expect(notValid).to.haveOwnProperty('misc')
+        expect(notValid.misc).to.have.lengthOf(1)
 
     })
 

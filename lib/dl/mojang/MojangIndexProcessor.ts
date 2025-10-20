@@ -197,38 +197,38 @@ export class MojangIndexProcessor extends IndexProcessor {
     private async validateAssets(assetIndex: AssetIndex): Promise<Asset[]> {
 
         const objectDir = join(this.assetPath, 'objects')
-        const notValid: Asset[] = []
 
-        for(const assetEntry of Object.entries(assetIndex.objects)) {
+        const validationPromises: Promise<Asset | null>[] = Object.entries(assetIndex.objects).map(async (assetEntry) => {
             const hash = assetEntry[1].hash
             const path = join(objectDir, hash.substring(0, 2), hash)
             const url = `${MojangIndexProcessor.ASSET_RESOURCE_ENDPOINT}/${hash.substring(0, 2)}/${hash}`
 
-            if(!await validateLocalFile(path, HashAlgo.SHA1, hash)) {
-                notValid.push({
+            if (!await validateLocalFile(path, HashAlgo.SHA1, hash)) {
+                return {
                     id: assetEntry[0],
                     hash,
                     algo: HashAlgo.SHA1,
                     size: assetEntry[1].size,
                     url,
                     path
-                })
+                }
             }
-        }
+            return null
+        })
 
-        return notValid
+        const validationResults = await Promise.all(validationPromises)
+        return validationResults.filter((result): result is Asset => result !== null)
 
     }
 
     private async validateLibraries(versionJson: VersionJsonBase): Promise<Asset[]> {
         
         const libDir = getLibraryDir(this.commonDir)
-        const notValid: Asset[] = []
 
-        for(const libEntry of versionJson.libraries) {
-            if(isLibraryCompatible(libEntry.rules, libEntry.natives)) {
+        const validationPromises: Promise<Asset | null>[] = versionJson.libraries.map(async (libEntry) => {
+            if (isLibraryCompatible(libEntry.rules, libEntry.natives)) {
                 let artifact: LibraryArtifact
-                if(libEntry.natives == null) {
+                if (libEntry.natives == null) {
                     artifact = libEntry.downloads.artifact
                 } else {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -241,20 +241,22 @@ export class MojangIndexProcessor extends IndexProcessor {
 
                 const path = join(libDir, artifact.path)
                 const hash = artifact.sha1
-                if(!await validateLocalFile(path, HashAlgo.SHA1, hash)) {
-                    notValid.push({
+                if (!await validateLocalFile(path, HashAlgo.SHA1, hash)) {
+                    return {
                         id: libEntry.name,
                         hash,
                         algo: HashAlgo.SHA1,
                         size: artifact.size,
                         url: artifact.url,
                         path
-                    })
+                    }
                 }
             }
-        }
+            return null
+        })
 
-        return notValid
+        const validationResults = await Promise.all(validationPromises)
+        return validationResults.filter((result): result is Asset => result !== null)
     }
 
     private async validateClient(versionJson: VersionJsonBase): Promise<Asset[]> {
