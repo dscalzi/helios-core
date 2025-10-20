@@ -1,6 +1,6 @@
 {
   "name": "@envel/helios-core",
-  "version": "2.2.8-beta.0",
+  "version": "2.2.8-beta.1",
   "description": "A library containing core mechanisms for Helios Launcher",
   "main": "dist/index.js",
   "scripts": {
