@@ -320,8 +320,8 @@ export async function getHotSpotSettings(execPath: string): Promise<HotSpotSetti
 
     const javaExecutable = execPath.includes('javaw.exe') ? execPath.replace('javaw.exe', 'java.exe') : execPath
 
-    if(!await pathExists(execPath)) {
-        log.warn(`Candidate JVM path does not exist, skipping. ${execPath}`)
+    if(!await pathExists(javaExecutable)) {
+        log.warn(`Candidate JVM path does not exist, skipping. ${javaExecutable}`)
         return null
     }
 
@@ -329,10 +329,9 @@ export async function getHotSpotSettings(execPath: string): Promise<HotSpotSetti
 
     let stderr
     try {
-        stderr = (await execAsync(`"${javaExecutable}" -XshowSettings:properties -version`)).stderr
+        stderr = (await execAsync(`"${javaExecutable.replace(/"/g, '\\"')}" -XshowSettings:properties -version`)).stderr
     } catch(error) {
-        log.error(`Failed to resolve JVM settings for '${execPath}'`)
-        log.error(error)
+        log.error(`Failed to resolve JVM settings for '${execPath}'`, error)
         return null
     }
     
@@ -530,7 +529,13 @@ export async function latestAdoptium(major: number, dataDir: string): Promise<As
     const url = `https://api.adoptium.net/v3/assets/latest/${major}/hotspot?vendor=eclipse`
 
     try {
-        const res = await got.get<AdoptiumJdk[]>(url, { responseType: 'json' })
+        const res = await got.get<AdoptiumJdk[]>(url, {
+            responseType: 'json',
+            timeout: {
+                request: 15000,
+                connect: 5000
+            }
+        })
         if(res.body.length > 0) {
             const targetBinary = res.body.find(entry => {
                 return entry.version.major === major
@@ -590,8 +595,14 @@ export async function latestCorretto(major: number, dataDir: string): Promise<As
     const url = `https://corretto.aws/downloads/latest/amazon-corretto-${major}-${arch}-${sanitizedOS}-jdk.${ext}`
     const md5url = `https://corretto.aws/downloads/latest_checksum/amazon-corretto-${major}-${arch}-${sanitizedOS}-jdk.${ext}`
     try {
-        const res = await got.head(url)
-        const checksum = await got.get(md5url)
+        const requestOptions = {
+            timeout: {
+                request: 15000,
+                connect: 5000
+            }
+        }
+        const res = await got.head(url, requestOptions)
+        const checksum = await got.get(md5url, requestOptions)
         if(res.statusCode === 200) {
             const name = url.substring(url.lastIndexOf('/')+1)
             return {
@@ -704,7 +715,13 @@ export function isJavaExecPath(pth: string): boolean {
 export async function loadMojangLauncherData(): Promise<LauncherJson | null> {
 
     try {
-        const res = await got.get<LauncherJson>('https://launchermeta.mojang.com/mc/launcher.json', { responseType: 'json' })
+        const res = await got.get<LauncherJson>('https://launchermeta.mojang.com/mc/launcher.json', {
+            responseType: 'json',
+            timeout: {
+                request: 15000,
+                connect: 5000
+            }
+        })
         return res.body
     } catch(err) {
         log.error('Failed to retrieve Mojang\'s launcher.json file.')

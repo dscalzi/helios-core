@@ -1,13 +1,12 @@
-import { createWriteStream, WriteStream } from 'fs'
-import got, { Progress, ReadError, RequestError } from 'got'
-import { pipeline } from 'stream/promises'
+import got, { Progress, RequestError } from 'got'
 import { Asset } from './Asset'
 import * as fastq from 'fastq'
 import type { queueAsPromised } from 'fastq'
-import { ensureDir } from 'fs-extra'
+import { ensureDir, remove, writeFile } from 'fs-extra'
 import { dirname } from 'path'
 import { LoggerUtil } from '../util/LoggerUtil'
 import { sleep } from '../util/NodeUtil'
+import { validateLocalFile } from '../common/util/FileUtils'
 
 const log = LoggerUtil.getLogger('DownloadEngine')
 
@@ -17,7 +16,7 @@ export function getExpectedDownloadSize(assets: Asset[]): number {
 
 export async function downloadQueue(assets: Asset[], onProgress: (received: number) => void): Promise<{ [id: string]: number }> {
 
-    const receivedTotals: { [id: string]: number } = assets.map(({ id }) => id).reduce((acc, id) => ({ ...acc, [id]: 0}), ({}))
+    const receivedTotals: { [id: string]: number } = assets.map(({ id }) => id).reduce((acc, id) => ({ ...acc, [id]: 0 }), ({}))
 
     let received = 0
 
@@ -29,7 +28,10 @@ export async function downloadQueue(assets: Asset[], onProgress: (received: numb
         }
     }
 
-    const wrap = (asset: Asset): Promise<void> => downloadFile(asset.url, asset.path, onEachProgress(asset))
+    const wrap = (asset: Asset): Promise<void> => downloadFile(
+        asset,
+        onEachProgress(asset)
+    )
 
     const q: queueAsPromised<Asset, void> = fastq.promise(wrap, 15)
 
@@ -39,84 +41,90 @@ export async function downloadQueue(assets: Asset[], onProgress: (received: numb
     return receivedTotals
 }
 
-export async function downloadFile(url: string, path: string, onProgress?: (progress: Progress) => void): Promise<void> {
+async function validateFile(path: string, algo: string, hash: string): Promise<boolean> {
+    try {
+        return await validateLocalFile(path, algo, hash)
+    } catch (err) {
+        log.error(`Error during file validation: ${path}`, err)
+        return false
+    }
+}
+
+export async function downloadFile(asset: Asset, onProgress?: (progress: Progress) => void): Promise<void> {
+    const { url, path, algo, hash } = asset
 
     await ensureDir(dirname(path))
 
+    if (await validateFile(path, algo, hash)) {
+        log.debug(`File already exists and is valid: ${path}`)
+        return
+    }
 
     const MAX_RETRIES = 10
-    let fileWriterStream: WriteStream = null!       // The write stream.
-    let retryCount = 0                              // The number of retries attempted.
-    let error: Error = null!                        // The caught error.
-    let retry = false                               // Should we retry.
-    let rethrow = false                             // Should we throw an error.
+    let retryCount = 0
+    let error: Error = null!
+    let rethrow = false
 
-    // Got's streaming retry API is nonexistant and their "example" is egregious.
-    // To use their "api" you need to commit yourself to recursive callback hell.
-    // No thank you, I prefer this simpler, non error-prone logic.
     do {
-
-        retry = false
-        rethrow = false
-
-        if(retryCount > 0) {
-            log.debug(`Retry attempt #${retryCount} for ${url}.`)
+        if (retryCount > 0) {
+            const delay = Math.pow(2, retryCount) * 1000
+            log.debug(`Retry attempt #${retryCount} for ${url}. Waiting ${delay}ms...`)
+            await sleep(delay)
         }
 
         try {
-            const downloadStream = got.stream(url)
+            const download = got(url, {
+                timeout: {
+                    request: 15000,
+                    connect: 5000
+                },
+                retry: 0
+            })
 
-            fileWriterStream = createWriteStream(path)
-
-            if(onProgress) {
-                downloadStream.on('downloadProgress', (progress: Progress) => onProgress(progress))
+            if (onProgress) {
+                download.on('downloadProgress', onProgress)
             }
 
-            await pipeline(downloadStream, fileWriterStream)
+            const body = await download.buffer()
+            await writeFile(path, body)
 
-        } catch(err) {
+            if (await validateFile(path, algo, hash)) {
+                return
+            } else {
+                throw new Error(`File validation failed: ${path}`)
+            }
+
+        } catch (err) {
             error = err as Error
             retryCount++
             rethrow = true
 
-            // For now, only retry timeouts.
-            retry = retryCount <= MAX_RETRIES && retryableError(error)
+            await remove(path)
 
-            if(fileWriterStream) {
-                fileWriterStream.destroy()
-            }
-
-            if(onProgress && retry) {
-                // Reset progress on this asset. since we're going to retry.
+            if (onProgress) {
                 onProgress({ transferred: 0, percent: 0, total: 0 })
             }
 
-            if(retry) {
-                // Wait one second before retrying.
-                // This can become an exponential backoff, but I see no need for that right now.
-                await sleep(1000)
+            if (retryCount > MAX_RETRIES || !retryableError(error)) {
+                log.error(`Download failed for ${url}. Rethrowing exception.`, error)
+                throw error
             }
         }
 
-    } while(retry)
+    } while (retryCount <= MAX_RETRIES)
 
-    if(rethrow && error) {
-        if(retryCount > MAX_RETRIES) {
-            log.error(`Maximum retries attempted for ${url}. Rethrowing exception.`)
-        } else {
-            log.error(`Unknown or unretryable exception thrown during request to ${url}. Rethrowing exception.`)
-        }
-        
+    if (rethrow && error) {
+        log.error(`Maximum retries attempted or unretryable error for ${url}. Rethrowing exception.`)
         throw error
     }
-
 }
 
 function retryableError(error: Error): boolean {
-    if(error instanceof RequestError) {
-        // error.name === 'RequestError' means server did not respond.
-        return error.name === 'RequestError' || error instanceof ReadError && error.code === 'ECONNRESET'
-    } else {
-        return false
+    if (error instanceof RequestError) {
+        if (error.response) {
+            return error.response.statusCode >= 500 && error.response.statusCode < 600
+        }
+        return ['ETIMEDOUT', 'ECONNRESET', 'EADDRINUSE', 'ECONNREFUSED', 'ENOTFOUND', 'ERR_GOT_REQUEST_ERROR'].includes(error.code!)
     }
+    return false
 }
