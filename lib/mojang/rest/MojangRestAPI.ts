@@ -40,35 +40,23 @@ export enum MojangStatusColor {
 }
 
 export interface MojangStatus {
-
     service: string
     status: MojangStatusColor
     name: string
     essential: boolean
-
-}
-
-export interface UpptimeSummary {
-    slug: string
-    status: 'up' | 'down'
+    url: string
 }
 
 export class MojangRestAPI {
 
     private static readonly logger = LoggerUtil.getLogger('Mojang')
 
-    private static readonly TIMEOUT = 2500
+    private static readonly TIMEOUT = 10000
 
     public static readonly AUTH_ENDPOINT = 'https://authserver.mojang.com'
-    public static readonly STATUS_ENDPOINT = 'https://raw.githubusercontent.com/AventiumSoftworks/helios-status-page/master/history/summary.json'
 
     private static authClient = got.extend({
         prefixUrl: MojangRestAPI.AUTH_ENDPOINT,
-        responseType: 'json',
-        retry: 0
-    })
-    private static statusClient = got.extend({
-        url: MojangRestAPI.STATUS_ENDPOINT,
         responseType: 'json',
         retry: 0
     })
@@ -86,55 +74,64 @@ export class MojangRestAPI {
                 service: 'mojang-multiplayer-session-service',
                 status: MojangStatusColor.GREY,
                 name: 'Multiplayer Session Service',
-                essential: true
+                essential: true,
+                url: 'https://sessionserver.mojang.com/'
             },
             {
                 service: 'minecraft-skins',
                 status: MojangStatusColor.GREY,
                 name: 'Minecraft Skins',
-                essential: false
+                essential: false,
+                url: 'https://textures.minecraft.net/'
             },
             {
                 service: 'mojang-s-public-api',
                 status: MojangStatusColor.GREY,
                 name: 'Public API',
-                essential: false
+                essential: false,
+                url: 'https://api.mojang.com/'
             },
             {
                 service: 'mojang-accounts-website',
                 status: MojangStatusColor.GREY,
                 name: 'Mojang Accounts Website',
-                essential: false
+                essential: false,
+                url: 'https://account.mojang.com/'
             },
             {
                 service: 'microsoft-o-auth-server',
                 status: MojangStatusColor.GREY,
                 name: 'Microsoft OAuth Server',
-                essential: true
+                essential: true,
+                url: 'https://login.microsoftonline.com/'
             },
             {
                 service: 'xbox-live-auth-server',
                 status: MojangStatusColor.GREY,
                 name: 'Xbox Live Auth Server',
-                essential: true
+                essential: true,
+                url: 'https://user.auth.xboxlive.com/'
             },
             {
                 service: 'xbox-live-gatekeeper', // Server used to give XTokens
                 status: MojangStatusColor.GREY,
                 name: 'Xbox Live Gatekeeper',
-                essential: true
+                essential: true,
+                url: 'https://xsts.auth.xboxlive.com/'
             },
             {
                 service: 'microsoft-minecraft-api',
                 status: MojangStatusColor.GREY,
                 name: 'Minecraft API for Microsoft Accounts',
-                essential: true
+                essential: true,
+                url: 'https://api.minecraftservices.com/minecraft/profile'
             },
             {
                 service: 'microsoft-minecraft-profile',
                 status: MojangStatusColor.GREY,
                 name: 'Minecraft Profile for Microsoft Accounts',
-                essential: false
+                essential: false,
+                url: 'https://api.minecraftservices.com/minecraft/profile'
             }
         ]
     }
@@ -209,37 +206,26 @@ export class MojangRestAPI {
      * 
      * @see https://wiki.vg/Mojang_API#API_Status_.28Removed.29
      */
-    public static async status(): Promise<MojangResponse<MojangStatus[]>>{
-        try {
+    public static async status(): Promise<MojangResponse<MojangStatus[]>> {
 
-            const res = await MojangRestAPI.statusClient.get<UpptimeSummary[]>({})
+        const statuses = MojangRestAPI.getDefaultStatuses()
 
-            MojangRestAPI.expectSpecificSuccess('Mojang Status', 200, res.statusCode)
+        const promises = statuses.map(status => got.head(status.url, { timeout: MojangRestAPI.TIMEOUT, retry: 0 }))
 
-            for(const status of res.body) {
-                for(const mojStatus of MojangRestAPI.statuses) {
-                    if(mojStatus.service === status.slug) {
-                        mojStatus.status = status.status === 'up' ? MojangStatusColor.GREEN : MojangStatusColor.RED
-                        break
-                    }
-                }
+        const results = await Promise.allSettled(promises)
+
+        results.forEach((result, index) => {
+            if (result.status === 'fulfilled') {
+                statuses[index].status = MojangStatusColor.GREEN
+            } else {
+                statuses[index].status = MojangStatusColor.RED
             }
-            
-            return {
-                data: MojangRestAPI.statuses,
-                responseStatus: RestResponseStatus.SUCCESS
-            }
+        })
 
-        } catch(error) {
-
-            return MojangRestAPI.handleGotError('Mojang Status', error as RequestError, () => {
-                for(const status of MojangRestAPI.statuses){
-                    status.status = MojangStatusColor.GREY
-                }
-                return MojangRestAPI.statuses
-            })
+        return {
+            data: statuses,
+            responseStatus: RestResponseStatus.SUCCESS
         }
-        
     }
 
     /**
