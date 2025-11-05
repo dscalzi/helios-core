@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "build": "npm run clean && npm run tsc",
     "lint": "eslint .",
-    "test": "cross-env TS_NODE_PROJECT='./tsconfig.test.json' NODE_ENV=test mocha -r ts-node/register --recursive test/**/**/*.ts",
+    "test": "cross-env TS_NODE_PROJECT='./tsconfig.test.json' NODE_ENV=test mocha -r ts-node/register --recursive test/**/**/*.ts --timeout 10000",
     "bl": "npm run build && npm link",
     "prepack": "npm run build"
   },

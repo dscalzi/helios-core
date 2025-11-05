@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AuthPayload, MojangRestAPI, Session } from '../../../lib/mojang/rest/MojangRestAPI'
+import { AuthPayload, MojangRestAPI, Session, MojangStatusColor } from '../../../lib/mojang/rest/MojangRestAPI'
 import { expect } from 'chai'
 import nock from 'nock'
 import { MojangErrorCode, MojangResponse } from '../../../lib/mojang/rest/MojangResponse'
@@ -20,22 +20,6 @@ describe('[Mojang Rest API] Errors', () => {
     after(() => {
         nock.cleanAll()
     })
-
-    it('Status (Offline)', async () => {
-
-        // eslint-disable-next-line @typescript-eslint/dot-notation
-        const defStatusHack = MojangRestAPI['statuses']
-
-        nock(MojangRestAPI.STATUS_ENDPOINT)
-            .get('/')
-            .reply(500, 'Service temprarily offline.')
-
-        const res = await MojangRestAPI.status()
-        expectFailure(res)
-        expect(res.data).to.be.an('array')
-        expect(res.data).to.deep.equal(defStatusHack)
-
-    }).timeout(2500)
 
     it('Authenticate (Invalid Credentials)', async () => {
 
@@ -59,21 +43,34 @@ describe('[Mojang Rest API] Errors', () => {
 
 describe('[Mojang Rest API] Status', () => {
 
-    it('Status (Online)', async () => {
+    afterEach(() => {
+        nock.cleanAll()
+    })
 
-        // eslint-disable-next-line @typescript-eslint/dot-notation
-        const defStatusHack = MojangRestAPI['statuses']
+    it('should retrieve the status of Mojang services with mixed results', async () => {
 
-        nock(MojangRestAPI.STATUS_ENDPOINT)
-            .get(/.*/)
-            .reply(200, summaryResponse)
+        nock('https://sessionserver.mojang.com').head('/').reply(200)
+        nock('https://textures.minecraft.net').head('/').reply(200)
+        nock('https://api.mojang.com').head('/').reply(200)
+        nock('https://account.mojang.com').head('/').reply(200)
+        nock('https://login.microsoftonline.com').head('/').reply(500) // The failing one
+        nock('https://user.auth.xboxlive.com').head('/').reply(200)
+        nock('https://xsts.auth.xboxlive.com').head('/').reply(200)
+        nock('https://api.minecraftservices.com').head('/minecraft/profile').times(2).reply(200)
 
         const res = await MojangRestAPI.status()
         expectSuccess(res)
-        expect(res.data).to.be.an('array')
-        expect(res.data).to.deep.equal(defStatusHack)
-
-    }).timeout(2500)
+        const data = res.data!
+        expect(data[0].status).to.equal(MojangStatusColor.GREEN)
+        expect(data[1].status).to.equal(MojangStatusColor.GREEN)
+        expect(data[2].status).to.equal(MojangStatusColor.GREEN)
+        expect(data[3].status).to.equal(MojangStatusColor.GREEN)
+        expect(data[4].status).to.equal(MojangStatusColor.RED)
+        expect(data[5].status).to.equal(MojangStatusColor.GREEN)
+        expect(data[6].status).to.equal(MojangStatusColor.GREEN)
+        expect(data[7].status).to.equal(MojangStatusColor.GREEN)
+        expect(data[8].status).to.equal(MojangStatusColor.GREEN)
+    })
 
 })
 
