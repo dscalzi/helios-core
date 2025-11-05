@@ -1,11 +1,14 @@
 import { createHash } from 'crypto'
 import { dirname, join } from 'path'
 import { pathExists, createReadStream, remove, unlink } from 'fs-extra'
-import { LoggerUtil } from '../..//util/LoggerUtil'
+import { LoggerUtil } from '../../util/LoggerUtil'
 import { StreamZipAsync } from 'node-stream-zip'
 import StreamZip from 'node-stream-zip'
 import { createGunzip } from 'zlib'
 import tar from 'tar-fs'
+import { Asset } from '../../dl/Asset'
+import * as fastq from 'fastq'
+import type { queueAsPromised } from 'fastq'
 
 const log = LoggerUtil.getLogger('FileUtils')
 
@@ -24,7 +27,7 @@ export function calculateHash(path: string, algo: string): Promise<string> {
     })
 }
 
-export async function validateLocalFile(path: string, algo: string, hash?: string): Promise<boolean> {
+export async function validateLocalFile(path: string, algo:string, hash?: string): Promise<boolean> {
     if(await pathExists(path)) {
         if(hash == null) {
             return true
@@ -37,6 +40,20 @@ export async function validateLocalFile(path: string, algo: string, hash?: strin
         }
     }
     return false
+}
+
+export async function validateFiles(files: Asset[]): Promise<Asset[]> {
+    const invalidFiles: Asset[] = []
+
+    const q: queueAsPromised<Asset, void> = fastq.promise(async (asset: Asset) => {
+        if (!await validateLocalFile(asset.path, asset.algo, asset.hash)) {
+            invalidFiles.push(asset)
+        }
+    }, 15)
+
+    await Promise.all(files.map(file => q.push(file)))
+
+    return invalidFiles
 }
 
 function getVersionExtPath(commonDir: string, version: string, ext: string): string {
