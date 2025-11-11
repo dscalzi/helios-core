@@ -4,6 +4,7 @@ import * as fastq from 'fastq'
 import type { queueAsPromised } from 'fastq'
 import { ensureDir, remove, writeFile } from 'fs-extra'
 import { dirname } from 'path'
+import { FileValidationError } from '../common/error/FileValidationError'
 import { LoggerUtil } from '../util/LoggerUtil'
 import { sleep } from '../util/NodeUtil'
 import { validateLocalFile } from '../common/util/FileUtils'
@@ -91,7 +92,7 @@ export async function downloadFile(asset: Asset, onProgress?: (progress: Progres
             if (await validateFile(path, algo, hash)) {
                 return
             } else {
-                throw new Error(`File validation failed: ${path}`)
+                throw new FileValidationError(`File validation failed: ${path}`)
             }
 
         } catch (err) {
@@ -99,7 +100,9 @@ export async function downloadFile(asset: Asset, onProgress?: (progress: Progres
             retryCount++
             rethrow = true
 
-            await remove(path)
+            if (!(error instanceof FileValidationError)) {
+                await remove(path)
+            }
 
             if (onProgress) {
                 onProgress({ transferred: 0, percent: 0, total: 0 })
