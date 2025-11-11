@@ -79,7 +79,8 @@ export async function downloadFile(asset: Asset, onProgress?: (progress: Progres
                     request: 15000,
                     connect: 5000
                 },
-                retry: 0
+                retry: 0,
+                responseType: 'buffer'
             })
 
             if (onProgress) {
