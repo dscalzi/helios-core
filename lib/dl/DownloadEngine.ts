@@ -2,8 +2,8 @@ import got, { Progress, RequestError } from 'got'
 import { Asset } from './Asset'
 import * as fastq from 'fastq'
 import type { queueAsPromised } from 'fastq'
-import { ensureDir, remove, writeFile } from 'fs-extra'
-import { dirname } from 'path'
+import { ensureDir, pathExists, remove, writeFile } from 'fs-extra'
+import { dirname, extname } from 'path'
 import { FileValidationError } from '../common/error/FileValidationError'
 import { LoggerUtil } from '../util/LoggerUtil'
 import { sleep } from '../util/NodeUtil'
@@ -53,6 +53,12 @@ async function validateFile(path: string, algo: string, hash: string): Promise<b
 
 export async function downloadFile(asset: Asset, onProgress?: (progress: Progress) => void): Promise<void> {
     const { url, path, algo, hash } = asset
+
+    const CONFIG_EXTENSIONS = ['.txt', '.json', '.yml', '.yaml', '.dat']
+    if (CONFIG_EXTENSIONS.includes(extname(path)) && await pathExists(path)) {
+        log.debug(`Skipping download of ${path} as it already exists.`)
+        return
+    }
 
     await ensureDir(dirname(path))
 
