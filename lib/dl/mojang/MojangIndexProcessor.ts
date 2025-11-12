@@ -23,7 +23,11 @@ export class MojangIndexProcessor extends IndexProcessor {
     private versionJson!: VersionJsonBase
     private assetIndex!: AssetIndex
     private client = got.extend({
-        responseType: 'json'
+        responseType: 'json',
+        timeout: {
+            request: 15000,
+            connect: 5000
+        }
     })
 
     private assetPath: string
@@ -143,7 +147,7 @@ export class MojangIndexProcessor extends IndexProcessor {
             const res = await this.client.get<T>(url)
 
             await ensureDir(dirname(path))
-            await writeFile(path, JSON.stringify(res.body))
+            await writeFile(path, JSON.stringify(res.body), { fsync: false } as any)
 
             return res.body
         } catch(error) {
