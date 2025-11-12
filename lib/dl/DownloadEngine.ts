@@ -94,7 +94,7 @@ export async function downloadFile(asset: Asset, onProgress?: (progress: Progres
             }
 
             const body = await download.buffer()
-            await writeFile(path, body)
+            await writeFile(path, body, { fsync: false } as any)
 
             if (await validateFile(path, algo, hash)) {
                 return
