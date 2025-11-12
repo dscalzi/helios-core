@@ -134,7 +134,7 @@ export class DistributionAPI {
     }
 
     protected async writeDistributionToDisk(distribution: Distribution): Promise<void> {
-        await writeJson(this.distroPath, distribution)
+        await writeJson(this.distroPath, distribution, { spaces: 4, fsync: false } as any)
     }
 
     protected async pullLocal(): Promise<Distribution | null> {
