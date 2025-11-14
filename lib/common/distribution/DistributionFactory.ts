@@ -3,6 +3,7 @@ import { MavenComponents, MavenUtil } from '../util/MavenUtil'
 import { join } from 'path'
 import { LoggerUtil } from '../../util/LoggerUtil'
 import { mcVersionAtLeast } from '../util/MojangUtils'
+import { ensureEncodedPath } from '../../util/NodeUtil'
 
 const logger = LoggerUtil.getLogger('DistributionFactory')
 
@@ -220,7 +221,7 @@ export class HeliosModule {
 
         // Version Manifests have a pre-determined path.
         if(this.rawModule.type === Type.VersionManifest) {
-            return join(commonDir, 'versions', this.rawModule.id, `${this.rawModule.id}.json`)
+            return ensureEncodedPath(join(commonDir, 'versions', this.rawModule.id, `${this.rawModule.id}.json`))
         }
 
         const relativePath = this.rawModule.artifact.path ?? MavenUtil.mavenComponentsAsNormalizedPath(
@@ -237,16 +238,16 @@ export class HeliosModule {
             case Type.ForgeHosted:
             case Type.Fabric:
             case Type.LiteLoader:
-                return join(commonDir, 'libraries', relativePath)
+                return ensureEncodedPath(join(commonDir, 'libraries', relativePath))
             case Type.ForgeMod:
             case Type.LiteMod:
                 // TODO Move to /mods/forge eventually..
-                return join(commonDir, 'modstore', relativePath)
+                return ensureEncodedPath(join(commonDir, 'modstore', relativePath))
             case Type.FabricMod:
-                return join(commonDir, 'mods', 'fabric', relativePath)
+                return ensureEncodedPath(join(commonDir, 'mods', 'fabric', relativePath))
             case Type.File:
             default:
-                return join(instanceDir, this.serverId, relativePath) 
+                return ensureEncodedPath(join(instanceDir, this.serverId, relativePath))
         }
         
     }
