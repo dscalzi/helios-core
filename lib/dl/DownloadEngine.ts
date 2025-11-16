@@ -83,11 +83,19 @@ export async function downloadFile(asset: Asset, onProgress?: (progress: Progres
         try {
             const download = got(url, {
                 timeout: {
-                    request: 15000,
-                    connect: 5000
+                    connect: 15000
                 },
                 retry: 0,
                 responseType: 'buffer'
+            })
+
+            download.on('request', req => {
+                req.on('socket', socket => {
+                    socket.on('timeout', () => {
+                        req.abort()
+                    })
+                    socket.setTimeout(30000)
+                })
             })
 
             if (onProgress) {
@@ -135,7 +143,7 @@ function retryableError(error: Error): boolean {
         if (error.response) {
             return error.response.statusCode >= 500 && error.response.statusCode < 600
         }
-        return ['ETIMEDOUT', 'ECONNRESET', 'EADDRINUSE', 'ECONNREFUSED', 'ENOTFOUND', 'ERR_GOT_REQUEST_ERROR'].includes(error.code!)
+        return ['ETIMEDOUT', 'ECONNRESET', 'EADDRINUSE', 'ECONNREFUSED', 'ENOTFOUND', 'ERR_GOT_REQUEST_ERROR', 'ECONNABORTED'].includes(error.code!)
     }
     return false
 }

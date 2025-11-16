@@ -25,8 +25,7 @@ export class MojangIndexProcessor extends IndexProcessor {
     private client = got.extend({
         responseType: 'json',
         timeout: {
-            request: 15000,
-            connect: 5000
+            connect: 15000
         }
     })
 

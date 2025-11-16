@@ -532,8 +532,7 @@ export async function latestAdoptium(major: number, dataDir: string): Promise<As
         const res = await got.get<AdoptiumJdk[]>(url, {
             responseType: 'json',
             timeout: {
-                request: 15000,
-                connect: 5000
+                connect: 15000
             }
         })
         if(res.body.length > 0) {
@@ -597,8 +596,7 @@ export async function latestCorretto(major: number, dataDir: string): Promise<As
     try {
         const requestOptions = {
             timeout: {
-                request: 15000,
-                connect: 5000
+                connect: 15000
             }
         }
         const res = await got.head(url, requestOptions)
@@ -718,8 +716,7 @@ export async function loadMojangLauncherData(): Promise<LauncherJson | null> {
         const res = await got.get<LauncherJson>('https://launchermeta.mojang.com/mc/launcher.json', {
             responseType: 'json',
             timeout: {
-                request: 15000,
-                connect: 5000
+                connect: 15000
             }
         })
         return res.body
