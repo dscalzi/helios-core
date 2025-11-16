@@ -1,21 +1,46 @@
 import { ensureEncodedPath, ensureDecodedPath } from '../../lib/util/NodeUtil'
 import { expect } from 'chai'
-import { platform } from 'os'
+import * as path from 'path'
 
 describe('NodeUtil', () => {
-    it('should encode and decode paths with special characters', () => {
-        const path = '/Users/testuser/123/Русский/test file.txt'
-        const encoded = ensureEncodedPath(path)
+
+    // With the backward compatibility fix, `ensureEncodedPath` should now
+    // ONLY normalize paths with forward slashes. `ensureDecodedPath` should
+    // convert them back to native separators.
+    
+    it('should correctly process a POSIX path', () => {
+        const testPath = '/Users/test/Русский/file name.txt'
+        const encoded = ensureEncodedPath(testPath)
+        // On POSIX, nothing should change.
+        expect(encoded).to.equal(testPath)
         const decoded = ensureDecodedPath(encoded)
-        expect(decoded).to.equal(path)
+        expect(decoded).to.equal(testPath)
     })
 
-    it('should handle windows paths', () => {
-        if (platform() === 'win32') {
-            const path = 'C:\\Users\\testuser\\123\\Русский\\test file.txt'
-            const encoded = ensureEncodedPath(path)
-            const decoded = ensureDecodedPath(encoded)
-            expect(decoded).to.equal(path)
-        }
+    it('should correctly process a Windows path', () => {
+        const testPath = 'C:\\Users\\test\\Русский\\file name.txt'
+        const expectedEncoded = 'C:/Users/test/Русский/file name.txt'
+        const encoded = ensureEncodedPath(testPath)
+        // Backslashes should be converted to forward slashes.
+        expect(encoded).to.equal(expectedEncoded)
+        const decoded = ensureDecodedPath(encoded)
+        // Decoded path should have native separators.
+        expect(decoded).to.equal(path.normalize(testPath))
     })
+
+    it('should correctly process a relative path', () => {
+        const testPath = 'data/common/1.12.2'
+        const encoded = ensureEncodedPath(testPath)
+        expect(encoded).to.equal(testPath)
+        const decoded = ensureDecodedPath(encoded)
+        expect(decoded).to.equal(path.normalize(testPath))
+    })
+
+    it('should correctly decode a file URI', () => {
+        const uri = 'file:///C:/Users/test/file.txt'
+        const expectedPath = 'C:\\Users\\test\\file.txt'
+        const decoded = ensureDecodedPath(uri)
+        expect(decoded).to.equal(path.normalize(expectedPath))
+    })
+
 })

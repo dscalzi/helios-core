@@ -34,7 +34,7 @@ function verifyResult(res: ServerStatus): void {
 }
 
 const serversToCheck: [string, number?][] = [
-    ['mc.hypixel.net'],
+    ['play.cubecraft.net'],
     ['mc.westeroscraft.com', 1182],
     // 'stoneblock.colaian.tech' // SRV - commented out b/c may be shut down.
 ]
