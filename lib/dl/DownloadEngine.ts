@@ -83,19 +83,11 @@ export async function downloadFile(asset: Asset, onProgress?: (progress: Progres
         try {
             const download = got(url, {
                 timeout: {
-                    connect: 15000
+                    connect: 15000,
+                    socket: 30000
                 },
                 retry: 0,
                 responseType: 'buffer'
-            })
-
-            download.on('request', req => {
-                req.on('socket', socket => {
-                    socket.on('timeout', () => {
-                        req.abort()
-                    })
-                    socket.setTimeout(30000)
-                })
             })
 
             if (onProgress) {
