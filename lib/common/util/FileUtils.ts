@@ -2,6 +2,7 @@ import { createHash } from 'crypto'
 import { dirname, join } from 'path'
 import { pathExists, createReadStream, remove, unlink } from 'fs-extra'
 import { LoggerUtil } from '../../util/LoggerUtil'
+import { ensureDecodedPath } from '../../util/NodeUtil'
 import { StreamZipAsync } from 'node-stream-zip'
 import StreamZip from 'node-stream-zip'
 import { createGunzip } from 'zlib'
@@ -19,7 +20,7 @@ export function calculateHashByBuffer(buf: Buffer, algo: string): string {
 export function calculateHash(path: string, algo: string): Promise<string> {
     return new Promise((resolve, reject) => {
         const hash = createHash(algo)
-        const input = createReadStream(path)
+        const input = createReadStream(ensureDecodedPath(path))
 
         input.on('error', reject)
         input.on('data', chunk => hash.update(chunk))
@@ -28,7 +29,7 @@ export function calculateHash(path: string, algo: string): Promise<string> {
 }
 
 export async function validateLocalFile(path: string, algo:string, hash?: string): Promise<boolean> {
-    if(await pathExists(path)) {
+    if(await pathExists(ensureDecodedPath(path))) {
         if(hash == null) {
             return true
         }
@@ -74,7 +75,7 @@ export function getLibraryDir(commonDir: string): string {
 
 export async function extractZip(zipPath: string, peek?: (zip: StreamZipAsync) => Promise<void>): Promise<void> {
     const zip = new StreamZip.async({
-        file: zipPath,
+        file: ensureDecodedPath(zipPath),
         storeEntries: true
     })
 
@@ -84,9 +85,9 @@ export async function extractZip(zipPath: string, peek?: (zip: StreamZipAsync) =
 
     try {
         log.info(`Extracting ${zipPath}`)
-        await zip.extract(null, dirname(zipPath))
+        await zip.extract(null, dirname(ensureDecodedPath(zipPath)))
         log.info(`Removing ${zipPath}`)
-        await remove(zipPath)
+        await remove(ensureDecodedPath(zipPath))
         log.info('Zip extraction complete.')
 
     } catch(err) {
@@ -98,11 +99,11 @@ export async function extractZip(zipPath: string, peek?: (zip: StreamZipAsync) =
 
 export async function extractTarGz(tarGzPath: string, peek?: (header: tar.Headers) => void): Promise<void> {
     return new Promise((resolve, reject) => {
-        createReadStream(tarGzPath)
+        createReadStream(ensureDecodedPath(tarGzPath))
             .on('error', err => log.error(err))
             .pipe(createGunzip())
             .on('error', err => log.error(err))
-            .pipe(tar.extract(dirname(tarGzPath), {
+            .pipe(tar.extract(dirname(ensureDecodedPath(tarGzPath)), {
                 map: (header) => {
                     if(peek) {
                         peek(header)
@@ -115,7 +116,7 @@ export async function extractTarGz(tarGzPath: string, peek?: (header: tar.Header
                 reject(err)
             })
             .on('finish', () => {
-                unlink(tarGzPath, err => {
+                unlink(ensureDecodedPath(tarGzPath), err => {
                     if(err){
                         log.error(err)
                         reject()
