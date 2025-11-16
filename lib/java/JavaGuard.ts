@@ -600,11 +600,12 @@ export async function latestCorretto(major: number, dataDir: string): Promise<As
             }
         }
         const res = await got.head(url, requestOptions)
-        const checksum = await got.get(md5url, requestOptions)
-        if(res.statusCode === 200) {
-            const name = url.substring(url.lastIndexOf('/')+1)
+        if (res.statusCode === 200) {
+            const checksum = await got.get(md5url, requestOptions)
+            const finalUrl = res.url
+            const name = finalUrl.substring(finalUrl.lastIndexOf('/') + 1)
             return {
-                url: url,
+                url: finalUrl,
                 size: parseInt(res.headers['content-length']!),
                 id: name,
                 hash: checksum.body,
