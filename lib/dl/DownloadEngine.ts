@@ -6,7 +6,7 @@ import { ensureDir, pathExists, remove, writeFile } from 'fs-extra'
 import { dirname, extname } from 'path'
 import { FileValidationError } from '../common/error/FileValidationError'
 import { LoggerUtil } from '../util/LoggerUtil'
-import { sleep } from '../util/NodeUtil'
+import { ensureDecodedPath, sleep } from '../util/NodeUtil'
 import { validateLocalFile } from '../common/util/FileUtils'
 
 const log = LoggerUtil.getLogger('DownloadEngine')
@@ -53,17 +53,18 @@ async function validateFile(path: string, algo: string, hash: string): Promise<b
 
 export async function downloadFile(asset: Asset, onProgress?: (progress: Progress) => void): Promise<void> {
     const { url, path, algo, hash } = asset
+    const decodedPath = ensureDecodedPath(path)
 
     const CONFIG_EXTENSIONS = ['.txt', '.json', '.yml', '.yaml', '.dat']
-    if (CONFIG_EXTENSIONS.includes(extname(path)) && await pathExists(path)) {
-        log.debug(`Skipping download of ${path} as it already exists.`)
+    if (CONFIG_EXTENSIONS.includes(extname(decodedPath)) && await pathExists(decodedPath)) {
+        log.debug(`Skipping download of ${decodedPath} as it already exists.`)
         return
     }
 
-    await ensureDir(dirname(path))
+    await ensureDir(dirname(decodedPath))
 
-    if (await validateFile(path, algo, hash)) {
-        log.debug(`File already exists and is valid: ${path}`)
+    if (await validateFile(decodedPath, algo, hash)) {
+        log.debug(`File already exists and is valid: ${decodedPath}`)
         return
     }
 
@@ -94,12 +95,12 @@ export async function downloadFile(asset: Asset, onProgress?: (progress: Progres
             }
 
             const body = await download.buffer()
-            await writeFile(path, body, { fsync: false } as any)
+            await writeFile(decodedPath, body, { fsync: false } as any)
 
-            if (await validateFile(path, algo, hash)) {
+            if (await validateFile(decodedPath, algo, hash)) {
                 return
             } else {
-                throw new FileValidationError(`File validation failed: ${path}`)
+                throw new FileValidationError(`File validation failed: ${decodedPath}`)
             }
 
         } catch (err) {
@@ -108,7 +109,7 @@ export async function downloadFile(asset: Asset, onProgress?: (progress: Progres
             rethrow = true
 
             if (!(error instanceof FileValidationError)) {
-                await remove(path)
+                await remove(decodedPath)
             }
 
             if (onProgress) {
