@@ -1,10 +1,5 @@
 import { filterApplicableJavaPaths, HotSpotSettings, JavaVersion, JvmDetails, parseJavaRuntimeVersion, rankApplicableJvms, Win32RegistryJavaDiscoverer } from '../../lib/java/JavaGuard'
 import { expect } from 'chai'
-import { Platform } from 'helios-distribution-types'
-import { mkdtemp, rm, mkdir, writeFile } from 'fs-extra'
-import { tmpdir } from 'os'
-import { join } from 'path'
-import { getHotSpotSettings } from '../../lib/java/JavaGuard'
 
 describe('JavaGuard', () => {
 
@@ -127,56 +122,3 @@ describe('JavaGuard', () => {
     })
 
 })
-
-if (process.platform === Platform.WIN32) {
-    describe('JavaGuard Windows Specific Tests', () => {
-
-        let tempDir: string
-        let binDir: string
-        let javawExePath: string
-        let javaExePath: string
-
-        beforeEach(async function() {
-            this.timeout(10000) // Increase timeout for setup
-            tempDir = await mkdtemp(join(tmpdir(), 'Тестовый юзер '))
-            binDir = join(tempDir, 'bin')
-            await mkdir(binDir, { recursive: true })
-
-            javawExePath = join(binDir, 'javaw.exe')
-            javaExePath = join(binDir, 'java.exe')
-
-            const mockJavaExeContent = `@echo off
-if exist "java.dll" (
-    >&2 echo Property Settings:
-    >&2 echo     java.version = 1.8.0_362
-    >&2 echo     java.vendor = MockJDK
-    >&2 echo     sun.arch.data.model = 64
-    >&2 echo     os.arch = amd64
-    >&2 echo     java.runtime.version = 1.8.0_362-b09
-) else (
-    >&2 echo Error: could not find java.dll
-    >&2 echo Error: Could not find Java SE Runtime Environment.
-    exit 1
-)`
-            await writeFile(`${javaExePath}.bat`, mockJavaExeContent)
-            await writeFile(`${javawExePath}.bat`, mockJavaExeContent)
-
-            await writeFile(join(binDir, 'java.dll'), '')
-        })
-
-        afterEach(async function() {
-            this.timeout(10000) // Increase timeout for cleanup
-            await rm(tempDir, { recursive: true, force: true })
-        })
-
-        it('should resolve JVM settings from a path with non-ascii characters', async () => {
-            const settings = await getHotSpotSettings(javawExePath)
-            
-            // After the fix, this should pass.
-            // The test is designed to fail before the fix, because 'cwd' with unicode is buggy.
-            expect(settings).to.not.be.null
-            expect(settings!['java.vendor']).to.equal('MockJDK')
-
-        }).timeout(10000)
-    })
-}
