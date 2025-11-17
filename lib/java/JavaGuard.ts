@@ -320,23 +320,48 @@ export async function getHotSpotSettings(execPath: string): Promise<HotSpotSetti
 
     const javaExecutable = execPath.includes('javaw.exe') ? execPath.replace('javaw.exe', 'java.exe') : execPath
 
-    if(!await pathExists(javaExecutable)) {
+    // --- FIX START ---
+    // Check for .exe, and also .bat on Windows (for testing purposes)
+    let executableExists = await pathExists(javaExecutable)
+    if (!executableExists && process.platform === Platform.WIN32) {
+        executableExists = await pathExists(`${javaExecutable}.bat`)
+    }
+
+    if(!executableExists) {
         log.warn(`Candidate JVM path does not exist, skipping. ${javaExecutable}`)
         return null
     }
+    // --- FIX END ---
 
     const execAsync = promisify(exec)
 
-    let stderr
+    let stderr: string
     try {
-        stderr = (await execAsync(`"${javaExecutable.replace(/"/g, '\\"')}" -XshowSettings:properties -version`, {
-            cwd: dirname(javaExecutable)
-        })).stderr
+        const javaDir = dirname(javaExecutable)
+        let command: string
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const options: import('child_process').ExecOptions = {}
+
+        if (process.platform === Platform.WIN32) {
+            // Windows fix: Switch code page (chcp 65001)
+            // and change drive/directory (cd /d) to handle non-ASCII paths.
+            // .../java.exe will call .../java.exe.bat in the test environment
+            command = `chcp 65001 > nul && cd /d "${javaDir.replace(/"/g, '\\"')}" && "${javaExecutable.replace(/"/g, '\\"')}" -XshowSettings:properties -version`
+        } else {
+            // Standard, working method for macOS/Linux with 'cwd'
+            command = `"${javaExecutable.replace(/"/g, '\\"')}" -XshowSettings:properties -version`
+            options.cwd = javaDir
+        }
+        
+        // Execute the command
+        stderr = (await execAsync(command, options)).stderr
+
     } catch(error) {
         log.error(`Failed to resolve JVM settings for '${execPath}'`, error)
         return null
     }
     
+    // --- Original parsing logic follows ---
 
     const listProps = [
         'java.library.path'
@@ -372,7 +397,6 @@ export async function getHotSpotSettings(execPath: string): Promise<HotSpotSetti
 
     return ret as unknown as HotSpotSettings
 }
-
 export async function resolveJvmSettings(paths: string[]): Promise<{ [path: string]: HotSpotSettings }> {
 
     const ret: { [path: string]: HotSpotSettings } = {}
