@@ -52,6 +52,9 @@ async function validateFile(path: string, algo: string, hash: string): Promise<b
 }
 
 export async function downloadFile(asset: Asset, onProgress?: (progress: Progress) => void): Promise<void> {
+    if (!asset || !asset.path) {
+        throw new Error('Asset or asset path is null or undefined.')
+    }
     const { url, path, algo, hash } = asset
     const decodedPath = ensureDecodedPath(path)
 

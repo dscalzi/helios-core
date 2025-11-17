@@ -329,7 +329,9 @@ export async function getHotSpotSettings(execPath: string): Promise<HotSpotSetti
 
     let stderr
     try {
-        stderr = (await execAsync(`"${javaExecutable.replace(/"/g, '\\"')}" -XshowSettings:properties -version`)).stderr
+        stderr = (await execAsync(`"${javaExecutable.replace(/"/g, '\\"')}" -XshowSettings:properties -version`, {
+            cwd: dirname(javaExecutable)
+        })).stderr
     } catch(error) {
         log.error(`Failed to resolve JVM settings for '${execPath}'`, error)
         return null
