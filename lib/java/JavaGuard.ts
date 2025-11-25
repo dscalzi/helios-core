@@ -951,10 +951,12 @@ export class Win32RegistryJavaDiscoverer implements JavaDiscoverer {
 
                                         if(major > -1) {
                                             javaVer.get('JavaHome', (err, res) => {
-                                                const jHome = res.value
-                                                // Exclude 32bit.
-                                                if(!jHome.includes('(x86)')){
-                                                    candidates.add(jHome)
+                                                if(res) {
+                                                    const jHome = res.value
+                                                    // Exclude 32bit.
+                                                    if (jHome && !jHome.includes('(x86)')) {
+                                                        candidates.add(jHome)
+                                                    }
                                                 }
     
                                                 // SUBKEY DONE
