@@ -11,12 +11,13 @@ import { calculateHashByBuffer, getLibraryDir, getVersionJarPath, getVersionJson
 import { getMojangOS, isLibraryCompatible, mcVersionAtLeast } from '../../common/util/MojangUtils'
 import { LoggerUtil } from '../../util/LoggerUtil'
 import { handleGotError } from '../../common/rest/RestResponse'
+import { Constants } from '../../common/Constants'
 
 export class MojangIndexProcessor extends IndexProcessor {
 
-    public static readonly LAUNCHER_JSON_ENDPOINT = 'https://launchermeta.mojang.com/mc/launcher.json'
-    public static readonly VERSION_MANIFEST_ENDPOINT = 'https://piston-meta.mojang.com/mc/game/version_manifest_v2.json'
-    public static readonly ASSET_RESOURCE_ENDPOINT = 'https://resources.download.minecraft.net'
+    public static readonly LAUNCHER_JSON_ENDPOINT = Constants.MOJANG.LAUNCHER_JSON_ENDPOINT
+    public static readonly VERSION_MANIFEST_ENDPOINT = Constants.MOJANG.VERSION_MANIFEST_ENDPOINT
+    public static readonly ASSET_RESOURCE_ENDPOINT = Constants.MOJANG.ASSET_RESOURCE_ENDPOINT
 
     private static readonly logger = LoggerUtil.getLogger('MojangIndexProcessor')
 

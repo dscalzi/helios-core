@@ -2,6 +2,7 @@ import { handleGotError, RestResponseStatus } from '../../common/rest/RestRespon
 import { LoggerUtil } from '../../util/LoggerUtil'
 import got, { HTTPError, RequestError } from 'got'
 import { decipherErrorCode, MicrosoftErrorCode, MicrosoftResponse } from './MicrosoftResponse'
+import { Constants } from '../../common/Constants'
 
 /* ***********************************/
 /*      Microsoft OAuth Models       */
@@ -119,12 +120,12 @@ export class MicrosoftAuth {
 
     private static readonly TIMEOUT = 2500
 
-    public static readonly TOKEN_ENDPOINT = 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token'
-    public static readonly XBL_AUTH_ENDPOINT = 'https://user.auth.xboxlive.com/user/authenticate'
-    public static readonly XSTS_AUTH_ENDPOINT = 'https://xsts.auth.xboxlive.com/xsts/authorize'
-    public static readonly MC_AUTH_ENDPOINT = 'https://api.minecraftservices.com/authentication/login_with_xbox'
-    public static readonly MC_ENTITLEMENT_ENDPOINT = 'https://api.minecraftservices.com/entitlements/mcstore'
-    public static readonly MC_PROFILE_ENDPOINT = 'https://api.minecraftservices.com/minecraft/profile'
+    public static readonly TOKEN_ENDPOINT = Constants.MICROSOFT.TOKEN_ENDPOINT
+    public static readonly XBL_AUTH_ENDPOINT = Constants.MICROSOFT.XBOX_AUTH_ENDPOINT
+    public static readonly XSTS_AUTH_ENDPOINT = Constants.MICROSOFT.XSTS_AUTH_ENDPOINT
+    public static readonly MC_AUTH_ENDPOINT = Constants.MICROSOFT.MINECRAFT_AUTH_ENDPOINT
+    public static readonly MC_ENTITLEMENT_ENDPOINT = Constants.MICROSOFT.MINECRAFT_ENTITLEMENT_ENDPOINT
+    public static readonly MC_PROFILE_ENDPOINT = Constants.MICROSOFT.MINECRAFT_API_ENDPOINT
 
     private static readonly STANDARD_HEADERS = {
         'Content-Type': 'application/json',
@@ -174,7 +175,7 @@ export class MicrosoftAuth {
             const BASE_FORM: AbstractTokenRequest = {
                 client_id: clientId,
                 scope: 'XboxLive.signin',
-                redirect_uri: 'https://login.microsoftonline.com/common/oauth2/nativeclient',
+                redirect_uri: Constants.MICROSOFT.NATIVE_CLIENT_REDIRECT_URI,
             }
 
             let form
@@ -226,7 +227,7 @@ export class MicrosoftAuth {
                         SiteName: 'user.auth.xboxlive.com',
                         RpsTicket: `d=${accessToken}`
                     },
-                    RelyingParty: 'http://auth.xboxlive.com',
+                    RelyingParty: Constants.MICROSOFT.XBL_RELYING_PARTY,
                     TokenType: 'JWT'
                 },
                 headers: MicrosoftAuth.STANDARD_HEADERS,
@@ -261,7 +262,7 @@ export class MicrosoftAuth {
                         SandboxId: 'RETAIL',
                         UserTokens: [xblResponse.Token]
                     },
-                    RelyingParty: 'rp://api.minecraftservices.com/',
+                    RelyingParty: Constants.MICROSOFT.XSTS_RELYING_PARTY,
                     TokenType: 'JWT'
                 },
                 headers: MicrosoftAuth.STANDARD_HEADERS,

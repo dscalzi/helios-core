@@ -2,6 +2,7 @@ import { LoggerUtil } from '../../util/LoggerUtil'
 import got, { RequestError, HTTPError } from 'got'
 import { MojangResponse, MojangErrorCode, decipherErrorCode, isInternalError, MojangErrorBody } from './MojangResponse'
 import { RestResponseStatus, handleGotError } from '../../common/rest/RestResponse'
+import { Constants } from '../../common/Constants'
 
 export interface Agent {
     name: 'Minecraft'
@@ -53,7 +54,7 @@ export class MojangRestAPI {
 
     private static readonly TIMEOUT = 10000
 
-    public static readonly AUTH_ENDPOINT = 'https://authserver.mojang.com'
+    public static readonly AUTH_ENDPOINT = Constants.MOJANG.AUTH_ENDPOINT
 
     private static authClient = got.extend({
         prefixUrl: MojangRestAPI.AUTH_ENDPOINT,
@@ -75,63 +76,63 @@ export class MojangRestAPI {
                 status: MojangStatusColor.GREY,
                 name: 'Multiplayer Session Service',
                 essential: true,
-                url: 'https://sessionserver.mojang.com/'
+                url: Constants.MOJANG.SESSION_SERVER
             },
             {
                 service: 'minecraft-skins',
                 status: MojangStatusColor.GREY,
                 name: 'Minecraft Skins',
                 essential: false,
-                url: 'https://textures.minecraft.net/'
+                url: Constants.MOJANG.SKINS_SERVER
             },
             {
                 service: 'mojang-s-public-api',
                 status: MojangStatusColor.GREY,
                 name: 'Public API',
                 essential: false,
-                url: 'https://api.mojang.com/'
+                url: Constants.MOJANG.API_SERVER
             },
             {
                 service: 'mojang-accounts-website',
                 status: MojangStatusColor.GREY,
                 name: 'Mojang Accounts Website',
                 essential: false,
-                url: 'https://account.mojang.com/'
+                url: Constants.MOJANG.ACCOUNT_SERVER
             },
             {
                 service: 'microsoft-o-auth-server',
                 status: MojangStatusColor.GREY,
                 name: 'Microsoft OAuth Server',
                 essential: true,
-                url: 'https://login.microsoftonline.com/'
+                url: Constants.MICROSOFT.LOGIN_BASE
             },
             {
                 service: 'xbox-live-auth-server',
                 status: MojangStatusColor.GREY,
                 name: 'Xbox Live Auth Server',
                 essential: true,
-                url: 'https://user.auth.xboxlive.com/'
+                url: Constants.MICROSOFT.XBOX_AUTH_BASE
             },
             {
                 service: 'xbox-live-gatekeeper', // Server used to give XTokens
                 status: MojangStatusColor.GREY,
                 name: 'Xbox Live Gatekeeper',
                 essential: true,
-                url: 'https://xsts.auth.xboxlive.com/'
+                url: Constants.MICROSOFT.XSTS_AUTH_BASE
             },
             {
                 service: 'microsoft-minecraft-api',
                 status: MojangStatusColor.GREY,
                 name: 'Minecraft API for Microsoft Accounts',
                 essential: true,
-                url: 'https://api.minecraftservices.com/minecraft/profile'
+                url: Constants.MICROSOFT.MINECRAFT_API_ENDPOINT
             },
             {
                 service: 'microsoft-minecraft-profile',
                 status: MojangStatusColor.GREY,
                 name: 'Minecraft Profile for Microsoft Accounts',
                 essential: false,
-                url: 'https://api.minecraftservices.com/minecraft/profile'
+                url: Constants.MICROSOFT.MINECRAFT_API_ENDPOINT
             }
         ]
     }

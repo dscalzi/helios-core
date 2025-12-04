@@ -10,6 +10,7 @@ import Registry from 'winreg'
 import semver from 'semver'
 import { Asset, HashAlgo } from '../dl'
 import { extractTarGz, extractZip } from '../common/util/FileUtils'
+import { Constants } from '../common/Constants'
 
 const log = LoggerUtil.getLogger('JavaGuard')
 
@@ -528,7 +529,7 @@ export async function latestAdoptium(major: number, dataDir: string): Promise<As
 
     const sanitizedOS = process.platform === Platform.WIN32 ? 'windows' : (process.platform === Platform.DARWIN ? 'mac' : process.platform)
     const arch: string = process.arch === Architecture.ARM64 ? 'aarch64' : Architecture.X64
-    const url = `https://api.adoptium.net/v3/assets/latest/${major}/hotspot?vendor=eclipse`
+    const url = `${Constants.JAVA.ADOPTIUM_API_ENDPOINT}/${major}/hotspot?vendor=eclipse`
 
     try {
         const res = await got.get<AdoptiumJdk[]>(url, {
@@ -593,8 +594,8 @@ export async function latestCorretto(major: number, dataDir: string): Promise<As
             break
     }
 
-    const url = `https://corretto.aws/downloads/latest/amazon-corretto-${major}-${arch}-${sanitizedOS}-jdk.${ext}`
-    const md5url = `https://corretto.aws/downloads/latest_checksum/amazon-corretto-${major}-${arch}-${sanitizedOS}-jdk.${ext}`
+    const url = `${Constants.JAVA.CORRETTO_DOWNLOAD_ENDPOINT}/latest/amazon-corretto-${major}-${arch}-${sanitizedOS}-jdk.${ext}`
+    const md5url = `${Constants.JAVA.CORRETTO_DOWNLOAD_ENDPOINT}/latest_checksum/amazon-corretto-${major}-${arch}-${sanitizedOS}-jdk.${ext}`
     try {
         const requestOptions = {
             timeout: {
@@ -716,7 +717,7 @@ export function isJavaExecPath(pth: string): boolean {
 export async function loadMojangLauncherData(): Promise<LauncherJson | null> {
 
     try {
-        const res = await got.get<LauncherJson>('https://launchermeta.mojang.com/mc/launcher.json', {
+        const res = await got.get<LauncherJson>(Constants.MOJANG.LAUNCHER_JSON_ENDPOINT, {
             responseType: 'json',
             timeout: {
                 connect: 15000
