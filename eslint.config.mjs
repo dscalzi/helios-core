@@ -1,38 +1,41 @@
 // @ts-check
 
-const eslint = require('@eslint/js');
-const tseslint = require('typescript-eslint');
-const stylisticTs = require('@stylistic/eslint-plugin-ts');
-const { join } = require('path');
+import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
+import tseslint from 'typescript-eslint';
+import stylistic from '@stylistic/eslint-plugin'
+import { join } from 'path';
 
-module.exports = tseslint.config(
+export default defineConfig(
   {
-    ignores: ['**/dist/**', 'node_modules', 'eslint.config.cjs'],
+    ignores: ['**/dist/**', 'node_modules', 'eslint.config.mjs'],
   },
   eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  ...tseslint.configs.stylisticTypeChecked,
+  tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.stylisticTypeChecked,
   {
-    files: ['**/*.{ts,mts,cts,tsx}'],
-    plugins: {
-      // @ts-ignore
-      '@stylistic/ts': stylisticTs,
-      '@typescript-eslint': tseslint.plugin,
-    },
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
         project: [
-          join(__dirname, 'tsconfig.json'),
-          join(__dirname, 'tsconfig.test.json')
+          join(import.meta.dirname, 'tsconfig.json'),
+          join(import.meta.dirname, 'tsconfig.test.json')
         ]
       },
     },
+  },
+  {
+    files: ['**/*.{ts,mts,cts,tsx}'],
+    plugins: {
+      // @ts-ignore
+      '@stylistic': stylistic,
+      '@typescript-eslint': tseslint.plugin,
+    },
     rules: {
-      '@stylistic/ts/semi': ['error', 'never'],
-      '@stylistic/ts/quotes': ['error', 'single'],
-      '@stylistic/ts/indent': ['error', 4],
-      '@stylistic/ts/member-delimiter-style': ['error', {
+      '@stylistic/semi': ['error', 'never'],
+      '@stylistic/quotes': ['error', 'single'],
+      '@stylistic/indent': ['error', 4],
+      '@stylistic/member-delimiter-style': ['error', {
         multiline: {
           delimiter: 'none',
           requireLast: false
@@ -52,7 +55,8 @@ module.exports = tseslint.config(
       '@typescript-eslint/prefer-nullish-coalescing': 'off',        // Logical OR is fine depending on the circumstance
       '@typescript-eslint/prefer-promise-reject-errors': 'off',     // We reject with errors passed through event listeners that are untyped
       '@typescript-eslint/require-await': 'off',                    // This is literally broken
-      '@typescript-eslint/restrict-template-expressions': 'off'     // We make use of template expressions on objects
+      '@typescript-eslint/restrict-template-expressions': 'off',    // We make use of template expressions on objects
+      '@typescript-eslint/no-unsafe-enum-comparison': 'off'         // Complains when we compare string enums to strings but it's safe enough
     }
   },
   {
