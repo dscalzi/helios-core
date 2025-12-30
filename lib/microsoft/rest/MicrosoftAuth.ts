@@ -173,7 +173,7 @@ export class MicrosoftAuth {
 
             const BASE_FORM: AbstractTokenRequest = {
                 client_id: clientId,
-                scope: 'XboxLive.signin',
+                scope: 'XboxLive.signin offline_access',
                 redirect_uri: 'https://login.microsoftonline.com/common/oauth2/nativeclient',
             }
 
